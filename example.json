@@ -29,6 +29,29 @@
         "host": "packer1.samsung.majklk.cz",
         "port": 80,
 
-        "bridge": true
+        "bridge": true,
+        "inbound_permitted": [
+          {
+            "address" : "vertx.mongopersistor",
+            "match" : {
+              "action" : "save",
+              "collection" : "mindmap"
+            }
+          },
+          {
+            "address" : "vertx.mongopersistor",
+            "match" : {
+              "action" : "find",
+              "collection" : "mindmap"
+            }
+          },
+          {
+            "address" : "vertx.mongopersistor",
+            "match" : {
+              "action" : "delete",
+              "collection" : "mindmap"
+            }
+          }
+        ]
     }
 }
