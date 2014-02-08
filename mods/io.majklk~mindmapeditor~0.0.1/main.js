@@ -10,7 +10,7 @@ container.deployModule('io.vertx~mod-mongo-persistor~2.1.0', config.mongodb, 1, 
     	load('utils/static_data.js');
     	console.log("static data loaded")
 	} else {
-    err.printStackTrace();
+    	err.printStackTrace();
   	}
 });
 
