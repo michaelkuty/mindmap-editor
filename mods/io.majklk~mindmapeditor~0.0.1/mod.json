@@ -2,7 +2,7 @@
 	"developers": ["Michael Kutý"],
 	"name": "mindmapeditor",
 	"version": "0.0.0",
-	"main": "main.py",
+	"main": "main.js",
 	"description": "Simple mindmap editor",
 	"keywords": ["vert.x,angularjs,mongodb,d3js"]
 }
