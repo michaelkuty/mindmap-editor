@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+function MindmapsController($scope, $filter) {
+}
+
 function CartController($scope, $filter) {
 
   $scope.items = [];
