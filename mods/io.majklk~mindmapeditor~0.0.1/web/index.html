@@ -2,6 +2,8 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src='js3rdparty/sockjs-min-0.3.4.js'></script>
+    <script src='js/vertxbus.js'></script>
     <style type="text/css">
     .node circle {
       cursor: pointer;
@@ -27,6 +29,8 @@
     </div>
     <script type="text/javascript">
 
+  var eb = new vertx.EventBus(window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/eventbus');
+
 var m = [0, 100, 20, 220],
     w = 1460 - m[1] - m[3],
     h = 800 - m[0] - m[2],
@@ -45,53 +49,38 @@ var vis = d3.select("#body").append("svg:svg")
     .append("svg:g")
     .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
-//d3.json("../openlearn_tree_json/", function(json) {
-  //root = json;
+/* load static data from mongodb */
+eb.onopen = function() {
+
+  eb.send("vertx.mongopersistor", {action: 'find', collection: 'mindmap', matcher: {}}, function(reply) {
+      if (reply.status == "ok") {
+        console.log(reply.results[0]);
+        root=(reply.results[0])
+          root.x0 = h / 2;
+          root.y0 = 0;
+
+          function toggleAll(d) {
+            if (d.children) {
+              d.children.forEach(toggleAll);
+              toggle(d);
+            }
+          }
+
+          // Initialize the display to show a few nodes.
+          root.children.forEach(toggleAll);
+          //toggle(root.children[1]);
+          //toggle(root.children[1].children[2]);
+          //toggle(root.children[9]);
+          //toggle(root.children[9].children[0]);
+
+          update(root);
+        //});
+      }
+  });
+
+};
 
 
-var treeData = {
- "name": "flare",
- "children": [
-  {
-   "name": "analytics",
-   "children": [
-    {"name": "AgglomerativeCluster", "size": 3938},
-    {"name": "AgglomerativeCluster", "size": 3938},
-    {"name": "AgglomerativeCluster", "size": 3938},
-    {"name": "AgglomerativeCluster", "size": 3938},
-   ]
-  },
-  {
-   "name": "analytics",
-   "children": [
-    {"name": "AgglomerativeCluster", "size": 3938},
-    {"name": "AgglomerativeCluster", "size": 3938},
-    {"name": "AgglomerativeCluster", "size": 3938},
-    {"name": "AgglomerativeCluster", "size": 3938},
-   ]
-  }
-  ]};
-
-root=(treeData)
-  root.x0 = h / 2;
-  root.y0 = 0;
-
-  function toggleAll(d) {
-    if (d.children) {
-      d.children.forEach(toggleAll);
-      toggle(d);
-    }
-  }
-
-  // Initialize the display to show a few nodes.
-  root.children.forEach(toggleAll);
-  //toggle(root.children[1]);
-  //toggle(root.children[1].children[2]);
-  //toggle(root.children[9]);
-  //toggle(root.children[9].children[0]);
-
-  update(root);
-//});
 
 function update(source) {
   var duration = d3.event && d3.event.altKey ? 5000 : 500;
