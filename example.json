@@ -1,28 +1,12 @@
 {
     "name": "MindMap editor",
     "enabled": true,
-    "shell": {
-        "crash.auth": "simple",
-        "crash.auth.simple.username": "admin",
-        "crash.auth.simple.password": "admin",
-        "crash.ssh.port": "2000"
-        },
     "mongodb": {
         "address": "vertx.mongopersistor",
         "host": "localhost",
         "port": 27017,
         "db_name": "default_db",
         "pool_size": 20
-    },
-    "mailer": {
-        "address": "mailer",
-        "host": "smtp.googlemail.com",
-        "port": 465,
-        "ssl": false,
-        "auth": false,
-        "username": "",
-        "password": "",
-        "content-type": "text/html"
     },
     "web_server": {
         "web_root": "web",
@@ -53,5 +37,11 @@
             }
           }
         ]
-    }
+    },
+    "shell": {
+        "crash.auth": "simple",
+        "crash.auth.simple.username": "admin",
+        "crash.auth.simple.password": "admin",
+        "crash.ssh.port": "2000"
+        }
 }
