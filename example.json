@@ -10,7 +10,7 @@
     },
     "web_server": {
         "web_root": "web",
-        "host": "packer1.samsung.majklk.cz",
+        "host": "localhost",
         "port": 80,
 
         "bridge": true,
