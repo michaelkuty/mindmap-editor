@@ -19,10 +19,9 @@ container.deployModule('io.vertx~mod-web-server~2.0.0-final', config.web_server,
 		console.log(err)
 	}
 });
-/*
+
 container.deployModule('org.crashub~vertx.shell~2.0.4', config.shell, 1, function(err, ID){
 	if (err) {
 		console.error(err)
 	}
 });
-*/
