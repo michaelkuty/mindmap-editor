@@ -11,7 +11,7 @@
     "web_server": {
         "web_root": "web",
         "host": "localhost",
-        "port": 80,
+        "port": 90,
 
         "bridge": true,
         "inbound_permitted": [
