@@ -236,7 +236,7 @@
         opacity: 0.8,
         title: 'title',
         trigger: 'hover',
-        hoverlock: false
+        hoverlock: true
     };
     
     // Overwrite this method to provide options on a per-element basis.
