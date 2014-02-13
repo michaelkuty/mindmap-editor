@@ -132,13 +132,12 @@ angular.module('mindmap-editor.controllers', []).
 					d._children = null;
 					}
 				};
-  				/* load static data from mongodb */
-				eb.onopen = function() {
 
-					eb.send("vertx.mongopersistor", {action: 'find', collection: 'mindmap', matcher: matcher}, function(reply) {
-					if (reply.status == "ok") {
-					console.log(reply.results[0]);
-					root=(reply.results[0])
+			    function makeUUID(){return"xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
+			        .replace(/[xy]/g,function(a,b){return b=Math.random()*16,(a=="y"?b&3|8:b|0).toString(16)})}
+			  	
+			  	function init (data) {
+					root=(data)
 					root.x0 = h / 2;
 					root.y0 = 0;
 
@@ -151,18 +150,37 @@ angular.module('mindmap-editor.controllers', []).
 
 					// Initialize the display to show a few nodes.
 					root.children.forEach(toggleAll);
-					//toggle(root.children[1]);
-					//toggle(root.children[1].children[2]);
-					//toggle(root.children[9]);
-					//toggle(root.children[9].children[0]);
 
 					update(root);
-					//});
-					}
+			  	}
+
+  				/* load static data from mongodb */
+				eb.onopen = function() {
+
+					eb.send("vertx.mongopersistor", {action: 'find', collection: 'mindmap', matcher: matcher}, function(reply) {
+						if (reply.status == "ok") {
+							if (reply.results.length == 0){
+								root =  {id: makeUUID() ,name: matcher.name, children: []};
+								eb.send("vertx.mongopersistor", {action: 'save', collection: 'mindmap', document: root}, function(create) {
+									if (create.status == "ok") {
+										$.pnotify({
+										    title: 'Info',
+										    text: matcher.name + ' was created',
+										    type: 'success',
+										});
+										init(root);
+									}
+								});
+
+							} else {
+								init(reply.results[0]);
+							}
+
+						}
 					});
 
 				};
-      };
+        };
 
   }]);
   
