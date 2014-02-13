@@ -44,7 +44,7 @@ angular.module('mindmap-editor.controllers', []).
 					.on("click", function(d) {
 						
 						if (typeof d._children === "undefined"){
-							var node_new = {id: makeUUID ,name: "Child of " + d.name};
+							var node_new = {id: makeUUID ,name: "Child of " + d.name, children: []};
 							var params = {
 								    "action": "update",
 								    "collection": "mindmap",
@@ -57,15 +57,16 @@ angular.module('mindmap-editor.controllers', []).
 								    upsert : false,
 								    multi : false
 								}
-							console.log(JSON.stringify(update));
+							console.log($scope.mindmap);
 							eb.send("vertx.mongopersistor", params, function(update) {
+								console.log(JSON.stringify(update));
 								if (update.status == "ok") {
 									$.pnotify({
 									    title: 'Info',
 									    text: 'update ok',
 									    type: 'success',
 									});
-									init(matcher);
+									init();
 								}
 							});							
 						}
@@ -76,7 +77,7 @@ angular.module('mindmap-editor.controllers', []).
 					      gravity: 's', 
 					      html: true,
 					      title: function() {
-					        return '<button>'+ d.name +'</button><span style="color:' + "TEST" + '">' + "TEST" + '</span>'; 
+					        return '<button>'+ d.name +'</button>'; 
 					      }
 					    });
 					});
@@ -184,18 +185,18 @@ angular.module('mindmap-editor.controllers', []).
 			  	}
 
 			  	function init(matcher){
-  			 		var name_ = matcher||$scope.mindmap;
-  			 		if (name_.length < 2) {return null}
-  			 		if (!$scope.mindmap) {$scope.mindmap = matcher}
+  			 		var matcher_ = matcher||$scope.mindmap;
+  			 		if (matcher_.length < 2) {return null}
+  			 		if (!$scope.mindmap) {$scope.mindmap = matcher_}
 	  			 	var	params = {
 	  			 			action: 'find',
 	  			 			collection: 'mindmap',
-	  			 			matcher: matcher
+	  			 			matcher: matcher_
 	  			 		}
 					eb.send("vertx.mongopersistor", params, function(reply) {
 						if (reply.status == "ok") {
 							if (reply.results.length == 0){
-								root =  {id: makeUUID() ,name: matcher.name, children: []};
+								root =  {id: makeUUID() ,name: matcher_.name, children: []};
 								eb.send("vertx.mongopersistor", {action: 'save', collection: 'mindmap', document: root}, function(create) {
 									if (create.status == "ok") {
 										$.pnotify({
@@ -203,7 +204,7 @@ angular.module('mindmap-editor.controllers', []).
 										    text: matcher.name + ' was created',
 										    type: 'success',
 										});
-										init(matcher);
+										init($scope.mindmap);
 									}
 								});
 
