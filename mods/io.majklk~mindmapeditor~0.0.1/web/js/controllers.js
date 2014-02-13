@@ -44,7 +44,6 @@ angular.module('mindmap-editor.controllers', []).
 					.on("click", function(d) { toggle(d); update(d); })
 					.on("mouseover", function(d) {
 					    $('svg circle').tipsy({
-					      delayOut: 2000,
 					      gravity: 's', 
 					      html: true,
 					      title: function() {
