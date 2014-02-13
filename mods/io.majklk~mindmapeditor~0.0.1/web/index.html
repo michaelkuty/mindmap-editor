@@ -4,9 +4,11 @@
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src='js3rdparty/sockjs-min-0.3.4.js'></script>
     <script src='js/vertxbus.js'></script>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.9.0.js"></script>
     <script type="text/javascript" src="js3rdparty/jquery.tipsy.js"></script>
+    <script type="text/javascript" src="js3rdparty/jquery.pnotify.min.js"></script>
     <link href="css/tipsy.css" rel="stylesheet" type="text/css" />
+    <link href="css/jquery.pnotify.default.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
     .node circle {
       cursor: pointer;
@@ -29,8 +31,9 @@
   <body>
   <div id="container" data-ng-controller="MindMapCtrl">
     Název: <input type="text" name="map_name" data-ng-model="mapName"/>
-    <button data-ng-click="showMindMap()">Zobrazit mapu</button>
-    <div id="body" data-ng-init="initMindMap()">     
+    <button ng-click="showMindMap()">Zobrazit mapu</button>
+    <div id="body">     
+    <button data-ng-click="showAll()">Zobrazit vše</button>
     </div>
   </div>
       <script src="js3rdparty/angular/angular.js"></script>
