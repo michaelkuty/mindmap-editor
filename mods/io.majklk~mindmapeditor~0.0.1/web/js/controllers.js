@@ -4,7 +4,13 @@
 
 angular.module('mindmap-editor.controllers', []).
   controller('MindMapCtrl',['$scope',function($scope){
-  		$scope.initMindMap=function(){
+  		
+  		$scope.showMindMap=function(){
+  			$scope.initMindMap({name:$scope.mapName});
+  		}
+
+  		$scope.initMindMap=function(matcher){
+  			 matcher= matcher||{};
   			 var eb = new vertx.EventBus(window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/eventbus'),
 				m = [0, 100, 20, 220],
 				w = 1460 - m[1] - m[3],
@@ -130,7 +136,7 @@ angular.module('mindmap-editor.controllers', []).
   				/* load static data from mongodb */
 				eb.onopen = function() {
 
-					eb.send("vertx.mongopersistor", {action: 'find', collection: 'mindmap', matcher: {}}, function(reply) {
+					eb.send("vertx.mongopersistor", {action: 'find', collection: 'mindmap', matcher: matcher}, function(reply) {
 					if (reply.status == "ok") {
 					console.log(reply.results[0]);
 					root=(reply.results[0])

@@ -27,8 +27,12 @@
     </style>
   </head>
   <body>
-    <div id="body" data-ng-controller="MindMapCtrl" data-ng-init="initMindMap()">     
+  <div id="container" data-ng-controller="MindMapCtrl">
+    Název: <input type="text" name="map_name" data-ng-model="mapName"/>
+    <button data-ng-click="showMindMap()">Zobrazit mapu</button>
+    <div id="body" data-ng-init="initMindMap()">     
     </div>
+  </div>
       <script src="js3rdparty/angular/angular.js"></script>
       <script src="js3rdparty/angular/angular-route.js"></script>
       <script src="js3rdparty/angular/angular-resource.js"></script>
