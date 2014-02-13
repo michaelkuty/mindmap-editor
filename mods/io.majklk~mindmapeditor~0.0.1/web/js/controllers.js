@@ -35,7 +35,17 @@ angular.module('mindmap-editor.controllers', []).
 					var nodeEnter = node.enter().append("svg:g")
 					.attr("class", "node")
 					.attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
-					.on("click", function(d) { toggle(d); update(d); });
+					.on("click", function(d) { toggle(d); update(d); })
+					.on("mouseover", function(d) {
+					    $('svg circle').tipsy({
+					      delayOut: 2000,
+					      gravity: 's', 
+					      html: true,
+					      title: function() {
+					        return '<button>'+ d.name +'</button><span style="color:' + "TEST" + '">' + "TEST" + '</span>'; 
+					      }
+					    });
+					});
 
 					nodeEnter.append("svg:circle")
 					.attr("r", 1e-6)
