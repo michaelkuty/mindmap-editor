@@ -41,7 +41,36 @@ angular.module('mindmap-editor.controllers', []).
 					var nodeEnter = node.enter().append("svg:g")
 					.attr("class", "node")
 					.attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
-					.on("click", function(d) { toggle(d); update(d); })
+					.on("click", function(d) {
+						
+						if (typeof d._children === "undefined"){
+							var node_new = {id: makeUUID ,name: "Child of " + d.name};
+							var params = {
+								    "action": "update",
+								    "collection": "mindmap",
+								    "criteria": {
+								        "_id": d._id,
+								    },
+								    "objNew" : {
+								        $push: { "children": node_new },
+								     },
+								    upsert : false,
+								    multi : false
+								}
+							console.log(JSON.stringify(update));
+							eb.send("vertx.mongopersistor", params, function(update) {
+								if (update.status == "ok") {
+									$.pnotify({
+									    title: 'Info',
+									    text: 'update ok',
+									    type: 'success',
+									});
+									init(matcher);
+								}
+							});							
+						}
+						toggle(d); update(d);
+						})
 					.on("mouseover", function(d) {
 					    $('svg circle').tipsy({
 					      gravity: 's', 
@@ -136,7 +165,7 @@ angular.module('mindmap-editor.controllers', []).
 			    function makeUUID(){return"xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"
 			        .replace(/[xy]/g,function(a,b){return b=Math.random()*16,(a=="y"?b&3|8:b|0).toString(16)})}
 			  	
-			  	function init (data) {
+			  	function render(data) {
 					root=(data)
 					root.x0 = h / 2;
 					root.y0 = 0;
@@ -154,10 +183,16 @@ angular.module('mindmap-editor.controllers', []).
 					update(root);
 			  	}
 
-  				/* load static data from mongodb */
-				eb.onopen = function() {
-
-					eb.send("vertx.mongopersistor", {action: 'find', collection: 'mindmap', matcher: matcher}, function(reply) {
+			  	function init(matcher){
+  			 		var name_ = matcher||$scope.mindmap;
+  			 		if (name_.length < 2) {return null}
+  			 		if (!$scope.mindmap) {$scope.mindmap = matcher}
+	  			 	var	params = {
+	  			 			action: 'find',
+	  			 			collection: 'mindmap',
+	  			 			matcher: matcher
+	  			 		}
+					eb.send("vertx.mongopersistor", params, function(reply) {
 						if (reply.status == "ok") {
 							if (reply.results.length == 0){
 								root =  {id: makeUUID() ,name: matcher.name, children: []};
@@ -168,19 +203,21 @@ angular.module('mindmap-editor.controllers', []).
 										    text: matcher.name + ' was created',
 										    type: 'success',
 										});
-										init(root);
+										init(matcher);
 									}
 								});
 
 							} else {
-								init(reply.results[0]);
+								render(reply.results[0]);
 							}
 
 						}
 					});
+			  		}
 
+				eb.onopen = function() {
+					init(matcher);					
 				};
         };
 
   }]);
-  
