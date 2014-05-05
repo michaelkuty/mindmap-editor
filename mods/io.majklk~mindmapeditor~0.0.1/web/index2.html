@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+</head>
+<style type="text/css">
+.node circle {
+  cursor: pointer;
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.node text {
+  font-size: 11px;
+}
+
+path.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
+}
+</style>
+<body>
+	<ul class="mind-maps"></ul>
+	<h2>Create a Mind Map</h2>
+	<form class="create-form">
+		<input type="text" name="name">
+		<input type="submit" value="Create">
+	</form>
+	<section class="editor"></section>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/sockjs-client/0.3.4/sockjs.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/vertx/2.0.0/vertxbus.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.0.1/	d3.v3.min.js"></script>
+	<script src="js/editor.js"></script>
+	<script src="js/mindmap_utils.js"></script>
+	<script src="js/client.js"></script>
+</body>
+</html>
