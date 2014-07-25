@@ -1,0 +1,111 @@
+Starting clustering... 
+A quorum has been obtained. Any deployments waiting on a quorum will now be deployed 
+Succeeded in deploying module 
+Loaded plugin Plugin[type=SSHPlugin,interface=SSHPlugin] 
+Loaded plugin Plugin[type=SSHInlinePlugin,interface=CommandPlugin] 
+Loaded plugin Plugin[type=KeyAuthenticationPlugin,interface=KeyAuthenticationPlugin] 
+Loaded plugin Plugin[type=CRaSHShellFactory,interface=ShellFactory] 
+Loaded plugin Plugin[type=ProcessorIOHandler,interface=TermIOHandler] 
+Loaded plugin Plugin[type=JavaCommandManager,interface=CommandManager] 
+Loaded plugin Plugin[type=GroovyCommandManager,interface=CommandManager] 
+Loaded plugin Plugin[type=GroovyRepl,interface=REPL] 
+Loaded plugin Plugin[type=JaasAuthenticationPlugin,interface=AuthenticationPlugin] 
+Loaded plugin Plugin[type=SimpleAuthenticationPlugin,interface=AuthenticationPlugin] 
+Configuring property ssh.port=2000 from properties 
+Configuring property auth=simple from properties 
+Configuring property auth.simple.username=admin from properties 
+Configuring property auth.simple.password=admin from properties 
+Initialized plugin Plugin[type=KeyAuthenticationPlugin,interface=KeyAuthenticationPlugin] 
+Initialized plugin Plugin[type=JaasAuthenticationPlugin,interface=AuthenticationPlugin] 
+Initialized plugin Plugin[type=SimpleAuthenticationPlugin,interface=AuthenticationPlugin] 
+Booting SSHD 
+Initialized plugin Plugin[type=JavaCommandManager,interface=CommandManager] 
+Initialized plugin Plugin[type=GroovyCommandManager,interface=CommandManager] 
+Initialized plugin Plugin[type=CRaSHShellFactory,interface=ShellFactory] 
+Initialized plugin Plugin[type=ProcessorIOHandler,interface=TermIOHandler] 
+Trying to register BouncyCastle as a JCE provider 
+Registration succeeded 
+About to start CRaSSHD 
+CRaSSHD started on port 2000 
+Initialized plugin Plugin[type=SSHPlugin,interface=SSHPlugin] 
+Initialized plugin Plugin[type=SSHInlinePlugin,interface=CommandPlugin] 
+Initialized plugin Plugin[type=GroovyRepl,interface=REPL] 
+Exception in JavaScript verticle:
+Wrapped java.io.FileNotFoundException: Cannot find script: utils/static_data.js
+	at file:/srv/mindmap/app/mods/io.majklk~appmanager~0.0.1/main.js:9 (anonymous)
+	at vertx/helpers.js:23 (anonymous)
+ 
+Starting clustering... 
+A quorum has been obtained. Any deployments waiting on a quorum will now be deployed 
+Succeeded in deploying module 
+Loaded plugin Plugin[type=SSHPlugin,interface=SSHPlugin] 
+Loaded plugin Plugin[type=SSHInlinePlugin,interface=CommandPlugin] 
+Loaded plugin Plugin[type=KeyAuthenticationPlugin,interface=KeyAuthenticationPlugin] 
+Loaded plugin Plugin[type=CRaSHShellFactory,interface=ShellFactory] 
+Loaded plugin Plugin[type=ProcessorIOHandler,interface=TermIOHandler] 
+Loaded plugin Plugin[type=JavaCommandManager,interface=CommandManager] 
+Loaded plugin Plugin[type=GroovyCommandManager,interface=CommandManager] 
+Loaded plugin Plugin[type=GroovyRepl,interface=REPL] 
+Loaded plugin Plugin[type=JaasAuthenticationPlugin,interface=AuthenticationPlugin] 
+Loaded plugin Plugin[type=SimpleAuthenticationPlugin,interface=AuthenticationPlugin] 
+Configuring property ssh.port=2000 from properties 
+Configuring property auth=simple from properties 
+Configuring property auth.simple.username=admin from properties 
+Configuring property auth.simple.password=admin from properties 
+Initialized plugin Plugin[type=KeyAuthenticationPlugin,interface=KeyAuthenticationPlugin] 
+Initialized plugin Plugin[type=JaasAuthenticationPlugin,interface=AuthenticationPlugin] 
+Initialized plugin Plugin[type=SimpleAuthenticationPlugin,interface=AuthenticationPlugin] 
+Booting SSHD 
+Initialized plugin Plugin[type=JavaCommandManager,interface=CommandManager] 
+Initialized plugin Plugin[type=GroovyCommandManager,interface=CommandManager] 
+Initialized plugin Plugin[type=CRaSHShellFactory,interface=ShellFactory] 
+Initialized plugin Plugin[type=ProcessorIOHandler,interface=TermIOHandler] 
+Trying to register BouncyCastle as a JCE provider 
+Registration succeeded 
+About to start CRaSSHD 
+CRaSSHD started on port 2000 
+Initialized plugin Plugin[type=SSHPlugin,interface=SSHPlugin] 
+Initialized plugin Plugin[type=SSHInlinePlugin,interface=CommandPlugin] 
+Initialized plugin Plugin[type=GroovyRepl,interface=REPL] 
+Exception in JavaScript verticle:
+Wrapped java.io.FileNotFoundException: Cannot find script: utils/static_data.js
+	at file:/srv/mindmap/app/mods/io.majklk~appmanager~0.0.1/main.js:9 (anonymous)
+	at vertx/helpers.js:23 (anonymous)
+ 
+Starting clustering... 
+A quorum has been obtained. Any deployments waiting on a quorum will now be deployed 
+Succeeded in deploying module 
+Loaded plugin Plugin[type=SSHPlugin,interface=SSHPlugin] 
+Loaded plugin Plugin[type=SSHInlinePlugin,interface=CommandPlugin] 
+Loaded plugin Plugin[type=KeyAuthenticationPlugin,interface=KeyAuthenticationPlugin] 
+Loaded plugin Plugin[type=CRaSHShellFactory,interface=ShellFactory] 
+Loaded plugin Plugin[type=ProcessorIOHandler,interface=TermIOHandler] 
+Loaded plugin Plugin[type=JavaCommandManager,interface=CommandManager] 
+Loaded plugin Plugin[type=GroovyCommandManager,interface=CommandManager] 
+Loaded plugin Plugin[type=GroovyRepl,interface=REPL] 
+Loaded plugin Plugin[type=JaasAuthenticationPlugin,interface=AuthenticationPlugin] 
+Loaded plugin Plugin[type=SimpleAuthenticationPlugin,interface=AuthenticationPlugin] 
+Configuring property ssh.port=2000 from properties 
+Configuring property auth=simple from properties 
+Configuring property auth.simple.username=admin from properties 
+Configuring property auth.simple.password=admin from properties 
+Initialized plugin Plugin[type=KeyAuthenticationPlugin,interface=KeyAuthenticationPlugin] 
+Initialized plugin Plugin[type=JaasAuthenticationPlugin,interface=AuthenticationPlugin] 
+Initialized plugin Plugin[type=SimpleAuthenticationPlugin,interface=AuthenticationPlugin] 
+Booting SSHD 
+Initialized plugin Plugin[type=JavaCommandManager,interface=CommandManager] 
+Initialized plugin Plugin[type=GroovyCommandManager,interface=CommandManager] 
+Initialized plugin Plugin[type=CRaSHShellFactory,interface=ShellFactory] 
+Initialized plugin Plugin[type=ProcessorIOHandler,interface=TermIOHandler] 
+Trying to register BouncyCastle as a JCE provider 
+Registration succeeded 
+About to start CRaSSHD 
+CRaSSHD started on port 2000 
+Initialized plugin Plugin[type=SSHPlugin,interface=SSHPlugin] 
+Initialized plugin Plugin[type=SSHInlinePlugin,interface=CommandPlugin] 
+Initialized plugin Plugin[type=GroovyRepl,interface=REPL] 
+Exception in JavaScript verticle:
+Wrapped java.io.FileNotFoundException: Cannot find script: utils/static_data.js
+	at file:/srv/mindmap/app/mods/io.majklk~appmanager~0.0.1/main.js:9 (anonymous)
+	at vertx/helpers.js:23 (anonymous)
+ 
