@@ -25,3 +25,9 @@ implementation of d3.js tree layout mind map editor
 ## SSH access to vert.x core over Node 2
 
 `ssh -p 2000 admin@ip_node2`
+
+## Screenshots
+
+![web app](images/mindmap1.png)
+![opened mind map](images/mindmap2.png)
+![update action](images/mindmap3.png)
