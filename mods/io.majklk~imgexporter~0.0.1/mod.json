@@ -1,0 +1,8 @@
+{
+	"developers": ["Michael Kutý"],
+	"name": "Image Exporter",
+	"version": "0.0.1",
+	"main": "ImageExporter.java",
+	"description": "Simple image eporter",
+	"keywords": ["vert.x"]
+}

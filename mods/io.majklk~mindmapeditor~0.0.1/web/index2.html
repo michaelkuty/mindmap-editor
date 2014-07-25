@@ -1,9 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs">
 <head>
 	<meta charset="utf-8">
 </head>
 <style type="text/css">
+
+body {
+  overflow: hidden;
+}
+
 .node circle {
   cursor: pointer;
   fill: #fff;
@@ -20,21 +25,99 @@ path.link {
   stroke: #ccc;
   stroke-width: 1.5px;
 }
+
+.editor {
+  margin-top: 100px;
+  width: 100%;
+  height: 100%;
+}
+
+/* make sidebar nav vertical */ 
+@media (min-width: 768px) {
+  .sidebar-nav .navbar .navbar-collapse {
+    padding: 0;
+  }
+  .sidebar-nav .navbar ul {
+    float: none;
+  }
+  .sidebar-nav .navbar ul:not {
+    display: block;
+  }
+  .sidebar-nav .navbar li {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+  .sidebar-nav .navbar li a {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    float: left;
+    width: 55%;
+  }
+  .sidebar-nav .navbar button {
+    margin-right: 12px;
+  }
+  .create-form {
+    width: 50%;
+    float:left;
+    margin: 20px auto 0 auto;
+  }
+  #mindmap-name h2 {
+  }
+}
+
+@media (max-width: 768px) {
+  .create-form {
+    width: auto;
+    float:left;
+    margin-top:20px;
+  }
+
+}
+
 </style>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 <body>
-	<ul class="mind-maps"></ul>
-	<h2>Create a Mind Map</h2>
-	<form class="create-form">
-		<input type="text" name="name">
-		<input type="submit" value="Create">
-	</form>
-	<section class="editor"></section>
+
+<div class="row">
+  <div class="col-md-3">
+    <div class="sidebar-nav">
+      <div class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+          <div class="navbar navbar-default navbar-fixed-top">
+            <div class="navbar-inner">
+              <h2 style="float:left;margin-bottom:20px;margin-left: 60px;margin-right:50px;">Mind map editor</h2>
+              <div class="container">
+                <div id="mindmap-name" style="float:left;"></div>
+                <form class="create-form row">
+                  <input class="form-control" type="text" name="name" style="width: 62%;float:left;margin-left:50px;" required>
+                  <input class="btn btn-primary pull-right" style="width: 25%;float:left;" type="submit" value="Vytvořit">
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="navbar-collapse collapse sidebar-navbar-collapse" style="margin-top:100px;height:100%;">
+          <ul class="nav navbar-nav mind-maps"></ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-9">
+	 <section class="editor"></section>
+  </div>
+</div>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/sockjs-client/0.3.4/sockjs.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/vertx/2.0.0/vertxbus.min.js"></script>
+	<script src="js/vertxbus.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.0.1/	d3.v3.min.js"></script>
 	<script src="js/editor.js"></script>
 	<script src="js/mindmap_utils.js"></script>
 	<script src="js/client.js"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 </body>
 </html>

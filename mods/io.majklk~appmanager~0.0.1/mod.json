@@ -1,0 +1,8 @@
+{
+	"developers": ["Michael Kutý"],
+	"name": "App manager",
+	"version": "0.0.1",
+	"main": "main.js",
+	"description": "manage app",
+	"keywords": ["Java, SVG, PNG"]
+}

@@ -15,20 +15,21 @@
 		.attr("class", "node")
 		.attr("opacity", "0")
 		.attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
-		nodeEnter.append("svg:circle").attr("r", 4.5)
+		nodeEnter.append("svg:circle").attr("r", 10)
 		.style("fill", "lightsteelblue")
+		.style("fill", function(d) { return d.children ? "lightsteelblue" : "#fff"; })
 		.on("click", function(c) { self.addNode(c); });
-		nodeEnter.append("svg:text").attr("x", 10)
+		nodeEnter.append("svg:text").attr("x", 15)
 		.attr("dy", ".35em").text(function(d) { return d.name; })
 		.on("click", function(d) {
-			var text = prompt('Enter the name of this node', d.name);
+			var text = prompt('Vložte nové jméno', d.name);
 			if (text) {
 				self.renameNode(d, text);
 			}
 		});
-		node.transition().attr("opacity", "1")
-		.attr("transform", function(d) { return "translate(" + d.y +
-		"," + d.x + ")"; })
+		node.transition()
+		.attr("opacity", "1")
+		.attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
 		.select("text")
 		.text(function(d) { return d.name; });
 		node.exit().remove();
@@ -39,7 +40,7 @@
 		.attr("opacity", "0")
 		.attr("d", MindMapEditor.diagonalGenerator)
 		.on('click', function(l) {
-		self.deleteNode(l.source, l.target);
+			self.deleteNode(l.source, l.target);
 		});
 		link.transition()
 		.attr("d", MindMapEditor.diagonalGenerator)
@@ -47,11 +48,7 @@
 		link.exit().remove();
 	}
 
-
-
 	MindMapEditor.prototype.addNode = function(parentNode) {
-		console.log("TEST");
-
 		this.eventBus.send('mindMaps.editor.addNode', { mindMapId: this.mindMap._id, parentKey: parentNode.key });
 	}
 	
@@ -103,11 +100,11 @@
 	}
 
 	MindMapEditor.prototype.initVisualization = function() {
+		//.attr("width", MindMapEditor.width)
+		//.attr("height", MindMapEditor.height)
 		this.vis = d3.select(".editor").html('').append("svg:svg")
-		.attr("width", MindMapEditor.width)
-		.attr("height", MindMapEditor.height)
 		.append("svg:g")
-		.attr("transform", "translate(10,0)");
+		.attr("transform", "translate(20,0)");
 	}
 
 
@@ -118,6 +115,6 @@ function MindMapEditor(mindMap, eventBus) {
 	this.initVisualization();
 	this.renderVisualization();
 
-	alert("Editor constructed");
+	//alert("Editor constructed");
 
 }

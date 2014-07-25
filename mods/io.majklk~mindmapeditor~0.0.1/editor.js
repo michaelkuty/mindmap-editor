@@ -22,7 +22,7 @@ eventBus.registerHandler('mindMaps.editor.addNode',
 				if (args.name) {
 					newNode.name = args.name;
 				} else {
-					newNode.name = 'Click to edit';
+					newNode.name = 'Editovat';
 				}
 				if (!parent.children) {
 					parent.children = [];

@@ -3,7 +3,6 @@ var console = require('vertx/console');
 
 var config = container.config;
 
-//container.deployModule("io.vertx~mod-mailer~2.0.0-beta1", config);
 if("mongodb" in config) {
 	container.deployModule('io.vertx~mod-mongo-persistor~2.1.0', config.mongodb, 1, function(err, ID){
 		if (!err) {
@@ -14,13 +13,6 @@ if("mongodb" in config) {
 	  	}
 	});
 }
-if("webserver" in config) {
-	container.deployModule('io.vertx~mod-web-server~2.0.0-final', config.webserver, 1, function(err, ID){
-		if (err) {
-			console.log(err)
-		}
-	});
-}
 if("shell" in config){
 	container.deployModule('org.crashub~vertx.shell~2.0.4', config.shell, 1, function(err, ID){
 		if (err) {
@@ -29,15 +21,19 @@ if("shell" in config){
 	});
 }
 if("editor" in config){
-	container.deployVerticle('editor.js', config.mindmap, 1, function(err, ID){
+
+	container.deployModule('io.majklk~mindmapeditor~0.0.1', config.editor, config.editor.workers, function(err, ID){
 		if (err) {
-			console.error(err)
+			console.log(err)
+		}
+	});
+}
+if("exporter" in config){
+	
+	container.deployModule('io.majklk~imgexporter~0.0.1', config.exporter, config.exporter.workers, function(err, ID){
+		if (err) {
+			console.log(err)
 		}
 	});
 
-	container.deployVerticle('database_utils.js', config.mindmap, 1, function(err, ID){
-		if (err) {
-			console.error(err)
-		}
-	});
 }
