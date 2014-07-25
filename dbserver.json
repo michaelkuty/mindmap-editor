@@ -1,0 +1,19 @@
+{
+    "name": "MindMap editor node2 DB + SHELL + IMAGE EXPORTER",
+    "exporter": {
+        "workers": 5
+    },
+    "mongodb": {
+        "address": "vertx.mongopersistor",
+        "host": "localhost",
+        "port": 27017,
+        "db_name": "default_db",
+        "pool_size": 20
+    },
+    "shell": {
+      "crash.auth": "simple",
+      "crash.auth.simple.username": "admin",
+      "crash.auth.simple.password": "admin",
+      "crash.ssh.port": 2000
+    }
+}

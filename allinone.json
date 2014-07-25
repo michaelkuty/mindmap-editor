@@ -1,0 +1,61 @@
+{
+    "name": "MindMap editor all in one config",
+    "editor": {
+      "workers": 3
+    },
+    "webserver": {
+        "workers": 3,
+        "web_root": "web",
+        "host": "0.0.0.0",
+        "port": 80,
+        "bridge": true,
+        "inbound_permitted": [
+          {
+            "address" : "vertx.mongopersistor",
+            "match" : {
+              "action" : "save",
+              "collection" : "mindmap"
+            }
+          },
+          {
+            "address" : "vertx.mongopersistor",
+            "match" : {
+              "action" : "find",
+              "collection" : "mindmap"
+            }
+          },
+          {
+            "address" : "vertx.mongopersistor",
+            "match" : {
+              "action" : "delete",
+              "collection" : "mindmap"
+            }
+          },
+          { "address": "mindMaps.list" },
+          { "address": "mindMaps.save" },
+          { "address": "mindMaps.delete"},
+          { "address": "mindMaps.exporter.svg2png" },
+          { "address_re": "mindMaps\\.editor\\..+" }
+
+        ],
+        "outbound_permitted": [
+          { "address_re": "mindMaps\\.events\\..+" }
+        ]
+    },
+    "exporter": {
+      "workers": 5
+    },
+    "mongodb": {
+        "address": "vertx.mongopersistor",
+        "host": "localhost",
+        "port": 27017,
+        "db_name": "default_db",
+        "pool_size": 20
+    },
+    "shell": {
+      "crash.auth": "simple",
+      "crash.auth.simple.username": "admin",
+      "crash.auth.simple.password": "admin",
+      "crash.ssh.port": 2000
+    }
+}
