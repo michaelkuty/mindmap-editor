@@ -1,0 +1,69 @@
+body {
+  overflow: hidden;
+}
+
+.node circle {
+  cursor: pointer;
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.node text {
+  font-size: 11px;
+}
+
+path.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
+}
+
+.editor {
+  margin-top: 100px;
+  width: 100%;
+  height: 100%;
+}
+
+/* make sidebar nav vertical */ 
+@media (min-width: 768px) {
+  .sidebar-nav .navbar .navbar-collapse {
+    padding: 0;
+  }
+  .sidebar-nav .navbar ul {
+    float: none;
+  }
+  .sidebar-nav .navbar ul:not {
+    display: block;
+  }
+  .sidebar-nav .navbar li {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+  .sidebar-nav .navbar li a {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    float: left;
+    width: 55%;
+  }
+  .sidebar-nav .navbar button {
+    margin-right: 12px;
+  }
+  .create-form {
+    width: 50%;
+    float:left;
+    margin: 20px auto 0 auto;
+  }
+  #mindmap-name h2 {
+  }
+}
+
+@media (max-width: 768px) {
+  .create-form {
+    width: auto;
+    float:left;
+    margin-top:20px;
+  }
+
+}

@@ -30,17 +30,20 @@ if("webserver" in config) {
 	});
 }
 
-container.deployVerticle('editor.js', {}, 1, function(err, ID){
-	if (err) {
-		console.error(err)
-	}
-});
+if("editor" in config) {
 
-container.deployVerticle('database_utils.js', {}, 1, function(err, ID){
-	if (err) {
-		console.error(err)
-	}
-});
+	container.deployVerticle('editor.js', {}, config.workers, function(err, ID){
+		if (err) {
+			console.error(err)
+		}
+	});
+
+	container.deployVerticle('database_utils.js', {}, config.workers, function(err, ID){
+		if (err) {
+			console.error(err)
+		}
+	});
+}
 
 if("exporter" in config){
 	
