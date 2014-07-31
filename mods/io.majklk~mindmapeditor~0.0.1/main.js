@@ -38,7 +38,7 @@ if("editor" in config) {
 		}
 	});
 
-	container.deployVerticle('database_utils.js', {}, config.workers, function(err, ID){
+	container.deployVerticle('utils/database.js', {}, config.workers, function(err, ID){
 		if (err) {
 			console.error(err)
 		}
