@@ -3,6 +3,7 @@
 	"name": "Image Exporter",
 	"version": "0.0.1",
 	"main": "ImageExporter.java",
+	"worker": true,
 	"description": "Simple image eporter",
 	"keywords": ["vert.x"]
 }
