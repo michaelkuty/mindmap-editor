@@ -1,5 +1,12 @@
-body {
-  overflow: hidden;
+body, html {
+    overflow-x: hidden; 
+    overflow-y: auto;
+}
+
+/*firefox fix*/
+svg:not(:root) {
+  overflow: visible!important;
+  z-index: 1000;
 }
 
 .node circle {
@@ -20,10 +27,13 @@ path.link {
 }
 
 .editor {
-  margin-top: 100px;
+  padding-top: 100px;
   width: 100%;
   height: 100%;
+  overflow: visible;
 }
+
+
 
 /* make sidebar nav vertical */ 
 @media (min-width: 768px) {
@@ -56,7 +66,11 @@ path.link {
     margin: 20px auto 0 auto;
   }
   #mindmap-name h2 {
+    margin-right: 50px;
   }
+.editor {
+  height: 1024px;
+}
 }
 
 @media (max-width: 768px) {
@@ -65,5 +79,7 @@ path.link {
     float:left;
     margin-top:20px;
   }
-
+.editor {
+  height: 624px;
+}
 }

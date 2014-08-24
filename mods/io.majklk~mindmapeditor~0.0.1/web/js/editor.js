@@ -105,6 +105,7 @@
 		this.vis = d3.select(".editor").html('').append("svg:svg")
 		.append("svg:g")
 		.attr("transform", "translate(20,0)");
+		console.log("constructed");
 	}
 
 
