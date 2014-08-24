@@ -9,17 +9,17 @@ implementation of d3.js tree layout mind map editor
 
 ## Run server all in one app
 
-`vertx runmod io.majklk~mindmapeditor~0.0.1 -conf example/allinone.json`
+`vertx runmod io.majklk~mindmapeditor~0.0.1 -conf examples/allinone.json`
 
 ## Run in cluster
 
 ### Node 1 - HTTP + WebSocket
 
-`vertx runmod io.majklk~mindmapeditor~0.0.1 -cluster-host interface -ha -conf example/webserver.json`
+`vertx runmod io.majklk~mindmapeditor~0.0.1 -cluster-host interface -ha -conf examples/webserver.json`
 
 ### Node 2 - Database Node + Shell access + Image exporter
 
-`vertx runmod io.majklk~mindmapeditor~0.0.1 -cluster-host interface -ha -conf example/dbserver.json`
+`vertx runmod io.majklk~mindmapeditor~0.0.1 -cluster-host interface -ha -conf examples/dbserver.json`
 
 
 ## SSH access to vert.x core over Node 2
