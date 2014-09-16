@@ -83,3 +83,7 @@ path.link {
   height: 624px;
 }
 }
+
+.row {
+    overflow: hidden!important;
+}
