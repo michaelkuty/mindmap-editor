@@ -45,7 +45,7 @@ if("editor" in config) {
 	});
 }
 
-if("exporter" in config){
+if(false && "exporter" in config){
 	
 	container.deployModule('io.majklk~imgexporter~0.0.1', config.exporter, config.exporter.workers, function(err, ID){
 		if (err) {

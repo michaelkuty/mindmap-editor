@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-md-3">
+    <div class="sidebar-nav">
+      <div class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+          <div class="navbar navbar-default navbar-fixed-top">
+            <div class="navbar-inner">
+            <div id="MapName">&nbsp;</div>
+              <div class="container">
+                <form class="create-form row">
+                  <input class="col-md-3 form-control" type="text" name="name" required>
+                  <input class="col-md-3 btn btn-primary pull-right" type="submit" value="Vytvořit">
+                </form>
+              
+                <div class="left">
+                  Logged as: {{currentUser.userName}} | <a href="" data-ng-click="logout()">Logout</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="navbar-collapse collapse sidebar-navbar-collapse" style="margin-top:80px;">
+          <h3 class="txtCenter">My maps</h3>
+          <ul class="nav navbar-nav mind-maps"></ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-9">
+   <section class="editor"></section>
+  </div>
+</div>

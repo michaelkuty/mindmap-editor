@@ -29,7 +29,7 @@ var vertx = vertx || {};
 }(function(SockJS) {
 
   vertx.EventBus = function(url, options) {
-  
+    console.log(url);
     var that = this;
     var sockJSConn = new SockJS(url, undefined, options);
     var handlerMap = {};
@@ -38,23 +38,56 @@ var vertx = vertx || {};
     var sessionID = null;
     var pingTimerID = null;
   
-    that.onopen = null;
-    that.onclose = null;
+    var onOpenCalls = [];
+    var onCloseCalls = [];
 
+    that.addOpenCall = function(call){
+      if(typeof call === 'function'){
+        onOpenCalls.push(call);
+      }else{
+        console.log("EventBus.addOpenCall: Call cannot be added! It's not a function!");
+      }
+    }
+    that.addCloseCall = function(call){
+      if(typeof call === 'function'){
+        onCloseCalls.push(call);
+      }else{
+        console.log("EventBus.addCloseCall: Call cannot be added! It's not a function!");
+      }
+    }
     that.login = function(username, password, replyHandler) {
       sendOrPub("send", 'vertx.basicauthmanager.login', {username: username, password: password}, function(reply) {
         if (reply.status === 'ok') {
           that.sessionID = reply.sessionID;
+        } else {
+          that.sessionID = null;
         }
-        if (replyHandler) {
-          delete reply.sessionID;
-          replyHandler(reply)
-        }
+        replyHandler(reply);
+      });
+    }
+    that.logout = function(sessionID, replyHandler) {
+      sendOrPub("send", 'vertx.basicauthmanager.logout', {"sessionID": sessionID}, function(reply) {
+        if (reply.status === 'ok') {
+          that.sessionID = null;
+        }else{
+          console.log(reply.message);
+        } 
+          replyHandler(reply);
       });
     }
   
     that.send = function(address, message, replyHandler) {
-      sendOrPub("send", address, message, replyHandler)
+      if(typeof address === 'string' && typeof message === 'object' && typeof replyHandler === 'function'){
+          sendOrPub("send", address, message, replyHandler);
+      }else if(typeof address === 'string' && typeof message === 'object' && typeof replyHandler === 'undefined'){
+          sendOrPub("send",address,message,null);        
+      }else if(typeof address === 'string' && typeof message === 'function'){
+          sendOrPub("send",address,null,message);
+      }else if(typeof address === 'string' && typeof message === 'undefined'){
+          sendOrPub("send",address,null,null);
+      }else{
+        throw new Error("EventBus.send: Wrong parameters");
+      }
     }
   
     that.publish = function(address, message, replyHandler) {
@@ -107,21 +140,27 @@ var vertx = vertx || {};
     that.readyState = function() {
       return state;
     }
-  
+    that.isReady = function(){
+       return state === vertx.EventBus.OPEN;
+    }
     sockJSConn.onopen = function() {
       // Send the first ping then send a ping every 5 seconds
       sendPing();
       pingTimerID = setInterval(sendPing, 5000);
       state = vertx.EventBus.OPEN;
-      if (that.onopen) {
-        that.onopen();
+      if (onOpenCalls.length>0) {
+        for (var i = 0; i < onOpenCalls.length; i++) {
+          onOpenCalls[i]();
+        };
       }
     };
   
     sockJSConn.onclose = function() {
       state = vertx.EventBus.CLOSED;
-      if (that.onclose) {
-        that.onclose();
+      if (onCloseCalls.length>0) {
+        for (var i = 0; i < onCloseCalls.length; i++) {
+          onCloseCalls[i]();
+        };
       }
     };
   
@@ -167,9 +206,15 @@ var vertx = vertx || {};
       checkSpecified("address", 'string', address);
       checkSpecified("replyHandler", 'function', replyHandler, true);
       checkOpen();
-      var envelope = { type : sendOrPub,
+      if(message!==null){
+        var envelope = { type : sendOrPub,
                        address: address,
                        body: message };
+      }else{
+           var envelope = { type : sendOrPub,
+                       address: address,
+                       body: {}};
+      }
       if (that.sessionID) {
         envelope.sessionID = that.sessionID;
       }

@@ -1,52 +1,42 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="cs" data-ng-app="mindmap">
 <head>
   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="description" content="">
+   <meta name="author" content="">
+  <title>Mindmap Editor</title>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="css/styles.css">
 </head>
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-
-<!-- Optional theme -->
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-<link rel="stylesheet" href="css/editor.css">
-<body>
-
-<div class="row">
-  <div class="col-md-3">
-    <div class="sidebar-nav">
-      <div class="navbar navbar-default" role="navigation">
-        <div class="navbar-header">
-          <div class="navbar navbar-default navbar-fixed-top">
-            <div class="navbar-inner">
-              <h2 style="float:left;margin-bottom:20px;margin-left: 60px;margin-right:50px;">Mind map editor</h2>
-              <div class="container">
-                <div id="mindmap-name" style="float:left;"></div>
-                <form class="create-form row">
-                  <input class="col-md-3 form-control" type="text" name="name" style="width: 62%;float:left;" required>
-                  <input class="col-md-3 btn btn-primary pull-right" style="width: 25%;float:left;" type="submit" value="Vytvořit">
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="navbar-collapse collapse sidebar-navbar-collapse" style="margin-top:100px;height:100%;">
-          <ul class="nav navbar-nav mind-maps"></ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-9">
-   <section class="editor"></section>
-  </div>
-</div>
-  <script src="js3rdparty/sockjs-min-0.3.4.js"></script>
-  <script src="js3rdparty/d3.min.js"></script>
-  <script src="js/vertxbus.js"></script>
+<body data-ng-controller="AppCtrl">
+  <div id="Loading" data-ng-hide="busloaded"><h1>Načítám</h1></div>
+  <!-- view -->
+  <div ui-view data-ng-show="busloaded"></div>
+  <!-- scripts -->
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.0.1/d3.v3.min.js"></script>
+  <script src="js3rdparty/angular/angular.js"></script>
+  <script src="js3rdparty/angular/angular-cookies.min.js"></script>
+  <script src="js3rdparty/angular/angular-ui-router.min.js"></script>
+  <script src="js3rdparty/angular/local-storage.js"></script>
+  <!--<script src="js3rdparty/http-auth-interceptor.js"></script>-->
+
+  <script src="js3rdparty/sockjs-min-0.3.4.js"></script>
+  <script src="js3rdparty/d3.min.js"></script>
+  
+  <script src="js/app.js"></script>
+  <script src="js/services.js"></script>
+  <script src="js/controllers.js"></script>
+  <script src="js/directives.js"></script>
+  <script src="js/vertxbus.js"></script>
   <script src="js/editor.js"></script>
   <script src="js/mindmap_utils.js"></script>
-  <script src="js/client.js"></script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 *.class
 *.jar
 *groovy
+db
 mods/io.vertx~mod-web-server~2.0.0-final/
 mods/io.vertx~mod-mongo-persistor~2.1.0/
 mods/org.crashub~vertx.shell~2.0.4/
