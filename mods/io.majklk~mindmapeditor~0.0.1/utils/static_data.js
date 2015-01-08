@@ -6,8 +6,25 @@ var pa = 'vertx.mongopersistor';
 
 var treeData = [
     {
+
+        "id": "ac7480a6-1601-4369-b81b-156f9a58dbsc",
+        "name": "test1",
+        "children": [
+            {
+                "id": "09a1c0dd-cd4e-4232-a6e7-22adc1aasds0",
+                "name": "Žluťoučký kůň",
+                "children": [
+                    {
+                        "id": "09a1c0dd-cd4e-4232-a6e7-22adc1abasd30",
+                        "name": "Žluťoučký kůň 2"
+                    }
+                ]
+            }
+         ]
+    },
+    {
         "id": "ac7480a6-1601-4369-b81b-156f9a58dbac",
-        "name": "test",
+        "name": "Holota",
         "children": [
             {
                 "id": "09a1c0dd-cd4e-4232-a6e7-22adc1abf430",
