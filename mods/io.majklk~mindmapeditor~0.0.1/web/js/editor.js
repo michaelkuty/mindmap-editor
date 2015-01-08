@@ -12,7 +12,8 @@
 		nodes.forEach(function(d) { d.y = d.depth *	MindMapEditor.levelWidth; });
 		var node = this.vis.selectAll("g.node").data(nodes, function(d) { return d.key; });
 		var nodeEnter = node.enter().append("svg:g")
-		.attr("class", "node")
+		.attr("class", "node editable editable-click")
+		.attr("data-type", "text")
 		.attr("opacity", "0")
 		.attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
 		nodeEnter.append("svg:circle").attr("r", 10)
@@ -21,11 +22,22 @@
 		.on("click", function(c) { self.addNode(c); });
 		nodeEnter.append("svg:text").attr("x", 15)
 		.attr("dy", ".35em").text(function(d) { return d.name; })
+		.attr("id", function(d) { return d.key; })
 		.on("click", function(d) {
-			var text = prompt('Vložte nové jméno', d.name);
-			if (text) {
-				self.renameNode(d, text);
-			}
+		    $(function(){
+		       	$("#" + d.key).editable({
+		       		container: 'body',
+
+		       		mode: 'popup',
+				    title: 'Enter new name',
+			        success: function(response, newValue) {
+			           self.renameNode(d, newValue);
+ 					   console.log("success saving: " + newValue);
+ 					   $("#" + d.key).editable("hide");
+					},
+				});
+		    });
+
 		});
 		node.transition()
 		.attr("opacity", "1")
