@@ -35,7 +35,6 @@ var vertx = vertx || {};
     var handlerMap = {};
     var replyHandlers = {};
     var state = vertx.EventBus.CONNECTING;
-    var sessionID = null;
     var pingTimerID = null;
   
     var onOpenCalls = [];
@@ -67,7 +66,7 @@ var vertx = vertx || {};
     }
     that.authorise = function(sessionID,replyHandler){
       sendOrPub("send",'vertx.authManager.authorise',{"sessionID":sessionID},function(reply){
-
+        replyHandler(reply);
       });
     }
   

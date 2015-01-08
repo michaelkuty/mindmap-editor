@@ -17,16 +17,17 @@ angular.module('mindmap.controllers', []).
       $scope.setCurrentUser = function (user){
         $scope.currentUser=user;
       };
-      //relogin from localstorage
       var storedUserID = localStorageService.get('mindmap_userID');
       if(storedUserID){
-        AuthService.relogin(storedUserID).then(function(user){
-            $scope.setCurrentUser(user);
+        $eb.addOpenCall(function(){
+          //relogin from localstorage  
+          AuthService.relogin(storedUserID).then(function(user){
+              $scope.setCurrentUser(user);
+          });
         });
       }
 
       $scope.logout = function(sessionID){
-        //is promise needed for logout?
         AuthService.logout().then(function(){
             $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
         },function(){
@@ -44,7 +45,7 @@ angular.module('mindmap.controllers', []).
       $scope.$on(AUTH_EVENTS.loginFailed,function(){
         alert("Login failed!");
       });
-      $scope.$on(AUTH_EVENTS.loginFailed,function(){
+      $scope.$on(AUTH_EVENTS.logoutFailed,function(){
         alert("Logout failed!");
       });
 

@@ -35,7 +35,6 @@ angular.module('mindmap.services', []).
   authService.login = function (credentials) {
     var deffered = $q.defer();
     $eb.login(credentials.username,credentials.password,function(reply){
-      alert(reply);
       if (reply.status === 'ok') {
         Session.create(1,reply.sessionID,USER_ROLES.user);
         deffered.resolve({username:credentials.username,userID:reply.sessionID,userRole:USER_ROLES.user});
@@ -49,7 +48,7 @@ angular.module('mindmap.services', []).
     var deffered=$q.defer();
     $eb.authorise(sessionID,function(reply){
       if(reply.status === 'ok'){
-        deffered.resolve({username:reply.username.username,userID:reply.sessionID,userRole:USER_ROLES.user});
+        deffered.resolve({username:reply.username,userID:sessionID,userRole:USER_ROLES.user});
       }else{
         deffered.reject(reply);
       }
