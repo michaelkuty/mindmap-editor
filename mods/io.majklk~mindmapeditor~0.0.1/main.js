@@ -21,11 +21,11 @@ for (var app in config) {
 				console.error(err.printStackTrace());
 			} else {
 
-				// load static data
-				if (app === "io.vertx~mod-mongo-persistor~2.1.0") {
-		    		load('utils/static_data.js');
-				}
 			}
 		});
 	}
 }
+
+// load static data
+load('utils/static_data.js');
+console.log("Static data loaded.");

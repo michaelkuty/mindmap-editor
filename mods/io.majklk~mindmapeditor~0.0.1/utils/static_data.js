@@ -34453,3 +34453,29 @@ eb.send(pa, {action: 'delete', collection: 'mindmap', matcher: {}}, function(rep
 
 });
 
+users = [ {
+        'firstname': 'Michael',
+        'lastname': 'Kuty',
+        'email': 'kuty.michael@uhk.cz',
+        'username': 'admin',
+        'password': 'admin'
+    },{
+        'firstname': 'Jakub',
+        'lastname': 'Josef',
+        'email': 'jakub.josef@uhk.cz',
+        'username': 'kuba',
+        'password': 'kuba'
+    }
+]
+
+eb.send(pa, {action: 'delete', collection: 'users', matcher: {}}, function(reply) {
+
+    for (var i = 0; i < users.length; i++) {
+      eb.send(pa, {
+        action: 'save',
+        collection: 'users',
+        document: users[i]
+      });
+    }
+
+});

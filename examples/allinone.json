@@ -9,29 +9,31 @@
         "host": "0.0.0.0",
         "port": 8080,
         "bridge": true,
+        "auth_address": "vertx.authManager",
         "inbound_permitted": [
           {
             "address" : "vertx.mongopersistor",
             "match" : {
               "action" : "save",
-              "collection" : "mindmap"
+              "collection" : "mindmaps"
             }
           },
           {
             "address" : "vertx.mongopersistor",
             "match" : {
               "action" : "find",
-              "collection" : "mindmap"
+              "collection" : "mindmaps"
             }
           },
           {
             "address" : "vertx.mongopersistor",
             "match" : {
               "action" : "delete",
-              "collection" : "mindmap"
+              "collection" : "mindmaps"
             }
           },
-          { "address": "vertx.authManager.\\..+" },
+          { "address": "vertx.authManager.login" },
+          { "address": "vertx.authManager.logout" },
           { "address": "mindMaps.list" },
           { "address": "mindMaps.save" },
           { "address": "mindMaps.delete"},
@@ -60,7 +62,7 @@
     },
     "io.vertx~mod-auth-mgr~2.0.0-final": {
       "workers": 1,
-      "address": "vertx.authManager.authorise",
+      "address": "vertx.authManager",
       "user_collection": "users",
       "persistor_address": "vertx.mongopersistor",
       "session_timeout": 900000
