@@ -34441,7 +34441,7 @@ var treeData = [
     }
 ];
 
-eb.send(pa, {action: 'delete', collection: 'mindmap', matcher: {}}, function(reply) {
+eb.send(pa, {action: 'delete', collection: 'mindmaps', matcher: {}}, function(reply) {
 
     for (var i = 0; i < treeData.length; i++) {
       eb.send(pa, {
