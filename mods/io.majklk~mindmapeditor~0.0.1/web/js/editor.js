@@ -19,7 +19,21 @@
 		nodeEnter.append("svg:circle").attr("r", 10)
 		.style("fill", "lightsteelblue")
 		.style("fill", function(d) { return d.children ? "lightsteelblue" : "#fff"; })
-		.on("click", function(c) { self.addNode(c); });
+		.on("click", function(c) { 
+			self.addNode(c);
+		    $(function(){
+		       	$("#" + c.key).editable({
+		       		container: 'body',
+		       		mode: 'popup',
+				    title: 'Enter new name',
+			        success: function(response, newValue) {
+			           self.renameNode(c, newValue);
+ 					   console.log("success saving: " + newValue);
+ 					   $(".editable-container").css("display", "none");
+					},
+				});
+		    });
+		});
 		nodeEnter.append("svg:text").attr("x", 15)
 		.attr("dy", ".35em").text(function(d) { return d.name; })
 		.attr("id", function(d) { return d.key; })
