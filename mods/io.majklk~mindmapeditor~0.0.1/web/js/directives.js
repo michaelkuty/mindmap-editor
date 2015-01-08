@@ -8,7 +8,7 @@ angular.module('mindmap.directives', []).
       elm.text(version);
     };
   }]).
-directive('ngLightbox', ['$compile', function($compile) {
+directive('ngLightbox', ['$compile','$timeout', function($compile,$timeout) {
     return function(scope, element, attr) {
         var lightbox, options, overlay;
 
@@ -57,9 +57,13 @@ directive('ngLightbox', ['$compile', function($compile) {
         if(options.trigger === 'auto'){
             add_overlay();
         }else if(options.hasOwnProperty("launcherID")){
-            angular.element("a#"+options.launcherID).bind('click', showfn);
+            $timeout(function(){
+                angular.element("a#"+options.launcherID).bind('click', showfn);
+            },200);
         }else if(options.hasOwnProperty("launcherClass")){
-            angular.element("a."+options.launcherClass).bind('click',showfn);
+            $timeout(function(){
+                angular.element("a."+options.launcherClass).bind('click', showfn);
+            },200);
         }
     };
 }]).

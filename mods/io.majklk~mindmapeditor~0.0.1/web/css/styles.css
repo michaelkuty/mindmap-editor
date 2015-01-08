@@ -167,7 +167,7 @@ path.link {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 1;
+    z-index: 9998;
     background: black;
     opacity: 0;
 }
@@ -182,13 +182,13 @@ path.link {
     background: white;
     box-shadow: 0 0 16px rgba(0, 0, 0, .4);
     position: absolute;
-    min-width: 700px;
+    min-width: 600px;
     min-height: 500px;
     top: 0;
     left: 50%;
     margin-top: 10%;
-    margin-left: -250px;
-    z-index: 2;
+    margin-left: -270px;
+    z-index: 9999;
     opacity: 0;
     display: none;
 }

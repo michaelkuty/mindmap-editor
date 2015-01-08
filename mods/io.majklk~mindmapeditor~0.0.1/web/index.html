@@ -18,6 +18,12 @@
   <div id="Loading" data-ng-hide="busloaded"><h1>Načítám</h1></div>
   <!-- view -->
   <div ui-view data-ng-show="busloaded"></div>
+  <!-- lightbox -->
+  <div class="lightbox" data-ng-lightbox='{"launcherClass":"lightboxLauncher"}' id="lightbox" >
+    <a href="#"><div id="LightboxCloser"></div></a>
+    <div class="lightboxBody" data-ng-include="lightboxBody">
+    </div>
+  </div>
   <!-- scripts -->
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.0.1/d3.v3.min.js"></script>
