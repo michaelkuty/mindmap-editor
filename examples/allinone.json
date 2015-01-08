@@ -31,6 +31,7 @@
               "collection" : "mindmap"
             }
           },
+          { "address": "vertx.authManager.\\..+" },
           { "address": "mindMaps.list" },
           { "address": "mindMaps.save" },
           { "address": "mindMaps.delete"},
@@ -59,9 +60,9 @@
     },
     "io.vertx~mod-auth-mgr~2.0.0-final": {
       "workers": 1,
-      "address": "test.my_authmgr",
+      "address": "vertx.authManager.authorise",
       "user_collection": "users",
-      "persistor_address": "test.my_persistor",
+      "persistor_address": "vertx.mongopersistor",
       "session_timeout": 900000
     }        
 }
