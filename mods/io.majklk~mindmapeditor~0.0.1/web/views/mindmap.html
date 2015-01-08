@@ -7,8 +7,8 @@
             <div class="navbar-inner">
             <div id="MapName">&nbsp;</div>
               <div class="container">
-                <form class="create-form row">
-                  <input class="col-md-3 form-control" type="text" name="name" required>
+                <form id="CreateMapForm" class="create-form row">
+                  <input id="CreatedMapName" class="col-md-3 form-control" type="text" name="name" required placeholder="Create new mindmap">
                   <input class="col-md-3 btn btn-primary pull-right" type="submit" value="Vytvořit">
                 </form>
               
@@ -31,7 +31,7 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-9">
+  <div id="MapEditor" class="col-sm-9" data-ng-init="initEditor()">
    <section class="editor"></section>
   </div>
   <div class="lightbox" data-ng-lightbox='{"launcherClass":"lightboxLauncher"}' id="lightbox" >

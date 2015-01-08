@@ -79,19 +79,42 @@ angular.module('mindmap.controllers', []).
             });
        };
   }])
-  .controller('MindMapCtrl', ['$scope','$eb','$state',function($scope,$eb,$state) {
+  .controller('MindMapCtrl', ['$scope','$eb','$state','$stateParams',function($scope,$eb,$state,$stateParams) {
+    $scope.mindMap={};
+    $scope.initEditor = function(){
+        if($eb.isReady()){
+            $scope.showMaps();
+        }else{
+            $eb.addOpenCall($scope.showMaps);
+        }
+    }
+    $scope.showMaps = function(){
+        $eb.send('mindMaps.list', {}, function(res) {
+            $.each(res.mindMaps, function() {
+                renderListItem(this);
+            });
+        });
+    };
+    $scope.openMap = function(mindMap){
+        $scope.mindMap = mindMap
+        new MindMapEditor(mindMap, $eb);
+        angular.element('#MapName').html("<h2>" + mindMap.name + "</h2>");
+    }
     var renderListItem = function(mindMap) {
         var $li = angular.element('<li class="span4">'),
         openMindMap = function() {
-            new MindMapEditor(mindMap, $eb);
-            //$('.save-as-png').show();
-            angular.element('#MapName').html("<h2>" + mindMap.name + "</h2>");
+            $scope.openMap(mindMap);
             return false;
         },
         deleteMindMap = function() {
             $eb.send('mindMaps.delete', {id: mindMap._id}, function() {
                 $li.remove();
             });
+            //clear editor and name if deleted map now opened
+            if(mindMap.name === $scope.mindMap.name){
+                angular.element(".editor").html("");
+                angular.element("#MapName").html("");
+            }
             return false;
         },
         saveAsPNG = function() {
@@ -116,25 +139,12 @@ angular.module('mindmap.controllers', []).
         angular.element('<button>').addClass("save-as-png btn btn-primary pull-right").text('Uložit').on('click',saveAsPNG).appendTo($li);
         $li.appendTo('.mind-maps');
     };
-    $('.create-form').submit(function() {
-        var nameInput = $('[name=name]', this);
-        $eb.send('mindMaps.save', {name: nameInput.val()}, function(result) {
+    angular.element('#CreateMapForm').submit(function() {
+        var $nameInput = angular.element("#CreatedMapName");
+        $eb.send('mindMaps.save', {name: $nameInput.val()}, function(result) {
             renderListItem(result);
-            nameInput.val('');
+            $nameInput.val('');
         });
         return false;
     });
-    var showMaps = function(){
-        $eb.send('mindMaps.list', {}, function(res) {
-            $.each(res.mindMaps, function() {
-                renderListItem(this);
-            });
-        });
-    };
-    if($eb.isReady()){
-        showMaps();
-    }else{
-        $eb.addOpenCall(showMaps);
-    }
-
   }]);
