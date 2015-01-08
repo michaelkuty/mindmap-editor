@@ -67,10 +67,7 @@ path.link {
   .create-form {
     width: 50%;
     float:left;
-    margin: 20px auto 0 auto;
-  }
-  #mindmap-name h2 {
-    margin-right: 50px;
+    margin: 30px auto 0 auto;
   }
 .editor {
   height: 1024px;
@@ -91,7 +88,7 @@ path.link {
 .row {
     overflow: hidden!important;
 }
-#MapName{
+.headerCaption{
   display:block;
   margin:0px 20px;
   float:left;
@@ -183,7 +180,7 @@ path.link {
     box-shadow: 0 0 16px rgba(0, 0, 0, .4);
     position: absolute;
     min-width: 600px;
-    min-height: 500px;
+    min-height: 400px;
     top: 0;
     left: 50%;
     margin-top: 10%;
@@ -208,4 +205,25 @@ div#LightboxCloser{
     height:32px;
     width:32px;
     background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3gILESkmwo7QzwAAAMtJREFUWMPtVjEOhDAMw8y33Mb/PwbjbfeEMAASQm0Sp6CCqJciaOxQnJCua3g7kLkvzn0WTB7kgkSWWADRJFw8fTJSJHUtUfHjtZmAkpBExDUkE9gdF5tEVjzFaZrQIMIJMaqxGMKQuMfZ7iONiHtLSzPVf12/EXGmtilnM70DJbVdKu7uAwfCSdkzsi/GJLDhE3x2z0/wCBNq4r91Ha4qw6qNqGorrvozkoIjpWPNiYg0FRzzBN+IyNqGNoDQE1FwKIXCc6+xvKFhBvQJgfqfW337AAAAAElFTkSuQmCC');
+}
+h1.mainCaption{
+  font-family:Verdana, sans-serif;
+  font-size:28px;
+  margin-top:15px;
+}
+.headerLinks{
+  float:left;
+  line-height: 90px;
+  margin-left:20px;
+}
+.headerLinks a{
+  font-size:28px;
+}
+.nomargin{margin:0px 0px 0px 0px!important;}
+
+#MyMapsMenu{
+  margin-top:90px;
+}
+input#CreatedMapName{
+  width:74%;
 }

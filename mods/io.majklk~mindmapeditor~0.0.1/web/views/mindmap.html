@@ -1,18 +1,22 @@
 <div class="row">
+<span us-spinner spinner-key="spinner-editor"></span>
   <div class="col-md-3">
     <div class="sidebar-nav">
       <div class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
           <div class="navbar navbar-default navbar-fixed-top">
             <div class="navbar-inner">
-            <div id="MapName">&nbsp;</div>
+            <div class="headerCaption">
+            <h1 class="mainCaption">MindMap Editor</h3>
+            <div id="MapName" class="nomargin">&nbsp;</div>
+            </div>
               <div class="container">
                 <form id="CreateMapForm" class="create-form row">
                   <input id="CreatedMapName" class="col-md-3 form-control" type="text" name="name" required placeholder="Create new mindmap">
                   <input class="col-md-3 btn btn-primary pull-right" type="submit" value="Vytvořit">
                 </form>
               
-                <div class="left">
+                <div class="headerLinks">
                   <div data-ng-if="currentUser">
                   Logged as: {{currentUser.username}} | <a href="" data-ng-click="logout()">Logout</a>
                   </div>
@@ -24,7 +28,7 @@
             </div>
           </div>
         </div>
-        <div class="navbar-collapse collapse sidebar-navbar-collapse" style="margin-top:80px;">
+        <div id="MyMapsMenu" class="navbar-collapse collapse sidebar-navbar-collapse">
           <h3 class="txtCenter">My maps</h3>
           <ul class="nav navbar-nav mind-maps"></ul>
         </div><!--/.nav-collapse -->

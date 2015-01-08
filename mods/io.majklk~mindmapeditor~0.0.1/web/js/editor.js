@@ -134,13 +134,15 @@
 	}
 
 
-function MindMapEditor(mindMap, eventBus) {
+function MindMapEditor(mindMap, eventBus,successFn) {
 	this.mindMap = mindMap;
 	this.eventBus = eventBus;
 	this.registerEventHandlers();
 	this.initVisualization();
 	this.renderVisualization();
-
+	if(typeof successFn === 'function'){
+		successFn();
+	}
 	//alert("Editor constructed");
 
 }

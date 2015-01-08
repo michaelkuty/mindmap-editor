@@ -5,6 +5,7 @@
 angular.module('mindmap', [
   'ngCookies',
   'ui.router',
+  'angularSpinner',
   'LocalStorageModule',
   'mindmap.services',
   'mindmap.directives',
