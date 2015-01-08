@@ -1,10 +1,10 @@
 {
-    "name": "MindMap editor all in one config",
-    "editor": {
-      "workers": 3
+    "utils/database.js": {},
+    "editor.js": {
+      "workers": 1
     },
-    "webserver": {
-        "workers": 3,
+    "io.vertx~mod-web-server~2.0.0-final": {
+        "workers": 2,
         "web_root": "web",
         "host": "0.0.0.0",
         "port": 8080,
@@ -42,20 +42,26 @@
           { "address_re": "mindMaps\\.events\\..+" }
         ]
     },
-    "exporter": {
-      "workers": 5
-    },
-    "mongodb": {
+    "io.vertx~mod-mongo-persistor~2.1.0": {
+        "workers": 1,
         "address": "vertx.mongopersistor",
         "host": "localhost",
         "port": 27017,
         "db_name": "default_db",
         "pool_size": 20
     },
-    "shell": {
+    "org.crashub~vertx.shell~2.0.4": {
+      "workers": 1,
       "crash.auth": "simple",
       "crash.auth.simple.username": "admin",
       "crash.auth.simple.password": "admin",
       "crash.ssh.port": 2000
-    }
+    },
+    "io.vertx~mod-auth-mgr~2.0.0-final": {
+      "workers": 1,
+      "address": "test.my_authmgr",
+      "user_collection": "users",
+      "persistor_address": "test.my_persistor",
+      "session_timeout": 900000
+    }        
 }
