@@ -134,10 +134,13 @@ angular.module('mindmap.controllers', []).
             });
             return false;
         };
-        angular.element('<a>').text(mindMap.name).attr('href', '#').on('click',openMindMap).appendTo($li);
-        angular.element('<button>').text('Smazat').addClass("btn btn-danger pull-right").on('click',deleteMindMap).appendTo($li);
-        angular.element('<button>').addClass("save-as-png btn btn-primary pull-right").text('Uložit').on('click',saveAsPNG).appendTo($li);
-        $li.appendTo('.mind-maps');
+        // fix undefined name
+        if (typeof mindMap.name !== "undefined") {
+          angular.element('<a>').text(mindMap.name).attr('href', '#').on('click',openMindMap).appendTo($li);
+          angular.element('<button>').text('Smazat').addClass("btn btn-danger pull-right").on('click',deleteMindMap).appendTo($li);
+          angular.element('<button>').addClass("save-as-png btn btn-primary pull-right").text('Uložit').on('click',saveAsPNG).appendTo($li);
+          $li.appendTo('.mind-maps');
+        }
     };
     angular.element('#CreateMapForm').submit(function() {
         var $nameInput = angular.element("#CreatedMapName");
