@@ -32,8 +32,7 @@
               "collection" : "mindmaps"
             }
           },
-          { "address": "vertx.authManager.login" },
-          { "address": "vertx.authManager.logout" },
+          { "address_re": "vertx.authManager\\..+" },
           { "address": "mindMaps.list" },
           { "address": "mindMaps.save" },
           { "address": "mindMaps.delete"},
