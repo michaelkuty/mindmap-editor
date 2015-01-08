@@ -21,59 +21,51 @@ angular.module('mindmap.services', []).
       loginSuccess: 'auth-login-success',
       loginFailed: 'auth-login-failed',
       logoutSuccess: 'auth-logout-success',
+      logoutFailed: 'auth-logout-failed',
       sessionTimeout: 'auth-session-timeout',
       notAuthenticated: 'auth-not-authenticated',
       notAuthorized: 'auth-not-authorized'
   }).
   constant('USER_ROLES', {
-      all: '*',
-      admin: 'admin',
       user: 'user',
-      guest: 'guest'
   }).
-  factory('AuthService', function ($http, Session, $eb,$q) {
+  factory('AuthService', function ($http, Session, $eb,$q,USER_ROLES) {
   var authService = {};
  
   authService.login = function (credentials) {
-    /* return $http
-      .post('/login', credentials)
-      .then(function (res) {
-        Session.create(res.data.id, res.data.user.id,
-                       res.data.user.role);
-        return res.data.user;
-      });
-    return $eb.send("login",credentials,function(res){
-
-    });*/
-    var user ={userName:credentials.username,userID:"sfiuhauwgfiewf468",userRole:"user"};
-    Session.create(1,user.userID,user.userRole);
     var deffered = $q.defer();
-    setTimeout(function(){
-        //predat usera
-        deffered.resolve(user);
-        //chyba deffered.reject(error);
-    },200);
+    $eb.login(credentials.username,credentials.password,function(reply){
+      alert(reply);
+      if (reply.status === 'ok') {
+        Session.create(1,reply.sessionID,USER_ROLES.user);
+        deffered.resolve({username:credentials.username,userID:reply.sessionID,userRole:USER_ROLES.user});
+      }else{
+        deffered.reject(reply);
+      }
+    });
     return deffered.promise;
   };
-  authService.directLogin = function(user){
-    //overime userID
-    var deffered = $q.defer();
-    Session.create(1,user.userID,user.userRole);
-    setTimeout(function(){
-        //predat usera
-        deffered.resolve(user);
-        //chyba deffered.reject(error);
-    },200);
+  authService.relogin = function(sessionID){
+    var deffered=$q.defer();
+    $eb.authorise(sessionID,function(reply){
+      if(reply.status === 'ok'){
+        deffered.resolve({username:reply.username.username,userID:reply.sessionID,userRole:USER_ROLES.user});
+      }else{
+        deffered.reject(reply);
+      }
+    });
     return deffered.promise;
   }
-  authService.logout = function(){
+  authService.logout = function(sessionID){
     var deffered = $q.defer();
-    Session.destroy();
-    setTimeout(function(){
-        //zlikvidovat sessionID
-        deffered.resolve("OK");
-        //chyba deffered.reject(error);
-    },200);
+    $eb.logout(sessionID,function(reply){
+      if(reply.status === 'ok'){
+        Session.destroy();
+        deffered.resolve();
+      }else{
+        deffered.reject(reply);
+      }
+    });
     return deffered.promise;
   };
   authService.isAuthenticated = function () {

@@ -24,17 +24,17 @@ config(function($stateProvider,$urlRouterProvider,USER_ROLES){
         abstract: true,
         template: '<ui-view/>',
         data : {
-          authorizedRoles: [USER_ROLES.admin,USER_ROLES.user]
+          authorizedRoles: [USER_ROLES.user]
         }
       })
       // this route will only be available to authenticated users
       .state('mindmap', {
-        parent: 'l',
+        //parent: 'l',
         url: '/mindmap',
         templateUrl: '/views/mindmap.html',
         controller: 'MindMapCtrl'
       });
-      $urlRouterProvider.otherwise('/login');
+      $urlRouterProvider.otherwise('/');
 }).
 run(function ($rootScope, AUTH_EVENTS, AuthService) {
   $rootScope.$on('$stateChangeStart', function (event, next) {

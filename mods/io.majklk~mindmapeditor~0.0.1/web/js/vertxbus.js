@@ -56,23 +56,18 @@ var vertx = vertx || {};
       }
     }
     that.login = function(username, password, replyHandler) {
-      sendOrPub("send", 'vertx.basicauthmanager.login', {username: username, password: password}, function(reply) {
-        if (reply.status === 'ok') {
-          that.sessionID = reply.sessionID;
-        } else {
-          that.sessionID = null;
-        }
+      sendOrPub("send", 'vertx.authManager.login', {"username": username, "password": password}, function(reply) {
         replyHandler(reply);
       });
     }
     that.logout = function(sessionID, replyHandler) {
-      sendOrPub("send", 'vertx.basicauthmanager.logout', {"sessionID": sessionID}, function(reply) {
-        if (reply.status === 'ok') {
-          that.sessionID = null;
-        }else{
-          console.log(reply.message);
-        } 
+      sendOrPub("send", 'vertx.authManager.logout', {"sessionID": sessionID}, function(reply) {
           replyHandler(reply);
+      });
+    }
+    that.authorise = function(sessionID,replyHandler){
+      sendOrPub("send",'vertx.authManager.authorise',{"sessionID":sessionID},function(reply){
+
       });
     }
   

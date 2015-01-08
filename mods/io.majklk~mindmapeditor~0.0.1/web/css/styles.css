@@ -153,3 +153,59 @@ path.link {
 .right{float:right!important;}
 .inner{width:1000px;margin: 0px auto;overflow:hidden;padding:0px 10px;}
 .ovHidden{overflow:hidden !important;}
+
+/* lightbox */
+#overlay{
+    -webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    -ms-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s;
+    height: 100%;
+    width: 100%;
+    display: inline-block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    background: black;
+    opacity: 0;
+}
+
+#overlay.overlay-active{
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+    opacity: .8;
+}
+
+.lightbox{
+    border-radius: 6px;
+    background: white;
+    box-shadow: 0 0 16px rgba(0, 0, 0, .4);
+    position: absolute;
+    min-width: 700px;
+    min-height: 500px;
+    top: 0;
+    left: 50%;
+    margin-top: 10%;
+    margin-left: -250px;
+    z-index: 2;
+    opacity: 0;
+    display: none;
+}
+.lightbox.lightbox-active{
+    display: inline-block;
+    opacity: 1;
+    z-index: 9999;
+}
+.lightboxBody{
+    padding:15px 10px 15px 10px;
+}
+div#LightboxCloser{
+    position:absolute;
+    right: 0;
+    top: -15px;
+    margin-right:-15px;
+    height:32px;
+    width:32px;
+    background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3gILESkmwo7QzwAAAMtJREFUWMPtVjEOhDAMw8y33Mb/PwbjbfeEMAASQm0Sp6CCqJciaOxQnJCua3g7kLkvzn0WTB7kgkSWWADRJFw8fTJSJHUtUfHjtZmAkpBExDUkE9gdF5tEVjzFaZrQIMIJMaqxGMKQuMfZ7iONiHtLSzPVf12/EXGmtilnM70DJbVdKu7uAwfCSdkzsi/GJLDhE3x2z0/wCBNq4r91Ha4qw6qNqGorrvozkoIjpWPNiYg0FRzzBN+IyNqGNoDQE1FwKIXCc6+xvKFhBvQJgfqfW337AAAAAElFTkSuQmCC');
+}

@@ -18,35 +18,42 @@ angular.module('mindmap.controllers', []).
         $scope.currentUser=user;
       };
       //relogin from localstorage
-      var storedUser = localStorageService.get('mindmap_user');
-      if(storedUser && storedUser.hasOwnProperty("userID")){
-        AuthService.directLogin(storedUser).then(function(){
-            $scope.setCurrentUser(storedUser);
+      var storedUserID = localStorageService.get('mindmap_userID');
+      if(storedUserID){
+        AuthService.relogin(storedUserID).then(function(user){
+            $scope.setCurrentUser(user);
         });
       }
 
       $scope.logout = function(sessionID){
         //is promise needed for logout?
         AuthService.logout().then(function(){
-
-        });
-        $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
+            $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
+        },function(){
+            $rootScope.$broadcast(AUTH_EVENTS.logoutFailed);
+        }); 
         goToLogin();
+      };
+      $scope.fillLightbox= function(type){
+         $scope.lightboxBody="views/lightboxes/"+type+".html";
       };
       var goToLogin=function(){$state.go("login");};
       $scope.$on(AUTH_EVENTS.notAuthorized,goToLogin);
       $scope.$on(AUTH_EVENTS.notAuthenticated,goToLogin);
 
       $scope.$on(AUTH_EVENTS.loginFailed,function(){
-        alert("Login failed.");
-      })
+        alert("Login failed!");
+      });
+      $scope.$on(AUTH_EVENTS.loginFailed,function(){
+        alert("Logout failed!");
+      });
 
       $scope.$on(AUTH_EVENTS.loginSuccess,function(){
-        localStorageService.set('mindmap_user',$scope.currentUser);
+        localStorageService.set('mindmap_userID',$scope.currentUser.userID);
         alert('logged in!');
       });
       $scope.$on(AUTH_EVENTS.logoutSuccess,function(){
-        localStorageService.remove('mindmap_user');
+        localStorageService.remove('mindmap_userID');
         alert('logged out!');
       });
   }]).

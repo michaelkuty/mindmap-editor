@@ -13,7 +13,12 @@
                 </form>
               
                 <div class="left">
+                  <div data-ng-if="currentUser">
                   Logged as: {{currentUser.userName}} | <a href="" data-ng-click="logout()">Logout</a>
+                  </div>
+                  <div data-ng-if="!currentUser">
+                  <a class="lightboxLauncher" href="" data-ng-click="fillLightbox('login')">Login</a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -28,5 +33,10 @@
   </div>
   <div class="col-sm-9">
    <section class="editor"></section>
+  </div>
+  <div class="lightbox" data-ng-lightbox='{"launcherClass":"lightboxLauncher"}' id="lightbox" >
+    <a href="#"><div id="LightboxCloser"></div></a>
+    <div class="lightboxBody" data-ng-include="lightboxBody">
+    </div>
   </div>
 </div>
