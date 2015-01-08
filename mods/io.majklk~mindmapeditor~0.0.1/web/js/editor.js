@@ -27,13 +27,12 @@
 		    $(function(){
 		       	$("#" + d.key).editable({
 		       		container: 'body',
-
 		       		mode: 'popup',
 				    title: 'Enter new name',
 			        success: function(response, newValue) {
 			           self.renameNode(d, newValue);
  					   console.log("success saving: " + newValue);
- 					   $("#" + d.key).editable("hide");
+ 					   $(".editable-container").css("display", "none");
 					},
 				});
 		    });
