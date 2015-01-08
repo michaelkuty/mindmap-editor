@@ -34446,7 +34446,7 @@ eb.send(pa, {action: 'delete', collection: 'mindmap', matcher: {}}, function(rep
     for (var i = 0; i < treeData.length; i++) {
       eb.send(pa, {
         action: 'save',
-        collection: 'mindmap',
+        collection: 'mindmaps',
         document: treeData[i]
       });
     }
