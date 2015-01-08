@@ -9,7 +9,7 @@ for (var app in config) {
 
 	if (app.indexOf(".js") > -1) {
 		//deployVerticle
-		container.deployVerticle(app, {}, app_config.workers, function(err, ID){
+		container.deployVerticle(app, app_config, app_config.workers, function(err, ID){
 			if (err) {
 				console.error(err.printStackTrace())
 			}

@@ -1,6 +1,12 @@
 {
-    "utils/database.js": {},
+    "utils/database.js": {
+      "collection": "mindmaps",
+      "address": "mindMaps",
+      "persistor_address": "vertx.mongopersistor",
+      "workers": 1
+    },
     "editor.js": {
+      "address": "mindMaps",
       "workers": 1
     },
     "io.vertx~mod-web-server~2.0.0-final": {
