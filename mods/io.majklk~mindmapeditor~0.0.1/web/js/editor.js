@@ -12,7 +12,7 @@
 		nodes.forEach(function(d) { d.y = d.depth *	MindMapEditor.levelWidth; });
 		var node = this.vis.selectAll("g.node").data(nodes, function(d) { return d.key; });
 		var nodeEnter = node.enter().append("svg:g")
-		.attr("class", "node editable editable-click")
+		.attr("class", "node")
 		.attr("data-type", "text")
 		.attr("opacity", "0")
 		.attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
@@ -21,37 +21,13 @@
 		.style("fill", function(d) { return d.children ? "lightsteelblue" : "#fff"; })
 		.on("click", function(c) { 
 			self.addNode(c);
-		    $(function(){
-		       	$("#" + c.key).editable({
-		       		container: 'body',
-		       		mode: 'popup',
-				    title: 'Enter new name',
-			        success: function(response, newValue) {
-			           self.renameNode(c, newValue);
- 					   console.log("success saving: " + newValue);
- 					   $(".editable-container").css("display", "none");
-					},
-				});
-		    });
 		});
+
 		nodeEnter.append("svg:text").attr("x", 15)
 		.attr("dy", ".35em").text(function(d) { return d.name; })
 		.attr("id", function(d) { return d.key; })
-		.on("click", function(d) {
-		    $(function(){
-		       	$("#" + d.key).editable({
-		       		container: 'body',
-		       		mode: 'popup',
-				    title: 'Enter new name',
-			        success: function(response, newValue) {
-			           self.renameNode(d, newValue);
- 					   console.log("success saving: " + newValue);
- 					   $(".editable-container").css("display", "none");
-					},
-				});
-		    });
+		.attr("class","editable editable-click");
 
-		});
 		node.transition()
 		.attr("opacity", "1")
 		.attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
@@ -86,7 +62,7 @@
 	}
 
 	MindMapEditor.prototype.registerEventHandlers = function() {
-		var self = this;
+		var self=this;
 		this.eventBus.registerHandler('mindMaps.events.'+self.mindMap._id, function(event) {
 			switch (event.event) {
 				case 'nodeAdded':self.onNodeAdded(event); break;
@@ -132,7 +108,27 @@
 		.attr("transform", "translate(20,0)");
 		console.log("constructed");
 	}
-
+	MindMapEditor.prototype.initEditable = function(){
+		var self=this;
+		/*$.fn.editableform.buttons='<button type="submit" class="btn btn-primary btn-sm editable-submit"><i class="glyphicon glyphicon-ok"></i></button>'
+		+ '<button type="button" class="btn btn-default btn-sm editable-cancel" onclick="alert(event));"><i class="glyphicon glyphicon-remove"></i></button>';
+		*/
+       	$(".editor ").editable({
+       		selector:'text.editable',
+	       	container: 'section',
+       		mode: 'popup',
+       		emptytext:'no name',
+		    title: 'Enter new name',
+	        success: function(response, newValue) {
+	           //self.renameNode(c, newValue);
+			   console.log("success saving: " + newValue);
+			   $(this).popover("hide");
+			},
+			cancel:function(){
+				$(this).popover("hide");
+			}
+		});
+	}
 
 function MindMapEditor(mindMap, eventBus,successFn) {
 	this.mindMap = mindMap;
@@ -140,6 +136,7 @@ function MindMapEditor(mindMap, eventBus,successFn) {
 	this.registerEventHandlers();
 	this.initVisualization();
 	this.renderVisualization();
+	this.initEditable();
 	if(typeof successFn === 'function'){
 		successFn();
 	}

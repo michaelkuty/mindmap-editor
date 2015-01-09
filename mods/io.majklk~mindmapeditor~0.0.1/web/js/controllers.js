@@ -79,7 +79,7 @@ angular.module('mindmap.controllers', []).
             });
        };
   }])
-  .controller('MindMapCtrl', ['$scope','$eb','$state','$stateParams','usSpinnerService',function($scope,$eb,$state,$stateParams,usSpinnerService) {
+  .controller('MindMapCtrl', ['$scope','$eb','$state','$stateParams','$timeout','usSpinnerService',function($scope,$eb,$state,$stateParams,$timeout,usSpinnerService) {
     $scope.mindMap={};
     $scope.initEditor = function(){
         if($eb.isReady()){
@@ -100,7 +100,10 @@ angular.module('mindmap.controllers', []).
         $scope.mindMap = mindMap;
         new MindMapEditor(mindMap, $eb,function(){
             angular.element('#MapName').html("<h4>Map: " + mindMap.name + "</h4>");
-            usSpinnerService.stop("spinner-editor");
+            //stop after all dom operations done
+            $timeout(function(){
+                usSpinnerService.stop("spinner-editor");
+            },100);
         });
     };
     var renderListItem = function(mindMap) {

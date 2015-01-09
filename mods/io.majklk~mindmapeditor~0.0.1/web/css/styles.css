@@ -36,6 +36,9 @@ path.link {
   height: 100%;
   overflow: visible;
 }
+.editor text.editable{
+  cursor:pointer;
+}
 
 
 

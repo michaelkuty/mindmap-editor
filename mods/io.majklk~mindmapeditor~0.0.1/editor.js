@@ -23,7 +23,7 @@ eventBus.registerHandler(config.address + '.editor.addNode',
 				if (args.name) {
 					newNode.name = args.name;
 				} else {
-					newNode.name = 'Editovat';
+					newNode.name = 'no name';
 				}
 				if (!parent.children) {
 					parent.children = [];
