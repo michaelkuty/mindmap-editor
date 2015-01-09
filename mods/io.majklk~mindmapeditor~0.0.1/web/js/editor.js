@@ -120,7 +120,7 @@
        		emptytext:'no name',
 		    title: 'Enter new name',
 	        success: function(response, newValue) {
-	           //self.renameNode(c, newValue);
+	           self.renameNode({key:$(this).attr("id")}, newValue);
 			   console.log("success saving: " + newValue);
 			   $(this).popover("hide");
 			},
