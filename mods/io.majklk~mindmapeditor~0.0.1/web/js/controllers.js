@@ -9,7 +9,9 @@ angular.module('mindmap.controllers', []).
             $rootScope.busloaded=true;
         });
       });
-
+      $eb.addCloseCall(function(){
+        alert('eb halted!');
+      })
       $scope.currentUser = null;
       $scope.userRoles=USER_ROLES;
       $scope.isAuthorized = AuthService.isAuthorized;

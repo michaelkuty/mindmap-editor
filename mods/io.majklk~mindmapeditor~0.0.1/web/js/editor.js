@@ -25,7 +25,7 @@
 
 		nodeEnter.append("svg:text").attr("x", 15)
 		.attr("dy", ".35em").text(function(d) { return d.name; })
-		.attr("id", function(d) { return d.key; })
+		.attr("id", function(d) { return d.id; })
 		.attr("class","editable editable-click");
 
 		node.transition()
@@ -53,8 +53,8 @@
 		this.eventBus.send('mindMaps.editor.addNode', { mindMapId: this.mindMap._id, parentKey: parentNode.key });
 	}
 	
-	MindMapEditor.prototype.renameNode = function(node, newName) {
-		this.eventBus.send('mindMaps.editor.renameNode', {mindMapId: this.mindMap._id,key: node.key,newName: newName});
+	MindMapEditor.prototype.renameNode = function(nodeKey, newName) {
+		this.eventBus.send('mindMaps.editor.renameNode', {mindMapId: this.mindMap._id,key: nodeKey,newName: newName});
 	}
 	
 	MindMapEditor.prototype.deleteNode = function(parentNode, childNode) {
@@ -120,8 +120,7 @@
        		emptytext:'no name',
 		    title: 'Enter new name',
 	        success: function(response, newValue) {
-	           self.renameNode({key:$(this).attr("id")}, newValue);
-			   console.log("success saving: " + newValue);
+	           self.renameNode($(this).attr("id"), newValue);
 			   $(this).popover("hide");
 			},
 			cancel:function(){
