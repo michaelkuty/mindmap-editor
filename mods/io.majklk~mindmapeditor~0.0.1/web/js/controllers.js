@@ -10,7 +10,7 @@ angular.module('mindmap.controllers', []).
         });
       });
       $eb.addCloseCall(function(){
-        alert('eb halted!');
+        $eb.reconnect();
       })
       $scope.currentUser = null;
       $scope.userRoles=USER_ROLES;
@@ -29,17 +29,21 @@ angular.module('mindmap.controllers', []).
         });
       }
 
-      $scope.logout = function(sessionID){
-        AuthService.logout().then(function(){
+      $scope.logout = function(){
+        AuthService.logout($scope.currentUser.userID).then(function(){
             $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
         },function(){
             $rootScope.$broadcast(AUTH_EVENTS.logoutFailed);
         }); 
-        goToLogin();
       };
       $scope.fillLightbox= function(type){
          $scope.lightboxBody="views/lightboxes/"+type+".html";
       };
+      $scope.closeLightbox=function(){
+        angular.element("#LightboxCloser").click();
+      }
+
+      /* event handlers */
       var goToLogin=function(){$state.go("login");};
       $scope.$on(AUTH_EVENTS.notAuthorized,goToLogin);
       $scope.$on(AUTH_EVENTS.notAuthenticated,goToLogin);
@@ -57,16 +61,15 @@ angular.module('mindmap.controllers', []).
       });
       $scope.$on(AUTH_EVENTS.logoutSuccess,function(){
         localStorageService.remove('mindmap_userID');
+        $scope.currentUser=null;
         alert('logged out!');
       });
+      $scope.$on("nodeAdded",function(){
+        alert('node added');
+      })
   }]).
 
   controller('LoginCtrl', ['$scope','$rootScope','$eb','$state','AUTH_EVENTS','AuthService',function($scope,$rootScope,$eb,$state,AUTH_EVENTS,AuthService) {
-       (function(){
-         if($scope.currentUser!=null){
-            //$state.go("mindmap");
-         }
-       })();
        $scope.credentials = {
          username: '',
          password: ''
@@ -76,6 +79,7 @@ angular.module('mindmap.controllers', []).
               $scope.setCurrentUser(user);
               $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
               $state.go("mindmap");
+              $scope.closeLightbox();
             }, function () {
               $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
             });
@@ -100,7 +104,7 @@ angular.module('mindmap.controllers', []).
     $scope.openMap = function(mindMap){
         usSpinnerService.spin("spinner-editor");
         $scope.mindMap = mindMap;
-        new MindMapEditor(mindMap, $eb,function(){
+        new MindMapEditor(mindMap, $eb,$scope,function(){
             angular.element('#MapName').html("<h4>Map: " + mindMap.name + "</h4>");
             //stop after all dom operations done
             $timeout(function(){

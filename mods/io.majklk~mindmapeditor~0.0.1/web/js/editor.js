@@ -25,7 +25,7 @@
 
 		nodeEnter.append("svg:text").attr("x", 15)
 		.attr("dy", ".35em").text(function(d) { return d.name; })
-		.attr("id", function(d) { return d.id; })
+		.attr("id", function(d) { return d.key; })
 		.attr("class","editable editable-click");
 
 		node.transition()
@@ -51,6 +51,7 @@
 
 	MindMapEditor.prototype.addNode = function(parentNode) {
 		this.eventBus.send('mindMaps.editor.addNode', { mindMapId: this.mindMap._id, parentKey: parentNode.key });
+		this.angularScope.$emit('nodeAdded');
 	}
 	
 	MindMapEditor.prototype.renameNode = function(nodeKey, newName) {
@@ -129,13 +130,16 @@
 		});
 	}
 
-function MindMapEditor(mindMap, eventBus,successFn) {
+function MindMapEditor(mindMap, eventBus,angularScope,successFn) {
 	this.mindMap = mindMap;
 	this.eventBus = eventBus;
 	this.registerEventHandlers();
 	this.initVisualization();
 	this.renderVisualization();
 	this.initEditable();
+	if(typeof angularScope !== 'undefined'){
+		this.angularScope = angularScope;
+	}
 	if(typeof successFn === 'function'){
 		successFn();
 	}

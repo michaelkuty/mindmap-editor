@@ -19,7 +19,7 @@ eventBus.registerHandler(config.address + '.editor.addNode',
 				if (res.mindMap) {
 					var mindMap = res.mindMap;
 					var parent = mindMapUtils.findNodeByKey(res.mindMap, args.parentKey);
-					var newNode = {id: makeUUID()};
+					var newNode = {key: makeUUID()};
 				if (args.name) {
 					newNode.name = args.name;
 				} else {

@@ -8,13 +8,26 @@
 angular.module('mindmap.services', []).
   value('version', '0.1').
   service('$eb', function() {
-    var eb = null;
+    var eb = null,reconnects=0, ownFunctions = {},prefix="eventbus";
     if (!eb) {
         //var eb = new vertx.EventBus("http://localhost:8080/eventbus");
-        eb = new vertx.EventBus(window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/eventbus');
+        eb = new vertx.EventBus(window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/' + prefix);
     } else {
         return eb;
     }
+    ownFunctions.reconnect = function(){
+      if(reconnects<5){
+        var calls=eb.getCalls();
+        eb = new vertx.EventBus(window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/' + prefix);
+        eb.setCalls(calls);
+        reconnects++;
+      }else{
+        if(confirm('Connection to server halted! \nPress OK for reload page.')){
+          window.location.reload();
+        }
+      }
+    };
+    angular.extend(eb,ownFunctions);
     return eb;
   }).
   constant('AUTH_EVENTS', {

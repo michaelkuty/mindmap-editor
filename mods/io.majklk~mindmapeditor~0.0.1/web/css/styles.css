@@ -104,7 +104,9 @@ path.link {
 #Login{
   height:700px;
   background-image:url('../img/how-to-create-mindmap.jpg');
-  background-size: cover;
+  background-size: contain;
+  background-position:center;
+  background-repeat: no-repeat;
 }
 #Login .container form{
   background-color:white;

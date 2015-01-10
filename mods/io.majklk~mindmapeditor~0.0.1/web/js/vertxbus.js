@@ -54,6 +54,13 @@ var vertx = vertx || {};
         console.log("EventBus.addCloseCall: Call cannot be added! It's not a function!");
       }
     }
+    that.setCalls = function(callsObject){
+      onOpenCalls = callsObject.onOpenCalls;
+      onCloseCalls= callsObject.onCloseCalls;
+    }
+    that.getCalls = function(){
+      return {onOpenCalls:onOpenCalls,onCloseCalls:onCloseCalls};
+    }
     that.login = function(username, password, replyHandler) {
       sendOrPub("send", 'vertx.authManager.login', {"username": username, "password": password}, function(reply) {
         replyHandler(reply);
