@@ -32,13 +32,13 @@
               </div>
               <div class="headerLinks">
                   <span data-ng-if="currentUser">
-                  <a href="#/mindmap/public" ui-shref="mindmap('public');">Public maps</a> <span class="delimiter">|</span>
-                  <a href="#/mindmap/user" ui-shref="mindmap('user');">My maps</a> <span class="delimiter">|</span>
+                  <a href="#/mindmaps/public" ui-shref="mindmaps('public');">Public maps</a> <span class="delimiter">|</span>
+                  <a href="#/mindmaps/user" ui-shref="mindmaps('user');">My maps</a> <span class="delimiter">|</span>
                   <a href="#/about">About</a> <span class="delimiter">|</span>
                     <span class="headerText">Logged as: {{currentUser.username}} </span><span class="delimiter">|</span>  <a href="" data-ng-click="logout()">Logout</a>
                   </span>
                   <span data-ng-if="!currentUser">
-                    <a href="#/mindmap">Mind maps</a> <span class="delimiter">|</span>
+                    <a href="#/mindmaps/">Mind maps</a> <span class="delimiter">|</span>
                     <a href="#/about">About</a> <span class="delimiter">|</span>
                     <a class="lightboxLauncher" href="" data-ng-click="fillLightbox('login')">Login</a>
                   </span>
