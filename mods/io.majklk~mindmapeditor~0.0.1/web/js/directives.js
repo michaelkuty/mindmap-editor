@@ -18,7 +18,6 @@ directive('ngLightbox', ['$compile','$timeout', function($compile,$timeout) {
             'element': element[0],
             'kind': 'normal'
         }
-
         var options = angular.extend(defaults, angular.fromJson(attr.ngLightbox));
 
         // check if element is passed by the user
@@ -42,29 +41,46 @@ directive('ngLightbox', ['$compile','$timeout', function($compile,$timeout) {
             window.getComputedStyle(overlay[0]).opacity;
             overlay.addClass('overlay-active');
             angular.element(options.element).addClass('lightbox-active').css("margin-top",angular.element(document).scrollTop()+150);
-        }
-
-        var load_iframe = function(){
+            },
+        load_iframe = function(){
             options.element = options.element || 'lightbox-iframe';
             var iframe = "<div id='" + options.element + "' class='lightbox'><iframe frameBorder=0 width='100%' height='100%' src='" + attr.href + "'></iframe></div>";
             angular.element(document.body).append(iframe);
-        };
-        var showfn=function(event) {
-                add_overlay();
-                event.preventDefault();
-                return false;
-            };
-        if(options.trigger === 'auto'){
+        },
+        showfn=function(event) {
             add_overlay();
-        }else if(options.hasOwnProperty("launcherID")){
-            $timeout(function(){
-                angular.element("a#"+options.launcherID).bind('click', showfn);
-            },200);
-        }else if(options.hasOwnProperty("launcherClass")){
-            $timeout(function(){
-                angular.element("a."+options.launcherClass).bind('click', showfn);
-            },200);
-        }
+            event.preventDefault();
+            return false;
+        },
+        bindfn=function(fromWatch){
+            if(options.trigger === 'auto'){
+                add_overlay();
+            }else if(options.hasOwnProperty("launcherID")){
+                if(!fromWatch){
+                    $timeout(function(){
+                        angular.element("a#"+options.launcherID).bind('click', showfn);
+                    },200);
+                }else{
+                    angular.element("a#"+options.launcherID).bind('click', showfn);
+                }
+            }else if(options.hasOwnProperty("launcherClass")){
+                if(!fromWatch){
+                    $timeout(function(){
+                        angular.element("a."+options.launcherClass).bind('click', showfn);
+                    },200);
+                }else{
+                    angular.element("a."+options.launcherClass).bind('click', showfn);
+                }
+            }
+        };
+        scope.$watch('rebindLightboxes',function(newVal,oldVal){
+            if(newVal === true){
+                bindfn(true);
+                scope.rebindLightboxes=false;
+            }
+        });
+        //do first bind
+        bindfn();
     };
 }]).
 

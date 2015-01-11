@@ -3,7 +3,8 @@
 /* Controllers */
 
 angular.module('mindmap.controllers', []).
-  controller('AppCtrl', ['$scope','$rootScope','$eb','$state','USER_ROLES','AUTH_EVENTS','AuthService','localStorageService', function($scope,$rootScope,$eb,$state,USER_ROLES,AUTH_EVENTS,AuthService,localStorageService){
+  controller('AppCtrl', ['$scope','$rootScope','$eb','$state','$window','USER_ROLES','AUTH_EVENTS','AuthService','localStorageService', function($scope,$rootScope,$eb,$state,$window,USER_ROLES,AUTH_EVENTS,AuthService,localStorageService){
+      $scope.rebindLightboxes=false;
       $eb.addOpenCall(function(){
         $rootScope.$apply(function(){
             $rootScope.busloaded=true;
@@ -15,7 +16,7 @@ angular.module('mindmap.controllers', []).
       $scope.currentUser = null;
       $scope.userRoles=USER_ROLES;
       $scope.isAuthorized = AuthService.isAuthorized;
-
+      $scope.makeAlert=function(text){$window.alert(text);};
       $scope.setCurrentUser = function (user){
         $scope.currentUser=user;
       };
@@ -69,7 +70,13 @@ angular.module('mindmap.controllers', []).
       $scope.$on(AUTH_EVENTS.logoutSuccess,function(){
         localStorageService.remove('mindmap_userID');
         $scope.currentUser=null;
+        $scope.rebindLightboxes=true;
         alert('logged out!');
+      });
+      //saving stateChange to recompile lightbox launchers
+      $scope.$on('$viewContentLoaded', 
+        function(event){ 
+        $scope.rebindLightboxes=true;
       });
   }]).
 

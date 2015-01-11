@@ -226,6 +226,9 @@ span.headerText{
 #MyMapsMenu{
   margin-top:20px;
 }
+#MyMapsMenu .mind-maps{
+  min-height:300px;
+}
 #HeaderFormSection{
   width:32%;
   float:left;
