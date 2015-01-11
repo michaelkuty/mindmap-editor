@@ -28,17 +28,25 @@ config(function($stateProvider,$urlRouterProvider,USER_ROLES){
           authorizedRoles: [USER_ROLES.user]
         }
       })
-      .state('mindmap', {
-        url: '/mindmap',
-        templateUrl: '/views/mindmap.html',
+      .state('mindmaps', {
+        url: '/mindmaps/{viewMode}',
+        params:{
+          viewMode:{value:'not-specified'}
+        },
+        templateUrl: '/views/mindmaps.html',
         controller: 'MindMapCtrl'
       })
       .state('map',{
         url: '/map/:mapID',
-        templateUrl: 'views/mindmap.html',
+        templateUrl: 'views/mindmaps.html',
         controller: 'MindMapCtrl'
+      })
+      .state('about',{
+        url: '/about',
+        templateUrl: 'views/about.html',
+        controller: angular.noop
       });
-      $urlRouterProvider.otherwise('/mindmap');
+      $urlRouterProvider.otherwise('/mindmaps/');
 }).
 run(function ($rootScope, AUTH_EVENTS, AuthService) {
   $rootScope.$on('$stateChangeStart', function (event, next) {

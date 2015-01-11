@@ -1,0 +1,19 @@
+<span us-spinner spinner-key="spinner-editor"></span>
+<div class="col-md-3">
+  <div class="sidebar-nav">
+    <div class="navbar navbar-default" role="navigation">
+      <div id="MyMapsMenu" class="navbar-collapse collapse sidebar-navbar-collapse">
+        <h3 class="txtCenter"><span data-ng-if="getViewMode() == 'user'">My mind maps</span>
+        <span data-ng-if="getViewMode() == 'public'">Public mind maps</span>
+        <span data-ng-if="getViewMode() == 'search'">Search results for: {{searchQuery}}</span>&nbsp;</h3>
+        <ul class="nav navbar-nav mind-maps"></ul>
+        <div class="txtCenter">
+          <a href="" class="lightboxLauncher btn btn-default btn-success thin" data-ng-click="fillLightbox('create-map');">Add mind map</a>
+        </div><br/>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="MapEditor" class="col-sm-9" data-ng-init="initEditor()">
+<section class="editor"></section>
+</div>

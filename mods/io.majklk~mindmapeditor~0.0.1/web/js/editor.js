@@ -41,6 +41,7 @@
 		.attr("opacity", "0")
 		.attr("d", MindMapEditor.diagonalGenerator)
 		.on('click', function(l) {
+			if(confirm("Do you really delete node "+l.target.name + " with all connected nodes?"))
 			self.deleteNode(l.source, l.target);
 		});
 		link.transition()
@@ -51,15 +52,17 @@
 
 	MindMapEditor.prototype.addNode = function(parentNode) {
 		this.eventBus.send('mindMaps.editor.addNode', { mindMapId: this.mindMap._id, parentKey: parentNode.key });
-		this.angularScope.$emit('nodeAdded');
+		this.angularScope.$emit('nodeAdded',{nodeKey: parentNode.key,nodeName:parentNode.name});
 	}
 	
 	MindMapEditor.prototype.renameNode = function(nodeKey, newName) {
 		this.eventBus.send('mindMaps.editor.renameNode', {mindMapId: this.mindMap._id,key: nodeKey,newName: newName});
+		this.angularScope.$emit('nodeRenamed',{nodeKey:nodeKey,newName:newName});
 	}
 	
 	MindMapEditor.prototype.deleteNode = function(parentNode, childNode) {
 		this.eventBus.send('mindMaps.editor.deleteNode', { mindMapId: this.mindMap._id,	parentKey: parentNode.key, key: childNode.key });
+		this.angularScope.$emit('nodeDeleted',{nodeKey:childNode.key,nodeName:childNode.name});
 	}
 
 	MindMapEditor.prototype.registerEventHandlers = function() {

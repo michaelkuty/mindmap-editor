@@ -41,7 +41,14 @@ angular.module('mindmap.controllers', []).
       };
       $scope.closeLightbox=function(){
         angular.element("#LightboxCloser").click();
+      };
+      $scope.oneNodeWithoutOthers = function(node){
+        var returnNode;
+        delete node.children;
+        delete node.parent;
+        return angular.copy(node,returnNode);
       }
+
 
       /* event handlers */
       var goToLogin=function(){$state.go("login");};
@@ -64,9 +71,6 @@ angular.module('mindmap.controllers', []).
         $scope.currentUser=null;
         alert('logged out!');
       });
-      $scope.$on("nodeAdded",function(){
-        alert('node added');
-      })
   }]).
 
   controller('LoginCtrl', ['$scope','$rootScope','$eb','$state','AUTH_EVENTS','AuthService',function($scope,$rootScope,$eb,$state,AUTH_EVENTS,AuthService) {
@@ -78,15 +82,25 @@ angular.module('mindmap.controllers', []).
             AuthService.login(credentials).then(function (user) {
               $scope.setCurrentUser(user);
               $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-              $state.go("mindmap");
+              $state.go("mindmaps");
               $scope.closeLightbox();
             }, function () {
               $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
             });
        };
   }])
-  .controller('MindMapCtrl', ['$scope','$eb','$state','$stateParams','$timeout','usSpinnerService',function($scope,$eb,$state,$stateParams,$timeout,usSpinnerService) {
+  .controller('MindMapCtrl', ['$scope','$eb','$state','$stateParams','$timeout','usSpinnerService','AUTH_EVENTS',function($scope,$eb,$state,$stateParams,$timeout,usSpinnerService,AUTH_EVENTS) {
     $scope.mindMap={};
+    $scope.openCreatedMap=true;
+    //after all completed check viewmode
+    $timeout(function(){
+        if(!$scope.currentUser || ($stateParams.hasOwnProperty('viewMode') && $stateParams.viewMode==='public')){
+          $scope.viewMode="public";
+        }else{
+          $scope.viewMode="user";
+        }
+    },100);
+    
     $scope.initEditor = function(){
         if($eb.isReady()){
             $scope.showMaps();
@@ -112,6 +126,36 @@ angular.module('mindmap.controllers', []).
             },100);
         });
     };
+    $scope.createMap = function(mapName,openMap){
+      $eb.send('mindMaps.save', {name: mapName}, function(result) {
+            renderListItem(result);
+            if(openMap){
+              $scope.$apply(function(){
+                $scope.openMap(result);
+              });
+            }
+      });
+      $scope.closeLightbox();
+      //set to defaults
+      $scope.createdMapName="";
+      $scope.openCreatedMap=true;
+    };
+    $scope.setViewMode = function(viewMode){$scope.viewMode=viewMode;};
+    $scope.getViewMode = function(){return $scope.viewMode;};
+    /* event handlers */
+    $scope.$on(AUTH_EVENTS.loginSuccess,function(){
+      $scope.viewMode='user';
+    })
+    $scope.$on("nodeAdded",function(event,data){
+        alert('node added to ' + data.nodeName);
+    });
+    $scope.$on("nodeRenamed",function(event,data){
+        alert('node '+data.nodeKey+' renamed to '+ data.newName);
+    });
+    $scope.$on("nodeDeleted",function(event,data){
+        alert('node '+data.nodeName+ ' deleted');
+    });
+    /* menu generator */
     var renderListItem = function(mindMap) {
         var $li = angular.element('<li class="span4">'),
         openMindMap = function() {
@@ -154,12 +198,4 @@ angular.module('mindmap.controllers', []).
           $li.appendTo('.mind-maps');
         }
     };
-    angular.element('#CreateMapForm').submit(function() {
-        var $nameInput = angular.element("#CreatedMapName");
-        $eb.send('mindMaps.save', {name: $nameInput.val()}, function(result) {
-            renderListItem(result);
-            $nameInput.val('');
-        });
-        return false;
-    });
   }]);

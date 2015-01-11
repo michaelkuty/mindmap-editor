@@ -14,9 +14,45 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body data-ng-controller="AppCtrl">
-  <div id="Loading" data-ng-hide="busloaded"><h1>Načítám</h1></div>
-  <!-- view -->
-  <div ui-view data-ng-show="busloaded"></div>
+  <div class="row">
+    <!-- header  -->
+      <div class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+          <div class="navbar navbar-default navbar-fixed-top">
+            <div class="navbar-inner">
+              <div class="headerCaption">
+                <h1 class="mainCaption">MindMap Editor</h3>
+               <div id="MapName" class="nomargin">&nbsp;</div>
+              </div>
+              <div id="HeaderFormSection">
+                <form id="CreateMapForm" class="create-form row">
+                  <input id="CreatedMapName" class="col-md-3 form-control" type="text" name="name" required placeholder="Search in mindmaps">
+                  <input class="col-md-3 btn btn-primary pull-right" type="submit" value="Search">
+                </form>
+              </div>
+              <div class="headerLinks">
+                  <span data-ng-if="currentUser">
+                  <a href="#/mindmap/public" ui-shref="mindmap('public');">Public maps</a> <span class="delimiter">|</span>
+                  <a href="#/mindmap/user" ui-shref="mindmap('user');">My maps</a> <span class="delimiter">|</span>
+                  <a href="#/about">About</a> <span class="delimiter">|</span>
+                    <span class="headerText">Logged as: {{currentUser.username}} </span><span class="delimiter">|</span>  <a href="" data-ng-click="logout()">Logout</a>
+                  </span>
+                  <span data-ng-if="!currentUser">
+                    <a href="#/mindmap">Mind maps</a> <span class="delimiter">|</span>
+                    <a href="#/about">About</a> <span class="delimiter">|</span>
+                    <a class="lightboxLauncher" href="" data-ng-click="fillLightbox('login')">Login</a>
+                  </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- loading -->
+      <div id="Loading" data-ng-hide="busloaded"><h1>Načítám</h1></div>
+      <!-- view -->
+      <div ui-view data-ng-show="busloaded"></div>
+  </div>
+
   <!-- lightbox -->
   <div class="lightbox" data-ng-lightbox='{"launcherClass":"lightboxLauncher"}' id="lightbox" >
     <a href="#"><div id="LightboxCloser"></div></a>
@@ -25,7 +61,6 @@
   </div>
   <!-- scripts -->
   <script src="js3rdparty/jquery-1.11.2.min.js"></script>
-  <!--<script src="js3rdparty/jquery-migrate-1.2.1.min.js"></script>-->
   <script src="js3rdparty/sockjs-min-0.3.4.js"></script>
   <script src="js3rdparty/d3.v3.min.js"></script>
   <script src="js3rdparty/bootstrap.min.js"></script>
