@@ -20,12 +20,13 @@ for (var app in config) {
 			if (err) {
 				console.error(err.printStackTrace());
 			} else {
-
+                if (app.indexOf("mongo") > -1) {
+                    // load static data
+                    load('utils/static_data.js');
+                    console.log("Static data loaded.");             
+                }
 			}
 		});
 	}
 }
 
-// load static data
-load('utils/static_data.js');
-console.log("Static data loaded.");
