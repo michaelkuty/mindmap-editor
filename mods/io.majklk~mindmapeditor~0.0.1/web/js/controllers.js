@@ -38,12 +38,25 @@ angular.module('mindmap.controllers', []).
       };
       $scope.fillLightbox= function(type){
          $scope.lightboxBody="views/lightboxes/"+type+".html";
-         //$http.("get")
-         angular.element("#LightboxBody").css("opacity",1);
       };
       $scope.closeLightbox=function(){
         angular.element("#LightboxCloser").click();
       };
+      //saving each statechange for recompile lightbox launchers
+      $scope.$on('$viewContentLoaded', 
+        function(event){ 
+        $scope.rebindLightboxes=true;
+      });
+      $scope.$on('$includeContentRequested', function(event,url) {
+        if(url.indexOf('lightbox') != -1){
+          angular.element("#LightboxBody").css("opacity",0);
+        }
+      });
+      $scope.$on('$includeContentLoaded', function(event,url) {
+        if(url.indexOf('lightbox') != -1){
+          angular.element("#LightboxBody").css("opacity",1);
+        }
+    });
       $scope.oneNodeWithoutOthers = function(node){
         var returnNode;
         delete node.children;
@@ -71,12 +84,6 @@ angular.module('mindmap.controllers', []).
         $scope.currentUser=null;
         $scope.rebindLightboxes=true;
         alert('logged out!');
-      });
-      //saving each statechange for recompile lightbox launchers
-      $scope.$on('$viewContentLoaded', 
-        function(event){ 
-        $scope.rebindLightboxes=true;
-
       });
   }]).
 

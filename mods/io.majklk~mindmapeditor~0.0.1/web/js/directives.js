@@ -87,8 +87,7 @@ directive('ngLightbox', ['$compile','$timeout', function($compile,$timeout) {
 directive('ngLightboxClose', function() {
     return function(scope, element, attr) {
         var remove_overlay = function(){
-            var overlay = document.getElementById('overlay'),
-                lightboxBody=document.getElementById('LightboxBody');
+            var overlay = document.getElementById('overlay');
             angular.element(document.getElementsByClassName('lightbox-active')[0]).removeClass('lightbox-active');
 
             // fallback for ie8 and lower to handle the overlay close without animations
@@ -97,7 +96,6 @@ directive('ngLightboxClose', function() {
             }else{
                 angular.element(overlay).removeClass('overlay-active');
             }
-            angular.element(lightboxBody).css("opacity",0);
         },
         transition_events = ['webkitTransitionEnd', 'mozTransitionEnd', 'msTransitionEnd', 'oTransitionEnd', 'transitionend'],
         closer=document.getElementById('LightboxCloser');
