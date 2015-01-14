@@ -16,16 +16,23 @@ for (var app in config) {
 		});
 	} else {
 		//deployModule
-		container.deployModule(app, app_config, app_config.workers, function(err, ID){
-			if (err) {
-				console.error(err.printStackTrace());
-			} else {
-        	    if (app === "io.vertx~mod-mongo-persistor~2.1.0") {
-                    // load static data
-                    load('utils/static_data.js');
-                    console.log("Static data loaded.");             
-                }   
-			}
-		});
+		if (app.indexOf("mongo") > -1) {
+			container.deployModule(app, app_config, app_config.workers, function(err, ID){
+				if (err) {
+					console.error(err.printStackTrace());
+				} else {
+			    	load('utils/static_data.js');
+			    	console.log("static data loaded")
+					}
+			});
+        } else {
+
+			container.deployModule(app, app_config, app_config.workers, function(err, ID){
+				if (err) {
+					console.error(err.printStackTrace());
+				} else {}
+			});
+
+        }   
 	}
 }
