@@ -14,7 +14,10 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body data-ng-controller="AppCtrl">
-  <div class="row">
+   <div class="splash" data-ng-cloak>
+        <h2 class="loadingCaption">Mindmap editor<br/><br/>Loading...</h2>
+    </div>
+  <div class="row" data-ng-cloak>
     <!-- header  -->
       <div class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
@@ -48,15 +51,15 @@
         </div>
       </div>
       <!-- loading -->
-      <div id="Loading" data-ng-hide="busloaded"><h1>Načítám</h1></div>
+      <div id="Loading" data-ng-hide="busloaded"><h1 class="loadingCaption">Connecting...</h1></div>
       <!-- view -->
       <div ui-view data-ng-show="busloaded"></div>
   </div>
 
   <!-- lightbox -->
-  <div class="lightbox" data-ng-lightbox='{"launcherClass":"lightboxLauncher"}' id="Lightbox" >
+  <div id="Lightbox" class="lightbox" data-ng-lightbox='{"launcherClass":"lightboxLauncher"}' >
     <a href="#"><div id="LightboxCloser"></div></a>
-    <div class="lightboxBody" data-ng-include="lightboxBody">
+    <div id="LightboxBody" class="lightboxBody" data-ng-include="lightboxBody" onload="onLightboxFilled()">
     </div>
   </div>
   <!-- scripts -->

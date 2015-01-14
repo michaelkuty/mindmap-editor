@@ -1,7 +1,6 @@
 'use strict';
 
 /* Controllers */
-
 angular.module('mindmap.controllers', []).
   controller('AppCtrl', ['$scope','$rootScope','$eb','$state','$window','USER_ROLES','AUTH_EVENTS','AuthService','localStorageService', function($scope,$rootScope,$eb,$state,$window,USER_ROLES,AUTH_EVENTS,AuthService,localStorageService){
       $scope.rebindLightboxes=false;
@@ -39,6 +38,8 @@ angular.module('mindmap.controllers', []).
       };
       $scope.fillLightbox= function(type){
          $scope.lightboxBody="views/lightboxes/"+type+".html";
+         //$http.("get")
+         angular.element("#LightboxBody").css("opacity",1);
       };
       $scope.closeLightbox=function(){
         angular.element("#LightboxCloser").click();
@@ -48,21 +49,19 @@ angular.module('mindmap.controllers', []).
         delete node.children;
         delete node.parent;
         return angular.copy(node,returnNode);
-      }
-
+        
+      };
 
       /* event handlers */
       var goToLogin=function(){$state.go("login");};
       $scope.$on(AUTH_EVENTS.notAuthorized,goToLogin);
       $scope.$on(AUTH_EVENTS.notAuthenticated,goToLogin);
-
       $scope.$on(AUTH_EVENTS.loginFailed,function(){
         alert("Login failed!");
       });
       $scope.$on(AUTH_EVENTS.logoutFailed,function(){
         alert("Logout failed!");
       });
-
       $scope.$on(AUTH_EVENTS.loginSuccess,function(){
         localStorageService.set('mindmap_userID',$scope.currentUser.userID);
         alert('logged in!');
@@ -73,10 +72,11 @@ angular.module('mindmap.controllers', []).
         $scope.rebindLightboxes=true;
         alert('logged out!');
       });
-      //saving stateChange to recompile lightbox launchers
+      //saving each statechange for recompile lightbox launchers
       $scope.$on('$viewContentLoaded', 
         function(event){ 
         $scope.rebindLightboxes=true;
+
       });
   }]).
 

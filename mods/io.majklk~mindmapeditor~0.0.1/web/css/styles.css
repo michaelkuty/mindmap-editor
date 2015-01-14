@@ -4,9 +4,17 @@ body, html {
 }
 /* angular loading */
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-  display: none !important;
+  display: none;
+}
+/* app loading */
+.splash {
+  display: none;
 }
 
+[data-ng-cloak].splash {
+  text-align: center;
+  display: block !important;
+}
 /*firefox fix*/
 svg:not(:root) {
   overflow: visible!important;
@@ -87,7 +95,7 @@ path.link {
   float:left;
   width:300px;
 }
-#Loading{
+.loadingCaption{
   text-align: center;
   margin-top:200px;
 }
