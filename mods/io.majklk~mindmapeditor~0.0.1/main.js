@@ -12,6 +12,12 @@ for (var app in config) {
 		container.deployVerticle(app, app_config, app_config.workers, function(err, ID){
 			if (err) {
 				console.error(err.printStackTrace())
+			} else {
+    		    if (app.indexOf("mongo") > -1) {
+                    // load static data
+                    load('utils/static_data.js');
+                    console.log("Static data loaded.");             
+                }   
 			}
 		});
 	} else {
@@ -20,13 +26,8 @@ for (var app in config) {
 			if (err) {
 				console.error(err.printStackTrace());
 			} else {
-                if (app.indexOf("mongo") > -1) {
-                    // load static data
-                    load('utils/static_data.js');
-                    console.log("Static data loaded.");             
-                }
+
 			}
 		});
 	}
 }
-
