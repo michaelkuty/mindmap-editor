@@ -25,7 +25,7 @@ eventBus.registerHandler(config.address + '.save', function(mindMap,responder) {
 });
 
 eventBus.registerHandler(config.address + '.list', function(args, responder) {
-	sendPersistorEvent( {action: "find", collection: config.collection, matcher: {}}, function(reply) {
+	sendPersistorEvent( {action: "find", collection: config.collection, matcher: args}, function(reply) {
 		responder({mindMaps: reply.results});
 	});
 });
@@ -36,7 +36,7 @@ eventBus.registerHandler(config.address + '.find', function(args, responder) {
 	});
 });
 
-eventBus.registerHandler(config.address + 'mindMaps.delete', function(args, responder) {
+eventBus.registerHandler(config.address + '.delete', function(args, responder) {
 	sendPersistorEvent({action: "delete", collection: config.collection, matcher: {_id:args.id}}, function(reply) {
 		responder({});
 	});

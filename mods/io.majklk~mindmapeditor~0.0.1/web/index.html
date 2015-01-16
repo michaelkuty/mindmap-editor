@@ -10,7 +10,8 @@
   <!-- bootstrap -->
   <link rel="stylesheet" href="css/vendor/bootstrap.min.css">
   <link rel="stylesheet" href="css/vendor/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="css/bootstrap-editable.css">
+  <link rel="stylesheet" href="css/vendor/bootstrap-editable.css">
+
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body data-ng-controller="AppCtrl">
@@ -27,9 +28,9 @@
                 <h1 class="mainCaption">MindMap Editor</h3>
                <div id="MapName" class="nomargin">&nbsp;</div>
               </div>
-              <div id="HeaderFormSection">
-                <form id="CreateMapForm" class="create-form row">
-                  <input id="CreatedMapName" class="col-md-3 form-control" type="text" name="name" required placeholder="Search in mindmaps">
+              <div id="HeaderFormSection" data-ng-controller="FormsCtrl">
+                <form id="CreateMapForm" class="create-form row" data-ng-submit="searchForMindMap(searchQuery)">
+                  <input id="CreatedMapName" class="col-md-3 form-control" type="text" name="name" data-ng-model="searchQuery" placeholder="Search in mindmaps">
                   <input class="col-md-3 btn btn-primary pull-right" type="submit" value="Search">
                 </form>
               </div>

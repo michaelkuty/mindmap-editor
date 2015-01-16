@@ -2,7 +2,7 @@
 
 /* Controllers */
 angular.module('mindmap.controllers', []).
-  controller('AppCtrl', ['$scope','$rootScope','$eb','$state','$window','USER_ROLES','AUTH_EVENTS','AuthService','localStorageService', function($scope,$rootScope,$eb,$state,$window,USER_ROLES,AUTH_EVENTS,AuthService,localStorageService){
+  controller('AppCtrl', ['$scope','$rootScope','$eb','$state','$timeout','$window','USER_ROLES','AUTH_EVENTS','AuthService','localStorageService', function($scope,$rootScope,$eb,$state,$timeout,$window,USER_ROLES,AUTH_EVENTS,AuthService,localStorageService){
       $scope.rebindLightboxes=false;
       $eb.addOpenCall(function(){
         $rootScope.$apply(function(){
@@ -19,14 +19,26 @@ angular.module('mindmap.controllers', []).
       $scope.setCurrentUser = function (user){
         $scope.currentUser=user;
       };
+
       var storedUserID = localStorageService.get('mindmap_userID');
       if(storedUserID){
         $eb.addOpenCall(function(){
           //relogin from localstorage  
           AuthService.relogin(storedUserID).then(function(user){
               $scope.setCurrentUser(user);
+              $rootScope.$broadcast("reloadMaps");
+          },function(error){
+            //timeout because all event handlers will be handled later
+              $timeout(function(){
+                $rootScope.$broadcast(AUTH_EVENTS.reloginFailed);
+              },100);
           });
         });
+      }else{
+        //timeout because all event handlers will be handled later
+        $timeout(function(){
+          $rootScope.$broadcast(AUTH_EVENTS.reloginFailed);
+        },100);
       }
 
       $scope.logout = function(){
@@ -36,6 +48,7 @@ angular.module('mindmap.controllers', []).
             $rootScope.$broadcast(AUTH_EVENTS.logoutFailed);
         }); 
       };
+      /* lightboxes */
       $scope.fillLightbox= function(type){
          $scope.lightboxBody="views/lightboxes/"+type+".html";
       };
@@ -58,9 +71,9 @@ angular.module('mindmap.controllers', []).
         }
     });
       $scope.oneNodeWithoutOthers = function(node){
-        var returnNode;
-        delete node.children;
-        delete node.parent;
+        var returnNode = angular.copy(node);
+        delete returnNode.children;
+        delete returnNode.parent;
         return angular.copy(node,returnNode);
         
       };
@@ -83,6 +96,7 @@ angular.module('mindmap.controllers', []).
         localStorageService.remove('mindmap_userID');
         $scope.currentUser=null;
         $scope.rebindLightboxes=true;
+        $state.go("mindmaps",{viewMode:"public"});
         alert('logged out!');
       });
   }]).
@@ -96,7 +110,7 @@ angular.module('mindmap.controllers', []).
             AuthService.login(credentials).then(function (user) {
               $scope.setCurrentUser(user);
               $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-              $state.go("mindmaps");
+              $state.go("mindmaps",{viewMode:"user"});
               $scope.closeLightbox();
             }, function () {
               $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
@@ -104,28 +118,50 @@ angular.module('mindmap.controllers', []).
        };
   }])
   .controller('MindMapCtrl', ['$scope','$eb','$state','$stateParams','$timeout','usSpinnerService','AUTH_EVENTS',function($scope,$eb,$state,$stateParams,$timeout,usSpinnerService,AUTH_EVENTS) {
+    var viewModes=["public","user","search"];
     $scope.mindMap={};
-    $scope.openCreatedMap=true;
-    //after all completed check viewmode
-    $timeout(function(){
-        if(!$scope.currentUser || ($stateParams.hasOwnProperty('viewMode') && $stateParams.viewMode==='public')){
-          $scope.viewMode="public";
-        }else{
-          $scope.viewMode="user";
-        }
-    },100);
-    
+    $scope.mindMaps=[];
+    //wrong viewMode handle
+    if($stateParams.viewMode){
+      if($.inArray($stateParams.viewMode,viewModes) === -1){
+        $state.go("mindmaps",{viewMode:"public"});
+      }
+    }
+    //search withnout query handle
+    if($stateParams.viewMode === 'search'){
+       if($stateParams.searchQuery){
+          $scope.searchQuery=$stateParams.searchQuery;
+       }else{
+          $state.go("mindmaps",{viewMode:'public'});
+       }
+    }
     $scope.initEditor = function(){
         if($eb.isReady()){
             $scope.showMaps();
+
         }else{
             $eb.addOpenCall($scope.showMaps);
         }
     }
     $scope.showMaps = function(){
-        $eb.send('mindMaps.list', {}, function(res) {
-            $.each(res.mindMaps, function() {
-                renderListItem(this);
+        var matcher={};
+        if(typeof $scope.searchQuery ==='string'){
+          matcher.name={'$regex':'^'+$scope.searchQuery,'$options':'i'};
+        }
+        if(!$stateParams.viewMode || $stateParams.viewMode==='public' || $stateParams.viewMode==='search'){
+          //public is default, in public mode and in search mode
+          matcher.public=true;
+        }
+        if($stateParams.viewMode!== 'public' && $scope.currentUser!=null){
+          matcher.users = $scope.currentUser.username;
+        }
+        if($stateParams.viewMode=== 'user' && $scope.currentUser==null){
+          //no access to user maps if no user set
+          return;
+        }
+        $eb.send('mindMaps.list', matcher, function(res) {
+            $scope.$apply(function(){
+              $scope.mindMaps=res.mindMaps;
             });
         });
     };
@@ -140,76 +176,125 @@ angular.module('mindmap.controllers', []).
             },100);
         });
     };
-    $scope.createMap = function(mapName,openMap){
-      $eb.send('mindMaps.save', {name: mapName}, function(result) {
-            renderListItem(result);
+    $scope.createMap = function(mapName,openMap,publicMap){
+      var params={name: mapName};
+      if($scope.currentUser!=null){
+        params.users=[$scope.currentUser.username];
+      }
+      params.public=$stateParams.viewMode==='public' || publicMap;
+      $eb.send('mindMaps.save', params, function(result) {
+            $scope.$emit("reloadMaps");
             if(openMap){
               $scope.$apply(function(){
-                $scope.openMap(result);
+                 $scope.openMap(result);
               });
             }
+          
       });
-      $scope.closeLightbox();
-      //set to defaults
-      $scope.createdMapName="";
-      $scope.openCreatedMap=true;
     };
-    $scope.setViewMode = function(viewMode){$scope.viewMode=viewMode;};
-    $scope.getViewMode = function(){return $scope.viewMode;};
+    $scope.renameMapHint= function(){
+      alert('To rename a map just simply rename the first node of mind map.');
+    };
+    $scope.togglePublicMode = function(mindMap){
+
+    };
+    $scope.deleteMap = function(mindMap){
+      if(confirm("Do you really want to delete a whole mind map called "+mindMap.name+"?")){
+        $eb.send('mindMaps.delete', {id: mindMap._id}, function() {
+           //clear editor and name if deleted map now opened
+            if(mindMap.name === $scope.mindMap.name){
+              angular.element(".editor").html("");
+              angular.element("#MapName").html("");
+            }
+            $scope.$emit("reloadMaps");
+        });
+      } 
+    };
+    $scope.searchMaps = function(searchQuery){
+      if(searchQuery!=""){
+        $state.go("mindmaps",{viewMode:"search",searchQuery:searchQuery});
+      }else{
+        $state.go("mindmaps",{viewMode:"public"});
+      }
+    };
+    $scope.saveMapAsPNG = function() {
+      var svg = $('.editor').html();
+      var stylesheet = document.styleSheets[0];
+      var css = '';
+      for (var i = 0 ; i < stylesheet.cssRules.length ; i++) {
+          css += stylesheet.cssRules[i].cssText;
+          css += "\n";
+      }
+      console.log(css);
+      console.log(svg);
+      $eb.send('mindMaps.exporter.svg2png', {svg: svg, css: css}, function(result) {
+          if (result.data) {
+          window.location.href = 'data:image/png;base64,'+result.data;
+          }
+      });
+    };
+    $scope.getViewMode = function(){return $stateParams.viewMode;};
     /* event handlers */
+    //redirect if no user tried user mode (after localstorage relogin failed)
+    $scope.$on(AUTH_EVENTS.reloginFailed,function(){
+      if($stateParams.viewMode==='user' && $scope.currentUser==null){
+        $state.go("mindmaps",{viewMode:"public"});
+      }
+    });
+    //form handlers
+    $scope.$on("forms-createMapSended",function(event,data){
+      $scope.createMap(data.mapName,data.openCreatedMap,data.publicMap);
+    });
+    $scope.$on("forms-searchFormSended",function(event,data){
+      $scope.searchMaps(data.searchQuery);
+    })
+
+    $scope.$on("reloadMaps",function(event){
+      $scope.showMaps();
+    });
     $scope.$on(AUTH_EVENTS.loginSuccess,function(){
       $scope.viewMode='user';
-    })
+    });
+    $scope.$on(AUTH_EVENTS.logoutSuccess,function(){
+      $scope.viewMode="public";
+    });
+    
     $scope.$on("nodeAdded",function(event,data){
         alert('node added to ' + data.nodeName);
     });
     $scope.$on("nodeRenamed",function(event,data){
         alert('node '+data.nodeKey+' renamed to '+ data.newName);
+        if(data.firstNode === "true"){
+          //first node renamed -> map name renamed, we must reload map list
+          $scope.showMaps();
+        }
     });
     $scope.$on("nodeDeleted",function(event,data){
         alert('node '+data.nodeName+ ' deleted');
     });
-    /* menu generator */
-    var renderListItem = function(mindMap) {
-        var $li = angular.element('<li class="span4">'),
-        openMindMap = function() {
-            $scope.openMap(mindMap);
-            return false;
-        },
-        deleteMindMap = function() {
-            $eb.send('mindMaps.delete', {id: mindMap._id}, function() {
-                $li.remove();
-            });
-            //clear editor and name if deleted map now opened
-            if(mindMap.name === $scope.mindMap.name){
-                angular.element(".editor").html("");
-                angular.element("#MapName").html("");
-            }
-            return false;
-        },
-        saveAsPNG = function() {
-            var svg = $('.editor').html();
-            var stylesheet = document.styleSheets[0];
-            var css = '';
-            for (var i = 0 ; i < stylesheet.cssRules.length ; i++) {
-                css += stylesheet.cssRules[i].cssText;
-                css += "\n";
-            }
-            console.log(css);
-            console.log(svg);
-            $eb.send('mindMaps.exporter.svg2png', {svg: svg, css: css}, function(result) {
-                if (result.data) {
-                window.location.href = 'data:image/png;base64,'+result.data;
-                }
-            });
-            return false;
-        };
-        // fix undefined name
-        if (typeof mindMap.name !== "undefined") {
-          angular.element('<a>').text(mindMap.name).attr('href', '#').on('click',openMindMap).appendTo($li);
-          angular.element('<button>').text('Smazat').addClass("btn btn-danger pull-right").on('click',deleteMindMap).appendTo($li);
-          angular.element('<button>').addClass("save-as-png btn btn-primary pull-right").text('Uložit').on('click',saveAsPNG).appendTo($li);
-          $li.appendTo('.mind-maps');
-        }
-    };
-  }]);
+  }])
+.controller('FormsCtrl', ['$scope','$rootScope','$stateParams', function($scope,$rootScope,$stateParams){
+  //controller for forms, communicate with other ctrl with events
+  //default scope data in function immedietly called
+  var defaults = function(){
+    $scope.createdMapName="";
+    $scope.openCreatedMap=true;
+    $scope.createdMapPublic=false;
+  };defaults();
+  $scope.createMapFormSended= function(mapName,openCreatedMap,publicMap){
+    if(typeof publicMap === 'undefined'){
+      publicMap=true;
+    }
+    $rootScope.$broadcast("forms-createMapSended",{mapName:mapName,openCreatedMap:openCreatedMap,publicMap:publicMap});
+    $scope.closeLightbox();
+    //set to defaults
+    defaults();
+  };
+  $scope.searchForMindMap = function(searchQuery){
+    $rootScope.$broadcast("forms-searchFormSended",{searchQuery:searchQuery});
+  };
+  $scope.getViewMode = function(){
+    return $stateParams.viewMode;
+  }
+
+}])

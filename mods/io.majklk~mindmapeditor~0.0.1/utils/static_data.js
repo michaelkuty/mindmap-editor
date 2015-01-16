@@ -22,6 +22,24 @@ var treeData = [
                 ]
             }
          ]
+    },
+    {
+        "key": "ac7480a6-1601-4369-b81b-156f9a58dabc",
+        "name": "user_map",
+        "public": false,
+        "users": ['admin', 'duky'],
+        "children": [
+            {
+                "key": "09a1c0dd-cd4e-4232-a6e7-22adc1aasds0",
+                "name": "Žluťoučký kůň",
+                "children": [
+                    {
+                        "key": "09a1c0dd-cd4e-4232-a6e7-22adc1abasd30",
+                        "name": "Žluťoučký kůň 2"
+                    }
+                ]
+            }
+         ]
     }
 ];
 

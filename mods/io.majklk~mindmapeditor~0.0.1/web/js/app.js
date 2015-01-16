@@ -31,7 +31,8 @@ config(function($stateProvider,$urlRouterProvider,USER_ROLES){
       .state('mindmaps', {
         url: '/mindmaps/{viewMode}',
         params:{
-          viewMode:{value:'not-specified'}
+          viewMode:{value:'public'},
+          searchQuery:null
         },
         templateUrl: '/views/mindmaps.html',
         controller: 'MindMapCtrl'

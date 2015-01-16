@@ -26,6 +26,13 @@
 		nodeEnter.append("svg:text").attr("x", 15)
 		.attr("dy", ".35em").text(function(d) { return d.name; })
 		.attr("id", function(d) { return d.key; })
+		.attr("data-first-node",function(d){
+			if(d._id){
+				return true;
+			}else{
+				return false;
+			}
+		})
 		.attr("class","editable editable-click");
 
 		node.transition()
@@ -55,9 +62,10 @@
 		this.angularScope.$emit('nodeAdded',{nodeKey: parentNode.key,nodeName:parentNode.name});
 	}
 	
-	MindMapEditor.prototype.renameNode = function(nodeKey, newName) {
+	MindMapEditor.prototype.renameNode = function(nodeKey, newName,firstNode) {
+		firstNode=firstNode||false;
 		this.eventBus.send('mindMaps.editor.renameNode', {mindMapId: this.mindMap._id,key: nodeKey,newName: newName});
-		this.angularScope.$emit('nodeRenamed',{nodeKey:nodeKey,newName:newName});
+		this.angularScope.$emit('nodeRenamed',{nodeKey:nodeKey,newName:newName,firstNode:firstNode});
 	}
 	
 	MindMapEditor.prototype.deleteNode = function(parentNode, childNode) {
@@ -114,9 +122,6 @@
 	}
 	MindMapEditor.prototype.initEditable = function(){
 		var self=this;
-		/*$.fn.editableform.buttons='<button type="submit" class="btn btn-primary btn-sm editable-submit"><i class="glyphicon glyphicon-ok"></i></button>'
-		+ '<button type="button" class="btn btn-default btn-sm editable-cancel" onclick="alert(event));"><i class="glyphicon glyphicon-remove"></i></button>';
-		*/
        	$(".editor ").editable({
        		selector:'text.editable',
 	       	container: 'section',
@@ -124,7 +129,7 @@
        		emptytext:'no name',
 		    title: 'Enter new name',
 	        success: function(response, newValue) {
-	           self.renameNode($(this).attr("id"), newValue);
+	           self.renameNode($(this).attr("id"), newValue,$(this).attr("data-first-node"));
 			   $(this).popover("hide");
 			},
 			cancel:function(){

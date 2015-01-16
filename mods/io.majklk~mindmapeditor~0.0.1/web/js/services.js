@@ -35,6 +35,7 @@ angular.module('mindmap.services', []).
       loginFailed: 'auth-login-failed',
       logoutSuccess: 'auth-logout-success',
       logoutFailed: 'auth-logout-failed',
+      reloginFailed: 'auth-relogin-failed',
       sessionTimeout: 'auth-session-timeout',
       notAuthenticated: 'auth-not-authenticated',
       notAuthorized: 'auth-not-authorized'

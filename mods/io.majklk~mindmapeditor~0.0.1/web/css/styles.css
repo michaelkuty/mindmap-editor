@@ -66,14 +66,11 @@ path.link {
     width: 100%;
     text-align: center;
   }
-  .sidebar-nav .navbar li a {
+  .sidebar-nav .navbar li a:not(.dropdownLink) {
     padding-top: 12px;
     padding-bottom: 12px;
     float: left;
     width: 55%;
-  }
-  .sidebar-nav .navbar button {
-    margin-right: 12px;
   }
 .editor {
   height: 1024px;

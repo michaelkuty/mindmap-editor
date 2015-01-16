@@ -56,26 +56,18 @@ directive('ngLightbox', ['$compile','$timeout', function($compile,$timeout) {
             if(options.trigger === 'auto'){
                 add_overlay();
             }else if(options.hasOwnProperty("launcherID")){
-                if(!fromWatch){
-                    $timeout(function(){
-                        angular.element("a#"+options.launcherID).bind('click', showfn);
-                    },200);
-                }else{
+                $timeout(function(){
                     angular.element("a#"+options.launcherID).bind('click', showfn);
-                }
+                },200);
             }else if(options.hasOwnProperty("launcherClass")){
-                if(!fromWatch){
-                    $timeout(function(){
-                        angular.element("a."+options.launcherClass).bind('click', showfn);
-                    },200);
-                }else{
+                $timeout(function(){
                     angular.element("a."+options.launcherClass).bind('click', showfn);
-                }
+                },200);
             }
         };
         scope.$watch('rebindLightboxes',function(newVal,oldVal){
             if(newVal === true){
-                bindfn(true);
+                bindfn();
                 scope.rebindLightboxes=false;
             }
         });
