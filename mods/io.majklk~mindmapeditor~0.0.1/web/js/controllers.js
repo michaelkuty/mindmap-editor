@@ -291,6 +291,7 @@ angular.module('mindmap.controllers', []).
     defaults();
   };
   $scope.searchForMindMap = function(searchQuery){
+    $scope.searchQuery="";
     $rootScope.$broadcast("forms-searchFormSended",{searchQuery:searchQuery});
   };
   $scope.getViewMode = function(){
