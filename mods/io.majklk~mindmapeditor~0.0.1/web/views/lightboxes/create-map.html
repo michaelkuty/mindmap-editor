@@ -2,11 +2,13 @@
     <form id="CreateMapForm" class="create-form" data-ng-submit="createMapFormSended(createdMapName,openCreatedMap,createdMapPublic)">
     <h2>Create new mind map</h2>
     <br/>
+    <div class="form-group">
       <input id="CreatedMapName" class="col-md-3 form-control" type="text" name="name" data-ng-model="createdMapName" required placeholder="Mindmap name"/>
       <input class="col-md-3 btn btn-primary pull-right" type="submit" value="Create"/>
+    </div>
       <input type="checkbox" name="openMap" data-ng-model="openCreatedMap" /> Open created map
-      <span data-ng-if="getViewMode() === 'user'">
-        <input type="checkbox" name="openMap" data-ng-model="createdMapPublic" /> Public map
+      <span data-ng-show="getViewMode() === 'user'">
+        <input type="checkbox" name="isPublic" data-ng-model="createdMapPublic" /> Public map
       </span>
     </form>
 </div>

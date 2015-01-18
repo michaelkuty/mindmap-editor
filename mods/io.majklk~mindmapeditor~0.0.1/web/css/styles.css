@@ -1,4 +1,4 @@
-body, html {
+fbody, html {
     overflow-x: hidden; 
     overflow-y: auto;
 }
@@ -49,10 +49,8 @@ path.link {
   height: 100%;
   overflow: visible;
 }
-
-/* make sidebar nav vertical */ 
-@media (min-width: 768px) {
-  .sidebar-nav .navbar .navbar-collapse {
+@media (min-width: 650px) {
+   .sidebar-nav .navbar .navbar-collapse {
     padding: 0;
   }
   .sidebar-nav .navbar ul {
@@ -70,31 +68,97 @@ path.link {
     padding-top: 12px;
     padding-bottom: 12px;
     float: left;
-    width: 55%;
+    width: 50%;
   }
-.editor {
-  height: 1024px;
 }
+@media (min-width: 800px) {
+  #MyMapsSidebar{
+    float:left;
+    width:25%
+  }
+  .editor {
+    height: 1024px;
+  }
 }
-
-@media (max-width: 768px) {
+@media (max-width: 800px) {
+   #MyMapsSidebar{
+    float:left;
+    width:35%
+  }
 .editor {
   height: 624px;
 }
 }
+#MyMapsMenu{
+  margin-top:50px;
+  padding:15px;
+}
+#MyMapsMenu .mind-maps{
+  min-height:300px;
+}
+#MyMapsMenu li{
+    display:table;
+    margin:0px auto 0px auto;
+}
+#MyMapsMenu .mind-maps .mapIcons{
+  float:left;
+  text-align: left;
+}
+#MyMapsMenu .mind-maps .mapIcons i{
+  position:relative;
+  top:5px;
+  cursor:pointer;
+}
+
+
 
 .row {
     overflow: hidden!important;
 }
 .headerCaption{
   display:block;
-  margin:0px 20px;
   float:left;
-  width:300px;
 }
 .loadingCaption{
   text-align: center;
   margin-top:200px;
+}
+h1.mainCaption{
+  font-family:Verdana, sans-serif;
+  font-size:28px;
+  margin-top:0px;
+}
+.create-form {
+    margin:10px 0px;
+    width: 100%;
+  }
+input#CreatedMapName{
+    width:75%;
+ }
+.headerLinks{
+  float:right;
+  /*line-height: 80px;*/
+  margin:5px 20px 0px 0px;
+}
+.headerLinks a{
+  font-size:22px;
+}
+.mindMapsDropdown{
+  color:#333;
+  margin:7px 5px;
+}
+span.delimiter{
+  font-size:22px;
+  color:#428BCA;
+}
+span.headerText{
+  font-size:22px;
+}
+#MapName{
+  position:absolute;
+  right:10px;
+  z-index: 9999;
+  top:75px;
 }
 #Login{
   height:700px;
@@ -140,6 +204,9 @@ path.link {
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+.form-search{
+  margin-top:10px;
 }
 /* zarovnavani */
 .txtLeft{text-align:left!important;}
@@ -206,42 +273,5 @@ div#LightboxCloser{
     width:32px;
     background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3gILESkmwo7QzwAAAMtJREFUWMPtVjEOhDAMw8y33Mb/PwbjbfeEMAASQm0Sp6CCqJciaOxQnJCua3g7kLkvzn0WTB7kgkSWWADRJFw8fTJSJHUtUfHjtZmAkpBExDUkE9gdF5tEVjzFaZrQIMIJMaqxGMKQuMfZ7iONiHtLSzPVf12/EXGmtilnM70DJbVdKu7uAwfCSdkzsi/GJLDhE3x2z0/wCBNq4r91Ha4qw6qNqGorrvozkoIjpWPNiYg0FRzzBN+IyNqGNoDQE1FwKIXCc6+xvKFhBvQJgfqfW337AAAAAElFTkSuQmCC');
 }
-h1.mainCaption{
-  font-family:Verdana, sans-serif;
-  font-size:28px;
-  margin-top:15px;
-}
-.headerLinks{
-  float:right;
-  line-height: 80px;
-  margin:5px 20px 0px 0px;
-}
-.headerLinks a{
-  font-size:22px;
-}
-span.delimiter{
-  font-size:22px;
-  color:#428BCA;
-}
-span.headerText{
-  font-size:22px;
-}
 .nomargin{margin:0px 0px 0px 0px!important;}
 .thin{font-weight:300;}
-#MyMapsMenu{
-  margin-top:20px;
-}
-#MyMapsMenu .mind-maps{
-  min-height:300px;
-}
-#HeaderFormSection{
-  width:32%;
-  float:left;
-  margin-top:30px;
-}
-.create-form {
-    width: 100%
-  }
-input#CreatedMapName{
-   width:74%; 
-}

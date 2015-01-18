@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="css/vendor/bootstrap.min.css">
   <link rel="stylesheet" href="css/vendor/bootstrap-theme.min.css">
   <link rel="stylesheet" href="css/vendor/bootstrap-editable.css">
+  <link rel="stylesheet" href="css/vendor/font-awesome.min.css">
 
   <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -20,34 +21,51 @@
     </div>
   <div class="row" data-ng-cloak>
     <!-- header  -->
-      <div class="navbar navbar-default" role="navigation">
-        <div class="navbar-header">
-          <div class="navbar navbar-default navbar-fixed-top">
-            <div class="navbar-inner">
-              <div class="headerCaption">
-                <h1 class="mainCaption">MindMap Editor</h3>
-               <div id="MapName" class="nomargin">&nbsp;</div>
-              </div>
-              <div id="HeaderFormSection" data-ng-controller="FormsCtrl">
-                <form id="CreateMapForm" class="create-form row" data-ng-submit="searchForMindMap(searchQuery)">
-                  <input id="CreatedMapName" class="col-md-3 form-control" type="text" name="name" data-ng-model="searchQuery" placeholder="Search in mindmaps">
-                  <input class="col-md-3 btn btn-primary pull-right" type="submit" value="Search">
-                </form>
-              </div>
-              <div class="headerLinks">
-                  <span data-ng-if="currentUser">
-                  <a href="#/mindmaps/public" ui-shref="mindmaps('public');">Public maps</a> <span class="delimiter">|</span>
-                  <a href="#/mindmaps/user" ui-shref="mindmaps('user');">My maps</a> <span class="delimiter">|</span>
-                  <a href="#/about">About</a> <span class="delimiter">|</span>
-                    <span class="headerText">Logged as: {{currentUser.username}} </span><span class="delimiter">|</span>  <a href="" data-ng-click="logout()">Logout</a>
-                  </span>
-                  <span data-ng-if="!currentUser">
-                    <a href="#/mindmaps/">Mind maps</a> <span class="delimiter">|</span>
-                    <a href="#/about">About</a> <span class="delimiter">|</span>
-                    <a class="lightboxLauncher" href="" data-ng-click="fillLightbox('login')">Login</a>
-                  </span>
-              </div>
+      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <div class="headerCaption">
+              <a class="navbar-brand" href="#"><h1 class="mainCaption">MindMap Editor</h1></a>
             </div>
+          </div>
+          <div class="collapse navbar-collapse" id="navbar-collapse-1">
+            <div class="form-search" data-ng-controller="FormsCtrl">
+              <form class="navbar-form navbar-left form-inline" role="search" data-ng-submit="searchForMindMap(searchQuery)">
+                <div class="form-group">
+                <input class="form-control" type="text" name="query" data-ng-model="searchQuery" placeholder="Search in mindmaps">
+                </div>
+                <input class="btn btn-default" type="submit" value="Search">
+              </form>
+            </div>
+              <div class="headerLinks">
+                <ul class="nav navbar-nav navbar-right" data-ng-if="currentUser">
+                 <li class="dropdown">
+                    <a class="dropdown-toggle" role="button" id="mapsDropdown" data-toggle="dropdown" href="" aria-expanded="false">
+                    Mindmaps
+                    <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="mapsDropdown">
+                      <li><a href="#/mindmaps/public" active-link="active">Public maps</a></li>
+                      <li><a href="#/mindmaps/user" active-link="active">My maps</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#/about" active-link="active">About</a> </li>
+                  <li><a>Logged as: {{currentUser.username}} </a></li>
+                  <li><a href="" data-ng-click="logout()">Logout</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right" data-ng-if="!currentUser">
+                  <li><a href="#/mindmaps/" active-link="active">Mind maps</a></li>
+                  <li><a href="#/about" active-link="active">About</a></li>
+                  <li><a class="lightboxLauncher" href="" data-ng-click="fillLightbox('login')">Sign in</a></li>
+                  <li> <a href="#/sign-up" active-link="active">Sign up</a></li>
+                </ul>
+              </div>
           </div>
         </div>
       </div>

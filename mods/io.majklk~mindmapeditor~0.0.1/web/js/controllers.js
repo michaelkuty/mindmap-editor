@@ -31,14 +31,14 @@ angular.module('mindmap.controllers', []).
             //timeout because all event handlers will be handled later
               $timeout(function(){
                 $rootScope.$broadcast(AUTH_EVENTS.reloginFailed);
-              },100);
+              },500);
           });
         });
       }else{
         //timeout because all event handlers will be handled later
         $timeout(function(){
           $rootScope.$broadcast(AUTH_EVENTS.reloginFailed);
-        },100);
+        },500);
       }
 
       $scope.logout = function(){

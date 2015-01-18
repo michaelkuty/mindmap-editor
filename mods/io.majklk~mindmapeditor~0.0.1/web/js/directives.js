@@ -8,7 +8,24 @@ angular.module('mindmap.directives', []).
       elm.text(version);
     };
   }]).
-directive('ngLightbox', ['$compile','$timeout', function($compile,$timeout) {
+   directive('activeLink', ['$location', function(location) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs, controller) {
+            var clazz = attrs.activeLink;
+            scope.location = location;
+            scope.$watch('location.path()', function(newPath) {
+                if (attrs.href.substring(1) === newPath) {
+                    element.parent().addClass(clazz);
+                } else {
+                    element.parent().removeClass(clazz);
+                }
+            });
+        }
+
+    };
+   }]).
+   directive('ngLightbox', ['$compile','$timeout', function($compile,$timeout) {
     return function(scope, element, attr) {
         var lightbox, options, overlay;
 
