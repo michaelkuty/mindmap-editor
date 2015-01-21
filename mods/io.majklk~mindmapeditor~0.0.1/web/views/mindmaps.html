@@ -11,7 +11,7 @@
           <a href="" data-ng-click="openMap(mindMaps[$index])">
             {{map.name}}
           </a>
-          <span class="mapIcons">
+          <span class="mapIcons" data-ng-if="getViewMode() == 'user'">
           <i class="fa fa-eye fa-2x" data-ng-if="map.public == true" title="Public mindmap"></i>
           <i class="fa fa-code-fork fa-2x" data-ng-if="map.users.length>1" title="Shared mindmap"></i>
           </span>
