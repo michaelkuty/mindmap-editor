@@ -2,7 +2,7 @@
 
 /* Controllers */
 angular.module('mindmap.controllers', []).
-  controller('AppCtrl', ['$scope','$rootScope','$eb','$state','$timeout','$window','USER_ROLES','AUTH_EVENTS','AuthService','localStorageService', function($scope,$rootScope,$eb,$state,$timeout,$window,USER_ROLES,AUTH_EVENTS,AuthService,localStorageService){
+  controller('AppCtrl', ['$scope','$rootScope','$eb','$state','$timeout','$window','USER_ROLES','AUTH_EVENTS','AuthService','localStorageService','notificationService', function($scope,$rootScope,$eb,$state,$timeout,$window,USER_ROLES,AUTH_EVENTS,AuthService,localStorageService,notificationService){
       $scope.rebindLightboxes=false;
       $scope.showChatLink=false;
       $eb.addOpenCall(function(){
@@ -95,27 +95,26 @@ angular.module('mindmap.controllers', []).
         return angular.copy(node,returnNode);
         
       };
-
       /* event handlers */
       var goToLogin=function(){$state.go("login");};
       $scope.$on(AUTH_EVENTS.notAuthorized,goToLogin);
       $scope.$on(AUTH_EVENTS.notAuthenticated,goToLogin);
       $scope.$on(AUTH_EVENTS.loginFailed,function(){
-        alert("Login failed!");
+        notificationService.error("Login failed!");
       });
       $scope.$on(AUTH_EVENTS.logoutFailed,function(){
-        alert("Logout failed!");
+        notificationService.error("Logout failed!");
       });
       $scope.$on(AUTH_EVENTS.loginSuccess,function(){
         localStorageService.set('mindmap_userID',$scope.currentUser.userID);
-        alert('logged in!');
+        notificationService.info("Logged in success");
       });
       $scope.$on(AUTH_EVENTS.logoutSuccess,function(){
         localStorageService.remove('mindmap_userID');
         $scope.currentUser=null;
         $scope.rebindLightboxes=true;
         $state.go("mindmaps",{viewMode:"public"});
-        alert('logged out!');
+        notificationService.info("Logged out success");
       });
   }]).
 
@@ -135,7 +134,7 @@ angular.module('mindmap.controllers', []).
             });
        };
   }])
-  .controller('MindMapCtrl', ['$scope','$rootScope','$eb','$state','$stateParams','$timeout','usSpinnerService','AUTH_EVENTS',function($scope,$rootScope,$eb,$state,$stateParams,$timeout,usSpinnerService,AUTH_EVENTS) {
+  .controller('MindMapCtrl', ['$scope','$rootScope','$eb','$state','$stateParams','$timeout','usSpinnerService','AUTH_EVENTS','notificationService',function($scope,$rootScope,$eb,$state,$stateParams,$timeout,usSpinnerService,AUTH_EVENTS,notificationService) {
     var viewModes=["public","user","search"];
     $scope.mindMap={};
     $scope.mindMaps=[];
@@ -283,17 +282,17 @@ angular.module('mindmap.controllers', []).
     });
     
     $scope.$on("nodeAdded",function(event,data){
-        alert('node added to ' + data.nodeName);
+        notificationService.info('Node added.');
     });
     $scope.$on("nodeRenamed",function(event,data){
-        alert('node '+data.nodeKey+' renamed to '+ data.newName);
+        notificationService.info('Rename success.');
         if(data.firstNode === "true"){
           //first node renamed -> map name renamed, we must reload map list
           $scope.showMaps();
         }
     });
     $scope.$on("nodeDeleted",function(event,data){
-        alert('node '+data.nodeName+ ' deleted');
+        notificationService.info('Node '+data.nodeName+ ' deleted.');
     });
   }])
 .controller('ChatCtrl',['$scope','$eb',function($scope,$eb){

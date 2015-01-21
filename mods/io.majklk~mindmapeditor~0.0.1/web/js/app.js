@@ -7,6 +7,7 @@ angular.module('mindmap', [
   'ui.router',
   'angularSpinner',
   'LocalStorageModule',
+  'jlareau.pnotify',
   'mindmap.services',
   'mindmap.directives',
   'mindmap.controllers',
