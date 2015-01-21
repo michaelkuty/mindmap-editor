@@ -230,6 +230,8 @@ var vertx = vertx || {};
   
     function checkOpen() {
       if (state != vertx.EventBus.OPEN) {
+        //call onclose methods, maybe not important?
+        sockJSConn.onclose();
         throw new Error('INVALID_STATE_ERR');
       }
     }

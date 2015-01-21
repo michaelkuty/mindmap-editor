@@ -43,11 +43,13 @@
           { "address": "mindMaps.save" },
           { "address": "mindMaps.delete"},
           { "address": "mindMaps.exporter.svg2png" },
-          { "address_re": "mindMaps\\.editor\\..+" }
+          { "address_re": "mindMaps\\.editor\\..+" },
+          { "address_re": "mindMaps.chat\\..+" }
 
         ],
         "outbound_permitted": [
-          { "address_re": "mindMaps\\.events\\..+" }
+          { "address_re": "mindMaps\\.events\\..+" },
+          { "address_re": "mindMaps.chat\\..+" }
         ]
     },
     "io.vertx~mod-mongo-persistor~2.1.0": {

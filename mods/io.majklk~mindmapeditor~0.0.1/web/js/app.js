@@ -46,6 +46,11 @@ config(function($stateProvider,$urlRouterProvider,USER_ROLES){
         url: '/about',
         templateUrl: 'views/about.html',
         controller: angular.noop
+      }).
+      state('sign-up',{
+        url:'/sign-up',
+        templateUrl: 'views/sign-up.html',
+        controller: 'LoginCtrl'
       });
       $urlRouterProvider.otherwise('/mindmaps/');
 }).

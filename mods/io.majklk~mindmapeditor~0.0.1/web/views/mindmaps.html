@@ -48,7 +48,11 @@
     </div>
   </div>
 </div>
-<div id="MapName" class="nomargin">&nbsp;</div>
-<div id="MapEditor" class="left" data-ng-init="initEditor()">
-<section class="editor"></section>
+<div id="MapTopRight">
+  <div id="MapName" class="nomargin">&nbsp;</div>
+  <div id="ChatLink" class="nomargin txtRight" data-ng-if="getShowChatLink()"><a data-ng-click="toggleChat(true);" href="">Chat</a></div>
 </div>
+<div id="MapEditor" data-ng-init="initEditor()">
+  <section class="editor"></section>
+</div>
+<div id="ChatWindow" data-ng-include="'views/chat.html'"></div> 

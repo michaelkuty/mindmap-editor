@@ -4,6 +4,7 @@
 angular.module('mindmap.controllers', []).
   controller('AppCtrl', ['$scope','$rootScope','$eb','$state','$timeout','$window','USER_ROLES','AUTH_EVENTS','AuthService','localStorageService', function($scope,$rootScope,$eb,$state,$timeout,$window,USER_ROLES,AUTH_EVENTS,AuthService,localStorageService){
       $scope.rebindLightboxes=false;
+      $scope.showChatLink=false;
       $eb.addOpenCall(function(){
         $rootScope.$apply(function(){
             $rootScope.busloaded=true;
@@ -47,6 +48,23 @@ angular.module('mindmap.controllers', []).
         },function(){
             $rootScope.$broadcast(AUTH_EVENTS.logoutFailed);
         }); 
+      };
+      $scope.toggleChat = function(newState){
+        var $chatWindow=angular.element("#ChatWindow");
+        if(newState){
+          $chatWindow.show().animate({"right":"0px"},1000,function(){
+            $scope.showed=newState;
+            $scope.showChatLink=false;
+            $scope.$apply();
+          });
+        }else{
+          $chatWindow.animate({"right":'-300px'},1000,function(){
+            $chatWindow.hide();
+            $scope.showed=newState;
+            $scope.showChatLink=true;
+            $scope.$apply();
+          });
+        } 
       };
       /* lightboxes */
       $scope.fillLightbox= function(type){
@@ -117,7 +135,7 @@ angular.module('mindmap.controllers', []).
             });
        };
   }])
-  .controller('MindMapCtrl', ['$scope','$eb','$state','$stateParams','$timeout','usSpinnerService','AUTH_EVENTS',function($scope,$eb,$state,$stateParams,$timeout,usSpinnerService,AUTH_EVENTS) {
+  .controller('MindMapCtrl', ['$scope','$rootScope','$eb','$state','$stateParams','$timeout','usSpinnerService','AUTH_EVENTS',function($scope,$rootScope,$eb,$state,$stateParams,$timeout,usSpinnerService,AUTH_EVENTS) {
     var viewModes=["public","user","search"];
     $scope.mindMap={};
     $scope.mindMaps=[];
@@ -174,6 +192,7 @@ angular.module('mindmap.controllers', []).
             $timeout(function(){
                 usSpinnerService.stop("spinner-editor");
             },100);
+            $rootScope.$broadcast("registerToChat",{mindMap:mindMap});
         });
     };
     $scope.createMap = function(mapName,openMap,publicMap){
@@ -234,6 +253,7 @@ angular.module('mindmap.controllers', []).
       });
     };
     $scope.getViewMode = function(){return $stateParams.viewMode;};
+    $scope.getShowChatLink = function(){return $scope.showChatLink};
     /* event handlers */
     //redirect if no user tried user mode (after localstorage relogin failed)
     $scope.$on(AUTH_EVENTS.reloginFailed,function(){
@@ -251,6 +271,9 @@ angular.module('mindmap.controllers', []).
 
     $scope.$on("reloadMaps",function(event){
       $scope.showMaps();
+    });
+    $scope.$on("chatLink",function(event,data){
+      $scope.showChatLink=data.showChatLink;
     });
     $scope.$on(AUTH_EVENTS.loginSuccess,function(){
       $scope.viewMode='user';
@@ -273,6 +296,42 @@ angular.module('mindmap.controllers', []).
         alert('node '+data.nodeName+ ' deleted');
     });
   }])
+.controller('ChatCtrl',['$scope','$eb',function($scope,$eb){
+  $scope.inited=false;
+  $scope.showed=true;
+  $scope.message="";
+  $scope.messages=[];
+  $scope.mindMap=null;
+  if($scope.currentUser!=null){
+    $scope.username=$scope.currentUser.username;
+  }else{
+    $scope.username="anonymous";
+  }
+  $scope.$on("registerToChat",function(event,data){
+    $scope.registerToChat(data.mindMap);
+  });
+  $scope.registerToChat= function(mindMap){
+    $scope.mindMap=mindMap;
+    $eb.registerHandler("mindMaps.chat."+mindMap._id, function (message) {
+          $scope.messages.push(message);
+          $scope.$apply();
+    });
+    $scope.inited=true;
+    $scope.$emit("chatLinkEvent",{showChatLink:false});
+  };
+  $scope.sendMessage=function(message){
+    if($scope.mindMap){
+      $eb.publish('mindMaps.chat.'+$scope.mindMap._id,{text:message,username:$scope.username,datetime:moment().format("MMMM Do YYYY, h:mm:ss a")});
+      $scope.message="";
+      angular.element("#ChatMessageInput").val("");
+    }else{
+      throw new Error("No Mindmap set in ChatCtrl!");
+    }
+  };
+  $scope.getAgo = function(datetime){
+    return moment(datetime,"MMMM Do YYYY, h:mm:ss a").fromNow();
+  }
+}])
 .controller('FormsCtrl', ['$scope','$rootScope','$stateParams', function($scope,$rootScope,$stateParams){
   //controller for forms, communicate with other ctrl with events
   //default scope data in function immedietly called

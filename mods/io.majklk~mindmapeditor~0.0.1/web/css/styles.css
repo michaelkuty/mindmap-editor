@@ -45,6 +45,7 @@ path.link {
   padding: 50px 30px;
 }
 .editor {
+  margin-top:50px;
   width: 100%;
   height: 100%;
   overflow: visible;
@@ -76,8 +77,12 @@ path.link {
     float:left;
     width:25%
   }
+  #MapEditor{
+  float:left;
+  width:75%;
+}
   .editor {
-    height: 1024px;
+    height: 900px;
   }
 }
 @media (max-width: 800px) {
@@ -85,8 +90,12 @@ path.link {
     float:left;
     width:35%
   }
+  #MapEditor{
+  float:left;
+  width:65%;
+}
 .editor {
-  height: 624px;
+  height: 600px;
 }
 }
 #MyMapsMenu{
@@ -109,9 +118,37 @@ path.link {
   top:5px;
   cursor:pointer;
 }
-
-
-
+#ChatWindow{
+  position:fixed;
+  bottom:0;
+  right:0;
+  border-top:1px solid gray;
+  border-left:1px solid gray;
+}
+#ChatWindowInner{
+  height:300px;
+  width:250px;
+}
+#ChatWindowInner p{
+  padding:0px 5px;
+}
+#ChatWindowInner .chatMessages{
+  min-height:233px;
+  max-height:233px;
+  overflow:scroll;
+  width:97%;
+  padding:5px;
+}
+#ChatWindow .chatHeader{
+  overflow:hidden;
+  padding:0px 5px;
+  border-bottom:1px dashed gray;
+}
+#ChatWindowInner .msgForm{
+  border-top:1px solid gray;
+  padding:5px 0px 0px 5px;
+  margin-top:5px;
+}
 .row {
     overflow: hidden!important;
 }
@@ -154,7 +191,7 @@ span.delimiter{
 span.headerText{
   font-size:22px;
 }
-#MapName{
+#MapTopRight{
   position:absolute;
   right:10px;
   z-index: 9999;
@@ -273,5 +310,6 @@ div#LightboxCloser{
     width:32px;
     background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3gILESkmwo7QzwAAAMtJREFUWMPtVjEOhDAMw8y33Mb/PwbjbfeEMAASQm0Sp6CCqJciaOxQnJCua3g7kLkvzn0WTB7kgkSWWADRJFw8fTJSJHUtUfHjtZmAkpBExDUkE9gdF5tEVjzFaZrQIMIJMaqxGMKQuMfZ7iONiHtLSzPVf12/EXGmtilnM70DJbVdKu7uAwfCSdkzsi/GJLDhE3x2z0/wCBNq4r91Ha4qw6qNqGorrvozkoIjpWPNiYg0FRzzBN+IyNqGNoDQE1FwKIXCc6+xvKFhBvQJgfqfW337AAAAAElFTkSuQmCC');
 }
+.cleaner,.correct{display: block; clear:both;}
 .nomargin{margin:0px 0px 0px 0px!important;}
 .thin{font-weight:300;}
