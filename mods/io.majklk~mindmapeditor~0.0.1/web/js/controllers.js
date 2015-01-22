@@ -333,7 +333,7 @@ angular.module('mindmap.controllers', []).
         notificationService.info('Node '+data.nodeName+ ' deleted.');
     });
   }])
-.controller('ChatCtrl',['$scope','$eb','localStorageService',function($scope,$eb,localStorageService){
+.controller('ChatCtrl',['$scope','$eb','localStorageService','RandomNameGenerator',function($scope,$eb,localStorageService,RandomNameGenerator){
   //chat settings
   var chatPersisted=true, chatPersistorMaxSize=50;
 
@@ -344,7 +344,7 @@ angular.module('mindmap.controllers', []).
   if($scope.currentUser!=null){
     $scope.username=$scope.currentUser.username;
   }else{
-    $scope.username="anonymous";
+    $scope.username=RandomNameGenerator.generate();
   }
   $scope.$on("registerToChat",function(event,data){
     $scope.registerToChat(data.mindMap);
