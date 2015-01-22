@@ -27,7 +27,7 @@ eventBus.registerHandler(config.address + '.editor.addNode',
 				}
 				parent.children.push(newNode);
 				eventBus.send(config.address + '.save', mindMap, function() {
-					publishMindMapEvent(mindMap, {event: 'nodeAdded', parentKey: args.parentKey, node: newNode});
+					publishMindMapEvent(mindMap, {event: 'nodeAdded', actionID:args.actionID ,parentKey: args.parentKey, node: newNode});
 				});
 			}
 	});
@@ -41,7 +41,7 @@ eventBus.registerHandler(config.address + '.editor.renameNode', function(args) {
 			if (node) {
 				node.name = args.newName;
 				eventBus.send(config.address + '.save', mindMap, function(reply) {
-					publishMindMapEvent(mindMap, {event: 'nodeRenamed', key: args.key, newName: args.newName});
+					publishMindMapEvent(mindMap, {event: 'nodeRenamed', actionID:args.actionID ,key: args.key, newName: args.newName, firstNode: args.firstNode});
 				});
 			}
 		}
@@ -57,7 +57,7 @@ eventBus.registerHandler(config.address + '.editor.deleteNode', function(args) {
 				if (child.key === args.key) {
 					parent.children.splice(index, 1);
 					eventBus.send(config.address + '.save', mindMap,	function(reply) {
-						publishMindMapEvent(mindMap, {event: 'nodeDeleted',parentKey: args.parentKey, key: args.key});
+						publishMindMapEvent(mindMap, {event: 'nodeDeleted', actionID:args.actionID ,parentKey: args.parentKey, key: args.key});
 					});
 				}
 			});

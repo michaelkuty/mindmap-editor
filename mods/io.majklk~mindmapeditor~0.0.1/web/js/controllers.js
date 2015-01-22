@@ -282,13 +282,16 @@ angular.module('mindmap.controllers', []).
     });
     
     $scope.$on("nodeAdded",function(event,data){
-        notificationService.info('Node added.');
+        notificationService.info('Node added to '+data.nodeName+'.');
     });
     $scope.$on("nodeRenamed",function(event,data){
-        notificationService.info('Rename success.');
+        
         if(data.firstNode === "true"){
           //first node renamed -> map name renamed, we must reload map list
           $scope.showMaps();
+          notificationService.info('Mindmap '+data.oldName+' renamed to '+data.newName+'.');
+        }else{
+          notificationService.info('Node '+data.oldName+' renamed to '+data.newName+'.');
         }
     });
     $scope.$on("nodeDeleted",function(event,data){

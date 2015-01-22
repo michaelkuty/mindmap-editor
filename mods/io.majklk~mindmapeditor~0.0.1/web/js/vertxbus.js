@@ -29,7 +29,6 @@ var vertx = vertx || {};
 }(function(SockJS) {
 
   vertx.EventBus = function(url, options) {
-    console.log(url);
     var that = this;
     var sockJSConn = new SockJS(url, undefined, options);
     var handlerMap = {};
