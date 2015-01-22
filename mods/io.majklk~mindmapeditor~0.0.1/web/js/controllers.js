@@ -5,6 +5,7 @@ angular.module('mindmap.controllers', []).
   controller('AppCtrl', ['$scope','$rootScope','$eb','$state','$timeout','$window','USER_ROLES','AUTH_EVENTS','AuthService','localStorageService','notificationService', function($scope,$rootScope,$eb,$state,$timeout,$window,USER_ROLES,AUTH_EVENTS,AuthService,localStorageService,notificationService){
       $scope.rebindLightboxes=false;
       $scope.showChatLink=false;
+      $scope.chatShowed=true;
       $eb.addOpenCall(function(){
         $rootScope.$apply(function(){
             $rootScope.busloaded=true;
@@ -53,14 +54,14 @@ angular.module('mindmap.controllers', []).
         var $chatWindow=angular.element("#ChatWindow");
         if(newState){
           $chatWindow.show().animate({"right":"0px"},1000,function(){
-            $scope.showed=newState;
+            $scope.chatShowed=newState;
             $scope.showChatLink=false;
             $scope.$apply();
           });
         }else{
           $chatWindow.animate({"right":'-300px'},1000,function(){
             $chatWindow.hide();
-            $scope.showed=newState;
+            $scope.chatShowed=newState;
             $scope.showChatLink=true;
             $scope.$apply();
           });
@@ -298,9 +299,11 @@ angular.module('mindmap.controllers', []).
         notificationService.info('Node '+data.nodeName+ ' deleted.');
     });
   }])
-.controller('ChatCtrl',['$scope','$eb',function($scope,$eb){
+.controller('ChatCtrl',['$scope','$eb','localStorageService',function($scope,$eb,localStorageService){
+  //chat settings
+  var chatPersisted=true, chatPersistorMaxSize=50;
+
   $scope.inited=false;
-  $scope.showed=true;
   $scope.message="";
   $scope.messages=[];
   $scope.mindMap=null;
@@ -316,10 +319,17 @@ angular.module('mindmap.controllers', []).
     $scope.mindMap=mindMap;
     $eb.registerHandler("mindMaps.chat."+mindMap._id, function (message) {
           $scope.messages.push(message);
+          if(chatPersisted){
+            $scope.storeMessage(message);
+          }
           $scope.$apply();
     });
     $scope.inited=true;
     $scope.$emit("chatLinkEvent",{showChatLink:false});
+    var storedMessages=localStorageService.get("mindmap_chat_"+mindMap._id);
+    if(storedMessages!=null && storedMessages!="null"){
+      $scope.messages=storedMessages;
+    }
   };
   $scope.sendMessage=function(message){
     if($scope.mindMap){
@@ -332,7 +342,21 @@ angular.module('mindmap.controllers', []).
   };
   $scope.getAgo = function(datetime){
     return moment(datetime,"MMMM Do YYYY, h:mm:ss a").fromNow();
-  }
+  };
+  $scope.storeMessage = function(message){
+    var storedMessages=localStorageService.get("mindmap_chat_"+$scope.mindMap._id);
+    if(storedMessages==null || storedMessages instanceof Array){
+      if(storedMessages==null){
+        storedMessages=[message];
+      }else{
+        storedMessages.unshift(message);
+        storedMessages = storedMessages.slice(0,chatPersistorMaxSize);
+      }
+      localStorageService.set("mindmap_chat_"+$scope.mindMap._id,storedMessages);
+    }else{
+      localStorageService.remove("mindmap_chat_"+$scope.mindMap._id);
+    }
+  };
 }])
 .controller('FormsCtrl', ['$scope','$rootScope','$stateParams', function($scope,$rootScope,$stateParams){
   //controller for forms, communicate with other ctrl with events

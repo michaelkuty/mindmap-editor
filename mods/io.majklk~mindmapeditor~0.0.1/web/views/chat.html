@@ -7,7 +7,7 @@
         <div class="cleaner"></div>
         <div class="chatMessages">
             <div data-ng-repeat="message in messages" title="{{getAgo(message.datetime)}}">
-                <p class="message">{{message.username}}: {{message.text}}</p>
+                {{message.username}}: {{message.text}}
             </div>
         </div>
         <form class="msgForm form-inline" data-ng-submit="sendMessage(message)">
