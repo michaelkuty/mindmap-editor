@@ -139,6 +139,7 @@ angular.module('mindmap.controllers', []).
     var viewModes=["public","user","search"];
     $scope.mindMap={};
     $scope.mindMaps=[];
+    $scope.maploaded=false;
     //wrong viewMode handle
     if($stateParams.viewMode){
       if($.inArray($stateParams.viewMode,viewModes) === -1){
@@ -187,6 +188,7 @@ angular.module('mindmap.controllers', []).
         usSpinnerService.spin("spinner-editor");
         $scope.mindMap = mindMap;
         new MindMapEditor(mindMap, $eb,$scope,function(){
+            $scope.maploaded=true;
             angular.element('#MapName').html("<h4>Map: " + mindMap.name + "</h4>");
             //stop after all dom operations done
             $timeout(function(){

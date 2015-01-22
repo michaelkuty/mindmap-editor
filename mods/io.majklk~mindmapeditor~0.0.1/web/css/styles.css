@@ -98,6 +98,13 @@ path.link {
   height: 600px;
 }
 }
+
+#MapEditorError{
+  position:absolute;
+  top:300px;
+  left:600px;
+  font-size:32px;
+}
 #MyMapsMenu{
   margin-top:50px;
   padding:15px;

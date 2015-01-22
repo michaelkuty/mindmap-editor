@@ -53,6 +53,7 @@
   <div id="ChatLink" class="nomargin txtRight" data-ng-if="getShowChatLink()"><a data-ng-click="toggleChat(true);" href="">Chat</a></div>
 </div>
 <div id="MapEditor" data-ng-init="initEditor()">
+<div id="MapEditorError" data-ng-if="!maploaded">Please select a mindmap.</div>
   <section class="editor"></section>
 </div>
 <div id="ChatWindow" data-ng-include="'views/chat.html'"></div> 
