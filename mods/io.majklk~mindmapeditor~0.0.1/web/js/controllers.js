@@ -194,9 +194,15 @@ angular.module('mindmap.controllers', []).
     $scope.openMapByID = function(){
       if($scope.openMapID){
         $eb.send("mindMaps.find",{"_id":$scope.openMapID},function(response){
-          $scope.$apply(function(){
-            $scope.openMap(response.mindMap);
-          });
+          if(response.hasOwnProperty("mindMap")){
+            $scope.$apply(function(){
+              $scope.openMap(response.mindMap);
+            });
+          }else{
+            $scope.$apply(function(){
+              $location.search({});
+            });
+          }
         });
       }
     };
