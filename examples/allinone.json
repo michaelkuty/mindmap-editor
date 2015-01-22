@@ -39,6 +39,7 @@
             }
           },
           { "address_re": "vertx.authManager\\..+" },
+          { "address": "mindMaps.find"},
           { "address": "mindMaps.list" },
           { "address": "mindMaps.save" },
           { "address": "mindMaps.delete"},

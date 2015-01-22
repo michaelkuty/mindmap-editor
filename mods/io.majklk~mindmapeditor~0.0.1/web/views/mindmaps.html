@@ -8,7 +8,7 @@
       <ul class="nav navbar-nav mind-maps">
       <div class="txtCenter" data-ng-if="mindMaps.length ==0"><span data-ng-if="getViewMode() =='search'"> No maps.</span><span data-ng-if="getViewMode() != 'search'">Loading maps...</span></div>
         <li data-ng-repeat="map in mindMaps">
-          <a href="" data-ng-click="openMap(mindMaps[$index])">
+          <a href="" data-ng-click="openMap(map)" data-ng-class="{ 'blue': isOpened(map) }">
             {{map.name}}
           </a>
           <span class="mapIcons" data-ng-if="getViewMode() == 'user'">

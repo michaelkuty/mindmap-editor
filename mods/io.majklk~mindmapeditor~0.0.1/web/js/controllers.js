@@ -135,8 +135,8 @@ angular.module('mindmap.controllers', []).
             });
        };
   }])
-  .controller('MindMapCtrl', ['$scope','$rootScope','$eb','$state','$stateParams','$timeout','usSpinnerService','AUTH_EVENTS','notificationService',function($scope,$rootScope,$eb,$state,$stateParams,$timeout,usSpinnerService,AUTH_EVENTS,notificationService) {
-    var viewModes=["public","user","search"];
+  .controller('MindMapCtrl', ['$scope','$rootScope','$eb','$state','$stateParams','$timeout','$location','$q','usSpinnerService','AUTH_EVENTS','notificationService',function($scope,$rootScope,$eb,$state,$stateParams,$timeout,$location,$q,usSpinnerService,AUTH_EVENTS,notificationService) {
+    var viewModes=["public","user","search"],getParams=$location.search();
     $scope.mindMap={};
     $scope.mindMaps=[];
     $scope.maploaded=false;
@@ -157,9 +157,16 @@ angular.module('mindmap.controllers', []).
     $scope.initEditor = function(){
         if($eb.isReady()){
             $scope.showMaps();
-
+            if(getParams.hasOwnProperty("map")){
+              $scope.openMapID=getParams.map;
+              $scope.openMapByID();
+            }
         }else{
             $eb.addOpenCall($scope.showMaps);
+            if(getParams.hasOwnProperty("map")){
+                $scope.openMapID=getParams.map;
+                $eb.addOpenCall($scope.openMapByID);
+            }
         }
     }
     $scope.showMaps = function(){
@@ -184,11 +191,28 @@ angular.module('mindmap.controllers', []).
             });
         });
     };
+    $scope.openMapByID = function(){
+      if($scope.openMapID){
+        $eb.send("mindMaps.find",{"_id":$scope.openMapID},function(response){
+          $scope.$apply(function(){
+            $scope.openMap(response.mindMap);
+          });
+        });
+      }
+    };
+    $scope.isOpened = function(map){
+      if($scope.mindMap==null){
+        return false;
+      }else{
+        return $scope.mindMap._id == map._id;
+      }
+    }
     $scope.openMap = function(mindMap){
         usSpinnerService.spin("spinner-editor");
         $scope.mindMap = mindMap;
         new MindMapEditor(mindMap, $eb,$scope,function(){
             $scope.maploaded=true;
+            $location.search({"map":mindMap._id});
             angular.element('#MapName').html("<h4>Map: " + mindMap.name + "</h4>");
             //stop after all dom operations done
             $timeout(function(){
