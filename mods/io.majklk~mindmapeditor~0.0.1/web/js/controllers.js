@@ -290,7 +290,9 @@ angular.module('mindmap.controllers', []).
         if(data.firstNode === "true"){
           //first node renamed -> map name renamed, we must reload map list
           $scope.showMaps();
-          notificationService.info('Mindmap '+data.oldName+' renamed to '+data.newName+'.');
+          if(data.fireNotification){
+            notificationService.info('Mindmap '+data.oldName+' renamed to '+data.newName+'.');
+          }
         }else{
           notificationService.info('Node '+data.oldName+' renamed to '+data.newName+'.');
         }

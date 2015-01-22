@@ -115,8 +115,9 @@
 		var oldName=node.name;
 		if (node) {
 			node.name = event.newName;
-			if(this.clientActions.indexOf(event.actionID)==-1){
-				this.angularScope.$emit('nodeRenamed',{nodeKey:event.key,newName:event.newName, oldName:oldName, firstNode:event.firstNode});
+			var myEventIndex= this.clientActions.indexOf(event.actionID)
+			if(event.firstNode || myEventIndex==-1){
+				this.angularScope.$emit('nodeRenamed',{nodeKey:event.key,newName:event.newName, oldName:oldName, firstNode:event.firstNode, fireNotification:(myEventIndex==-1)});
 			}
 		}else{
 			alert('Node rename error!\nTry to reload page.');
