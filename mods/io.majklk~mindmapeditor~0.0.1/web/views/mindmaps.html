@@ -1,0 +1,59 @@
+<span us-spinner spinner-key="spinner-editor"></span>
+<div id="MyMapsSidebar" class="sidebar-nav" >
+  <div class="navbar navbar-default" role="navigation">
+    <div id="MyMapsMenu">
+      <h3 class="txtCenter"><span data-ng-if="getViewMode() == 'user'">My mind maps</span>
+      <span data-ng-if="getViewMode() == 'public'">Public mind maps</span>
+      <span data-ng-if="getViewMode() == 'search'">Search results for: {{searchQuery}}</span>&nbsp;</h3>
+      <ul class="nav navbar-nav mind-maps">
+      <div class="txtCenter" data-ng-if="mindMaps.length ==0"><span data-ng-if="getViewMode() =='search'"> No maps.</span><span data-ng-if="getViewMode() != 'search'">Loading maps...</span></div>
+        <li data-ng-repeat="map in mindMaps">
+          <a href="" data-ng-click="openMap(map)" data-ng-class="{ 'blue': isOpened(map) }">
+            {{map.name}}
+          </a>
+          <span class="mapIcons" data-ng-if="getViewMode() == 'user'">
+          <i class="fa fa-eye fa-2x" data-ng-if="map.public == true" title="Public mindmap"></i>
+          <i class="fa fa-code-fork fa-2x" data-ng-if="map.users.length>1" title="Shared mindmap"></i>
+          </span>
+          <div class="btn-group right" data-ng-if="currentUser">
+            <button type="button" class="btn btn-primary" data-ng-click="openMap(map)">Open</button>
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+              <span class="caret"></span>
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li><a class="dropdownLink" href="" data-ng-click="renameMapHint()">Rename map</a></li>
+              <li><a class="dropdownLink lightboxLauncher" href="" data-ng-click="fillLightbox('share-map')">Share map</a></li>
+              <li><a class="dropdownLink lightboxLauncher" href="" data-ng-click="fillLightbox('add-map-user')">Add user to map</a></li>
+              <li><a class="dropdownLink" href="" data-ng-click="togglePublicMode(map)">
+                <span data-ng-if="map.public">Make private</span>
+                <span data-ng-if="!map.public">Make public</span>
+              </a></li>
+              <li><a class="dropdownLink lightboxLauncher" href="" data-ng-click="fillLightbox('map-log')">Show map log</a></li>
+              <li class="divider"></li>
+              <li><a class="dropdownLink" href="" data-ng-click="deleteMap(map)">Delete map</a></li>
+            </ul>
+          </div>
+          <div class="btn-group right" data-ng-if="!currentUser">
+            <button type="button" class="btn btn-primary" data-ng-click="openMap(map)">Open</button>
+          </div>
+        </li>
+      </ul>
+      <div class="txtCenter" data-ng-if="getViewMode() != 'search'">
+        <a href="" class="lightboxLauncher btn btn-default btn-success thin" data-ng-click="fillLightbox('create-map');"><span data-ng-if="getViewMode() == 'user'">Add mind map</span><span data-ng-if="getViewMode() == 'public'">Create public mind map</span></a>
+      </div>
+      <div class="txtCenter" data-ng-if="getViewMode() === 'search'">
+      <a href="#/mindmaps" class="btn btn-default btn-danger thin">Back to mind maps</a>
+      </div><br/>
+    </div>
+  </div>
+</div>
+<div id="MapTopRight">
+  <div id="MapName" class="nomargin">&nbsp;</div>
+  <div id="ChatLink" class="nomargin txtRight" data-ng-if="getShowChatLink()"><a data-ng-click="toggleChat(true);" href="">Chat</a></div>
+</div>
+<div id="MapEditor" data-ng-init="initEditor()">
+<div id="MapEditorError" data-ng-if="!maploaded">Please select a mindmap.</div>
+  <section class="editor"></section>
+</div>
+<div id="ChatWindow" data-ng-include="'views/chat.html'"></div> 

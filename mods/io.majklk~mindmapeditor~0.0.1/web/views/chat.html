@@ -1,0 +1,20 @@
+<div data-ng-controller="ChatCtrl">
+    <div id="ChatWindowInner"  data-ng-if="inited" class="navbar-default">
+        <div class="chatHeader">
+            <span class="left">MindMap Chat as <strong>{{username}}</strong></span>
+            <span class="right"><a href="" data-ng-click="toggleChat(false)">close</a></span>
+        </div>
+        <div class="cleaner"></div>
+        <div class="chatMessages">
+            <div data-ng-repeat="message in messages" title="{{getAgo(message.datetime)}}">
+                {{message.username}}: {{message.text}}
+            </div>
+        </div>
+        <form class="msgForm form-inline" data-ng-submit="sendMessage(message)">
+            <div class="form-group">
+                <input id="ChatMessageInput" class="form-control" type="text" data-ng-model="message" name="message" placeholder="Your message"/>
+            </div>
+            <button type="submit" class="btn btn-success">Send</button>
+        </form>
+    </div>
+</div>

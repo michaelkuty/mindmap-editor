@@ -3,54 +3,36 @@ var console = require('vertx/console');
 
 var config = container.config;
 
-if("mongodb" in config) {
-	container.deployModule('io.vertx~mod-mongo-persistor~2.1.0', config.mongodb, 1, function(err, ID){
-		if (!err) {
-	    	load('utils/static_data.js');
-	    	console.log("static data loaded")
-		} else {
-	    	err.printStackTrace();
-	  	}
-	});
-}
+for (var app in config) {
 
-if("shell" in config){
-	container.deployModule('org.crashub~vertx.shell~2.0.4', config.shell, 1, function(err, ID){
-		if (err) {
-			console.error(err)
-		}
-	});
-}
+	app_config = config[app]
 
-if("webserver" in config) {
-	container.deployModule('io.vertx~mod-web-server~2.0.0-final', config.webserver, config.webserver.workers, function(err, ID){
-		if (err) {
-			console.log(err)
-		}
-	});
-}
+	if (app.indexOf(".js") > -1) {
+		//deployVerticle
+		container.deployVerticle(app, app_config, app_config.workers, function(err, ID){
+			if (err) {
+				console.error(err.printStackTrace())
+			} else {}
+		});
+	} else {
+		//deployModule
+		if (app.indexOf("mongo") > -1) {
+			container.deployModule(app, app_config, app_config.workers, function(err, ID){
+				if (err) {
+					console.error(err.printStackTrace());
+				} else {
+			    	load('utils/static_data.js');
+			    	console.log("static data loaded")
+					}
+			});
+        } else {
 
-if("editor" in config) {
+			container.deployModule(app, app_config, app_config.workers, function(err, ID){
+				if (err) {
+					console.error(err.printStackTrace());
+				} else {}
+			});
 
-	container.deployVerticle('editor.js', {}, config.workers, function(err, ID){
-		if (err) {
-			console.error(err)
-		}
-	});
-
-	container.deployVerticle('utils/database.js', {}, config.workers, function(err, ID){
-		if (err) {
-			console.error(err)
-		}
-	});
-}
-
-if("exporter" in config){
-	
-	container.deployModule('io.majklk~imgexporter~0.0.1', config.exporter, config.exporter.workers, function(err, ID){
-		if (err) {
-			console.log(err)
-		}
-	});
-
+        }   
+	}
 }

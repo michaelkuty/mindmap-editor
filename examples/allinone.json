@@ -1,61 +1,78 @@
 {
-    "name": "MindMap editor all in one config",
-    "editor": {
-      "workers": 3
+    "utils/database.js": {
+      "collection": "mindmaps",
+      "address": "mindMaps",
+      "persistor_address": "vertx.mongopersistor",
+      "workers": 1
     },
-    "webserver": {
-        "workers": 3,
+    "editor.js": {
+      "address": "mindMaps",
+      "workers": 1
+    },
+    "io.vertx~mod-web-server~2.0.0-final": {
+        "workers": 2,
         "web_root": "web",
         "host": "0.0.0.0",
-        "port": 80,
+        "port": 8080,
         "bridge": true,
+        "auth_address": "vertx.authManager",
         "inbound_permitted": [
           {
             "address" : "vertx.mongopersistor",
             "match" : {
               "action" : "save",
-              "collection" : "mindmap"
+              "collection" : "mindmaps"
             }
           },
           {
             "address" : "vertx.mongopersistor",
             "match" : {
               "action" : "find",
-              "collection" : "mindmap"
+              "collection" : "mindmaps"
             }
           },
           {
             "address" : "vertx.mongopersistor",
             "match" : {
               "action" : "delete",
-              "collection" : "mindmap"
+              "collection" : "mindmaps"
             }
           },
+          { "address_re": "vertx.authManager\\..+" },
+          { "address": "mindMaps.find"},
           { "address": "mindMaps.list" },
           { "address": "mindMaps.save" },
           { "address": "mindMaps.delete"},
           { "address": "mindMaps.exporter.svg2png" },
-          { "address_re": "mindMaps\\.editor\\..+" }
+          { "address_re": "mindMaps\\.editor\\..+" },
+          { "address_re": "mindMaps.chat\\..+" }
 
         ],
         "outbound_permitted": [
-          { "address_re": "mindMaps\\.events\\..+" }
+          { "address_re": "mindMaps\\.events\\..+" },
+          { "address_re": "mindMaps.chat\\..+" }
         ]
     },
-    "exporter": {
-      "workers": 5
-    },
-    "mongodb": {
+    "io.vertx~mod-mongo-persistor~2.1.0": {
+        "workers": 1,
         "address": "vertx.mongopersistor",
         "host": "localhost",
         "port": 27017,
         "db_name": "default_db",
         "pool_size": 20
     },
-    "shell": {
+    "org.crashub~vertx.shell~2.0.4": {
+      "workers": 1,
       "crash.auth": "simple",
       "crash.auth.simple.username": "admin",
       "crash.auth.simple.password": "admin",
       "crash.ssh.port": 2000
-    }
+    },
+    "io.vertx~mod-auth-mgr~2.0.0-final": {
+      "workers": 1,
+      "address": "vertx.authManager",
+      "user_collection": "users",
+      "persistor_address": "vertx.mongopersistor",
+      "session_timeout": 900000
+    }        
 }

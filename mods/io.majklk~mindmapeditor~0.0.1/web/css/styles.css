@@ -1,0 +1,323 @@
+fbody, html {
+    overflow-x: hidden; 
+    overflow-y: auto;
+}
+/* angular loading */
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none;
+}
+/* app loading */
+.splash {
+  display: none;
+}
+
+[data-ng-cloak].splash {
+  text-align: center;
+  display: block !important;
+}
+/*firefox fix*/
+svg:not(:root) {
+  overflow: visible!important;
+  z-index: 1000;
+}
+
+.node circle {
+  cursor: pointer;
+  cursor:e-resize;
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.node text {
+  font-size: 11px;
+  cursor:pointer;
+  cursor:context-menu;
+}
+
+path.link {
+  cursor:not-allowed;
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 2.5px;
+}
+.wrapper{
+  padding: 50px 30px;
+}
+.editor {
+  margin-top:50px;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+@media (min-width: 650px) {
+   .sidebar-nav .navbar .navbar-collapse {
+    padding: 0;
+  }
+  .sidebar-nav .navbar ul {
+    float: none;
+  }
+  .sidebar-nav .navbar ul:not {
+    display: block;
+  }
+  .sidebar-nav .navbar li {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+  .sidebar-nav .navbar li a:not(.dropdownLink) {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    float: left;
+    width: 50%;
+  }
+}
+@media (min-width: 800px) {
+  #MyMapsSidebar{
+    float:left;
+    width:25%
+  }
+  #MapEditor{
+  float:left;
+  width:75%;
+}
+  .editor {
+    height: 900px;
+  }
+}
+@media (max-width: 800px) {
+   #MyMapsSidebar{
+    float:left;
+    width:35%
+  }
+  #MapEditor{
+  float:left;
+  width:65%;
+}
+.editor {
+  height: 600px;
+}
+}
+
+#MapEditorError{
+  position:absolute;
+  top:300px;
+  left:600px;
+  font-size:32px;
+}
+#MyMapsMenu{
+  margin-top:50px;
+  padding:15px;
+}
+#MyMapsMenu .mind-maps{
+  min-height:300px;
+}
+#MyMapsMenu li{
+    display:table;
+    margin:0px auto 0px auto;
+}
+#MyMapsMenu .mind-maps .mapIcons{
+  float:left;
+  text-align: left;
+}
+#MyMapsMenu .mind-maps .mapIcons i{
+  position:relative;
+  top:5px;
+  cursor:pointer;
+}
+#ChatWindow{
+  position:fixed;
+  bottom:0;
+  right:0;
+  border-top:1px solid gray;
+  border-left:1px solid gray;
+}
+#ChatWindowInner{
+  height:300px;
+  width:250px;
+}
+#ChatWindowInner p{
+  padding:0px 5px;
+}
+#ChatWindowInner .chatMessages{
+  min-height:233px;
+  max-height:233px;
+  overflow:scroll;
+  width:97%;
+  padding:5px;
+}
+#ChatWindow .chatHeader{
+  overflow:hidden;
+  padding:0px 5px;
+  border-bottom:1px dashed gray;
+}
+#ChatWindowInner .msgForm{
+  border-top:1px solid gray;
+  padding:5px 0px 0px 5px;
+  margin-top:5px;
+}
+.row {
+    overflow: hidden!important;
+}
+.headerCaption{
+  display:block;
+  float:left;
+}
+.loadingCaption{
+  text-align: center;
+  margin-top:200px;
+}
+h1.mainCaption{
+  font-family:Verdana, sans-serif;
+  font-size:28px;
+  margin-top:0px;
+}
+.create-form {
+    margin:10px 0px;
+    width: 100%;
+  }
+input#CreatedMapName{
+    width:75%;
+ }
+.headerLinks{
+  float:right;
+  /*line-height: 80px;*/
+  margin:5px 20px 0px 0px;
+}
+.headerLinks a{
+  font-size:22px;
+}
+.mindMapsDropdown{
+  color:#333;
+  margin:7px 5px;
+}
+span.delimiter{
+  font-size:22px;
+  color:#428BCA;
+}
+span.headerText{
+  font-size:22px;
+}
+#MapTopRight{
+  position:absolute;
+  right:10px;
+  z-index: 9999;
+  top:75px;
+}
+#Login{
+  height:700px;
+  background-image:url('../img/how-to-create-mindmap.jpg');
+  background-size: contain;
+  background-position:center;
+  background-repeat: no-repeat;
+}
+#Login .container form{
+  background-color:white;
+  border:1px solid green;
+}
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.form-search{
+  margin-top:10px;
+}
+/* zarovnavani */
+.txtLeft{text-align:left!important;}
+.txtCenter{text-align:center!important;}
+.txtRight{text-align:right!important;}
+.txtJustify{text-align:justify!important;}
+.left{float:left!important;}
+.right{float:right!important;}
+.inner{width:1000px;margin: 0px auto;overflow:hidden;padding:0px 10px;}
+.ovHidden{overflow:hidden !important;}
+
+/* lightbox */
+#overlay{
+    -webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    -ms-transition: all .2s;
+    -o-transition: all .2s;
+    transition: all .2s;
+    height: 100%;
+    width: 100%;
+    display: inline-block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9998;
+    background: black;
+    opacity: 0;
+}
+
+#overlay.overlay-active{
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+    opacity: .8;
+}
+
+.lightbox{
+    border-radius: 6px;
+    background: white;
+    box-shadow: 0 0 16px rgba(0, 0, 0, .4);
+    position: absolute;
+    min-width: 600px;
+    min-height: 200px;
+    top: 0;
+    left: 50%;
+    margin-top: 10%;
+    margin-left: -270px;
+    z-index: 9999;
+    opacity: 0;
+    display: none;
+}
+.lightbox.lightbox-active{
+    display: inline-block;
+    opacity: 1;
+    z-index: 9999;
+}
+.lightboxBody{
+    padding:15px 10px 15px 10px;
+}
+div#LightboxCloser{
+    position:absolute;
+    right: 0;
+    top: -15px;
+    margin-right:-15px;
+    height:32px;
+    width:32px;
+    background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH3gILESkmwo7QzwAAAMtJREFUWMPtVjEOhDAMw8y33Mb/PwbjbfeEMAASQm0Sp6CCqJciaOxQnJCua3g7kLkvzn0WTB7kgkSWWADRJFw8fTJSJHUtUfHjtZmAkpBExDUkE9gdF5tEVjzFaZrQIMIJMaqxGMKQuMfZ7iONiHtLSzPVf12/EXGmtilnM70DJbVdKu7uAwfCSdkzsi/GJLDhE3x2z0/wCBNq4r91Ha4qw6qNqGorrvozkoIjpWPNiYg0FRzzBN+IyNqGNoDQE1FwKIXCc6+xvKFhBvQJgfqfW337AAAAAElFTkSuQmCC');
+}
+.cleaner,.correct{display: block; clear:both;}
+.nomargin{margin:0px 0px 0px 0px!important;}
+.thin{font-weight:300;}
+.blue{color:blue!important;}

@@ -1,11 +1,14 @@
 var eventBus = require('vertx/event_bus');
 var mindMapUtils = require('web/js/mindmap_utils');
 var console = require('vertx/console');
+var container = require('vertx/container');
+
+var config = container.config;
 
 var mindMaps = {};
 
 function sendPersistorEvent(command, callback) {
-	eventBus.send('vertx.mongopersistor', command, function(reply) {
+	eventBus.send(config.persistor_address, command, function(reply) {
 		if (reply.status === "ok") {
 			callback(reply);
 		} else {
@@ -14,27 +17,27 @@ function sendPersistorEvent(command, callback) {
 	});
 }
 
-eventBus.registerHandler('mindMaps.save', function(mindMap,responder) {
-	sendPersistorEvent(	{action: "save", collection: "mindMaps", document: mindMap},function(reply) {
+eventBus.registerHandler(config.address + '.save', function(mindMap,responder) {
+	sendPersistorEvent(	{action: "save", collection: config.collection, document: mindMap},function(reply) {
 		mindMap._id = reply._id;
 		responder(mindMap);
 	});
 });
 
-eventBus.registerHandler('mindMaps.list', function(args, responder) {
-	sendPersistorEvent( {action: "find", collection: "mindMaps", matcher: {}}, function(reply) {
+eventBus.registerHandler(config.address + '.list', function(args, responder) {
+	sendPersistorEvent( {action: "find", collection: config.collection, matcher: args}, function(reply) {
 		responder({mindMaps: reply.results});
 	});
 });
 
-eventBus.registerHandler('mindMaps.find', function(args, responder) {
-	sendPersistorEvent({action: "findone", collection: "mindMaps", matcher: {_id: args._id}}, function(reply) {
+eventBus.registerHandler(config.address + '.find', function(args, responder) {
+	sendPersistorEvent({action: "findone", collection: config.collection, matcher: {_id: args._id}}, function(reply) {
 		responder({mindMap: reply.result});
 	});
 });
 
-eventBus.registerHandler('mindMaps.delete', function(args, responder) {
-	sendPersistorEvent({action: "delete", collection: "mindMaps", matcher: {_id:args.id}}, function(reply) {
+eventBus.registerHandler(config.address + '.delete', function(args, responder) {
+	sendPersistorEvent({action: "delete", collection: config.collection, matcher: {_id:args.id}}, function(reply) {
 		responder({});
 	});
 
